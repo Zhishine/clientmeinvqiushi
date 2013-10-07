@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/AdsMOGO_Android_SDK_1.3.6.jar"/>
+	<classpathentry kind="lib" path="libs/Adwo_Android_SDK4.0.jar"/>
+	<classpathentry kind="lib" path="libs/android-async-http-1.4.3.jar"/>
+	<classpathentry kind="lib" path="libs/Baidu_MobAds_SDK_Agg_3.2.jar"/>
+	<classpathentry kind="lib" path="libs/domob_android_sdk_v3.3.4.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/jpush-sdk-release1.5.0.jar"/>
+	<classpathentry kind="lib" path="libs/umeng_sdk.jar"/>
+	<classpathentry kind="lib" path="libs/universal-image-loader-1.8.6-with-sources.jar"/>
+	<classpathentry kind="lib" path="libs/YoumiSdk_v4.04_2013-08-09.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
