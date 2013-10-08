@@ -3,6 +3,8 @@ package com.news.imageitem;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -49,22 +51,29 @@ public class ImageItem extends ImageView{
 	public void createImageItem(){
 		AsyncHttpClient m_client = new AsyncHttpClient();
 		 
-		RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(this.w,this.h);
+		RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(w,h);
 		//lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		ImageView img = this;
+		//ImageView img = this;
 		this.setLayoutParams(lp);
-		m_client.get(this.image.mImageUrl, new BinaryHttpResponseHandler() {
+		m_client.get(image.mImageUrl, new BinaryHttpResponseHandler() {
 	            @Override
 	            public void onSuccess(byte[] arg0) {
 	               //Log.i(TAG, arg0);
-	            	
+	            	Bitmap bitmap= Bytes2Bimap(arg0);
+	            	setImageBitmap(bitmap);
 	            }
-	    }); 
+	    });
 	}
 	
-	
-	
-	
+	private Bitmap Bytes2Bimap(byte[] b){  
+        if(b.length!=0){  
+            return BitmapFactory.decodeByteArray(b, 0, b.length);  
+        }  
+        else {  
+            return null;  
+        }  
+	}  
+
 	private int w;
 	private int h;
 	private MImage image = null;
