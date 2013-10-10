@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.graphics.Color"/>
 <fullyQualifiedTypeName name="android.graphics.Rect"/>
 <fullyQualifiedTypeName name="android.view.Window"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Field"/>
+<fullyQualifiedTypeName name="com.news.tool.AppDataObserver"/>
+<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshListView"/>
+<fullyQualifiedTypeName name="android.widget.ListView"/>
+<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase"/>
+<fullyQualifiedTypeName name="android.text.format.DateUtils"/>
+<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.news.modal.MNews"/>
+<fullyQualifiedTypeName name="android.view.LayoutInflater"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R.layout"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.ImageLoader"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.DisplayImageOptions"/>
+<fullyQualifiedTypeName name="com.news.tool.AppDataClient"/>
+<fullyQualifiedTypeName name="com.news.adapter.NewsAdapter"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R.drawable"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer"/>
+<fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.assist.ImageLoadingListener"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap.Config"/>
+<fullyQualifiedTypeName name="java.net.URLDecoder"/>
+<fullyQualifiedTypeName name="android.graphics.Color"/>
 </qualifiedTypeNameHistroy>

@@ -1,7 +1,7 @@
 package com.news.modal;
 
 public class MNews {
-	  public int mID;
+	  public int mId;
       public String mTitle;
       public String mDescription;
       public String mTitleImageUrl;

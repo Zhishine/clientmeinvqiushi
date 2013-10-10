@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="libs/umeng_sdk.jar"/>
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.8.6-with-sources.jar"/>
 	<classpathentry kind="lib" path="libs/YoumiSdk_v4.04_2013-08-09.jar"/>
+	<classpathentry kind="src" path="/library"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

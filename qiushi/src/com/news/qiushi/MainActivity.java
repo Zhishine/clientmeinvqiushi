@@ -1,9 +1,24 @@
 package com.news.qiushi;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.news.adapter.NewsAdapter;
+import com.news.modal.MAd;
+import com.news.modal.MAppData;
+import com.news.modal.MImage;
+import com.news.modal.MNews;
+import com.news.modal.MProduct;
+import com.news.modal.MSystem;
+import com.news.tool.AppDataClient;
+import com.news.tool.AppDataObserver;
 import com.news.tool.AppUtil;
 import com.news.tool.DensityUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -16,15 +31,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener  {
+public class MainActivity extends Activity implements OnClickListener,AppDataObserver  {
 	private Context mContext;
 	private final  String mPageName = "Home";
 	public static boolean isForeground = false;
@@ -36,6 +56,12 @@ public class MainActivity extends Activity implements OnClickListener  {
     int BOTTOMHEIGHT=50;
     int m_oldSelectIndex=0;
     int m_newSelectIndex=0;
+    int m_newsPageNO=1;
+    final int m_newsPageSize=8;
+    boolean m_newsRequest=false;
+    PullToRefreshListView m_pullToRefreshListView=null;
+    AppDataClient m_client=null;
+    NewsAdapter m_newsAdapter=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +74,7 @@ public class MainActivity extends Activity implements OnClickListener  {
 		JPushInterface.init(this);
 		registerMessageReceiver(); 
 		DensityUtil densityUtil=new DensityUtil(this);
+		m_client=new AppDataClient(this);
 		createView();
 	}
 
@@ -100,23 +127,73 @@ public class MainActivity extends Activity implements OnClickListener  {
 		//Rect rect= new Rect();  
 		//this.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect); ;
 		//int screenHeight=DensityUtil.getLoHeight();
-		int contentHeight=DensityUtil.getLogicalHeight()-bottomHeight-getBarHeight();
+		int contentHeight=DensityUtil.getLogicalHeight()-bottomHeight-getBarHeight()-DensityUtil.dip2px(1);
 		//int height=DensityUtil.dip2px(contentHeight);
 		
 		RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
 		m_imageLayout.setLayoutParams(lp4);
 	    lp4.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+	    lp4.topMargin=DensityUtil.dip2px(1);
+	    //lp4.bottomMargin=DensityUtil.dip2px(1);
 		m_imageLayout.setBackgroundColor(Color.BLUE);
 		
 		RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
 		m_newsLayout.setLayoutParams(lp5);
 		lp5.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		lp5.topMargin=DensityUtil.dip2px(1);
+		//lp5.bottomMargin=DensityUtil.dip2px(1);
 		m_newsLayout.setBackgroundColor(Color.BLACK);
 		
 		m_content.addView(m_imageLayout);
 	    container.addView(m_content);
+	    
+	    // create news layout
+	    createNewsLayout();
 		
-		
+	   
+	}
+	
+	void createNewsLayout(){
+		 m_pullToRefreshListView=new PullToRefreshListView(this);
+		 m_pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+				@Override
+				public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+					String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+							DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+
+					// Update the LastUpdatedLabel
+					refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+					m_newsPageNO=1;
+					m_client.getNews(m_newsPageNO, m_newsPageSize);
+					// Do work to refresh the list here.
+					//new GetDataTask().execute();
+				}
+			});
+		// Add an end-of-list listener
+		 m_pullToRefreshListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+				@Override
+				public void onLastItemVisible() {
+					//Toast.makeText(MainActivity.this, "End of List!", Toast.LENGTH_SHORT).show();
+					if(m_newsRequest)
+						return;
+					m_newsPageNO++;
+					m_client.getNews(m_newsPageNO, m_newsPageSize);
+				}
+			});
+		 m_pullToRefreshListView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			 
+		 });
+		   this.m_newsLayout.addView(m_pullToRefreshListView);
+		   m_client.getNews(this.m_newsPageNO, this.m_newsPageSize);
+		   m_newsRequest=true;
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -229,6 +306,81 @@ public class MainActivity extends Activity implements OnClickListener  {
 				 msgText.setText(msg);
 				 msgText.setVisibility(android.view.View.VISIBLE);
 	         }*/
+		}
+
+		@Override
+		public void getSystemResponse(MSystem system) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getAppDataResponse(MAppData appData) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getImageResponse(List<MImage> imageList, int pageIndex) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getImageResponse(MImage image) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getNewsResponse(List<MNews> newsList, int pageIndex) {
+			// TODO Auto-generated method stub
+			m_newsRequest=false;
+			if(newsList==null)
+				return;
+			if(pageIndex==1){
+				m_newsAdapter=new NewsAdapter(this,newsList);
+			    ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
+			    actualListView.setFadingEdgeLength(0);
+			    m_pullToRefreshListView.onRefreshComplete();
+				actualListView.setAdapter(m_newsAdapter);
+				m_newsAdapter.notifyDataSetChanged();
+			}
+			else
+			{
+				m_newsAdapter.addNews(newsList);
+				m_newsAdapter.notifyDataSetChanged();
+			}
+		}
+
+		@Override
+		public void getNewsResponse(MNews news) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getProductResponse(List<MProduct> productList, int pageIndex) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getProductResponse(List<MProduct> productList) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getProductResponse(MProduct product) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void getAdResponse(List<MAd> adList) {
+			// TODO Auto-generated method stub
+			
 		}
 
 }

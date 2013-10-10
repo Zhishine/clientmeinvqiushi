@@ -44,6 +44,9 @@ public class NewsAdapter extends BaseAdapter {
 		.build();
 
     }
+    public void addNews(List<MNews> news){
+    	m_newsList.addAll(news);
+    }
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

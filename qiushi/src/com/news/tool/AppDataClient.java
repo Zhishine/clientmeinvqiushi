@@ -1,5 +1,7 @@
 package com.news.tool;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.json.JSONException;
@@ -17,19 +19,8 @@ import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
 import com.news.modal.MSystem;
-interface AppDataObserver
-{
-	public void getSystemResponse(MSystem system);
-	public void getAppDataResponse(MAppData appData);
-	public void getImageResponse(List<MImage> imageList,int pageIndex);
-	public void getImageResponse(MImage image);
-	public void getNewsResponse(List<MNews> newsList,int pageIndex);
-	public void getNewsResponse(MNews news);
-	public void getProductResponse(List<MProduct> productList,int pageIndex);
-	public void getProductResponse(List<MProduct> productList);
-	public void getProductResponse(MProduct product);
-	public void getAdResponse(List<MAd> adList);
-}
+
+
 public class AppDataClient {
 	 private static final String BASE_URL = "http://192.168.1.115:8080/news/";
 	 private  AsyncHttpClient m_client = new AsyncHttpClient();
@@ -148,9 +139,21 @@ public class AppDataClient {
 	            @Override
 	            public void onSuccess(String response) {
 	               Log.i(TAG, response);
+	               URLDecoder ud = new URLDecoder();
 	               Gson gson = new Gson();
 	               List<MNews> list=gson.fromJson(response,new TypeToken<List<MNews>>(){}.getType());
-					if(m_observer!=null)
+	                 if(list!=null){
+					for(MNews news:list){
+						try {
+							news.mTitle=ud.decode(news.mTitle, "utf-8");
+							news.mDescription=ud.decode(news.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+	               }
+	               if(m_observer!=null)
 					{
 						m_observer.getNewsResponse(list,pageNO);
 					}

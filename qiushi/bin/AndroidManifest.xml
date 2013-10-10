@@ -9,6 +9,7 @@
         android:targetSdkVersion="17" />
 
     <application
+        android:name=".UIApplication"
         android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -23,7 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name=".WebViewActivity"
+           >
+        </activity>
          <meta-data
             android:name="UMENG_APPKEY"
             android:value="524c2a3c56240bae3c0ab4d3" >
