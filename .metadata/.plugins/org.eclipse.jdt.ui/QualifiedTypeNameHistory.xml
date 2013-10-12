@@ -16,7 +16,6 @@
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.news.qiushi.R"/>
-<fullyQualifiedTypeName name="com.news.qiushi.R.layout"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.ImageLoader"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.DisplayImageOptions"/>
 <fullyQualifiedTypeName name="com.news.tool.AppDataClient"/>
@@ -32,4 +31,11 @@
 <fullyQualifiedTypeName name="android.graphics.Bitmap.Config"/>
 <fullyQualifiedTypeName name="java.net.URLDecoder"/>
 <fullyQualifiedTypeName name="android.graphics.Color"/>
+<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R.layout"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R.id"/>
+<fullyQualifiedTypeName name="android.webkit.WebView"/>
+<fullyQualifiedTypeName name="android.widget.AdapterView.OnItemClickListener"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
 </qualifiedTypeNameHistroy>

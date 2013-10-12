@@ -10,6 +10,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleLis
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
 import com.news.adapter.NewsAdapter;
 import com.news.modal.MAd;
 import com.news.modal.MAppData;
@@ -32,6 +33,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.text.format.DateUtils;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -147,9 +149,11 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		m_content.addView(m_imageLayout);
 	    container.addView(m_content);
 	    
+	    MultiColumnPullToRefreshListView pinList=new MultiColumnPullToRefreshListView(this,null);
+	    
 	    // create news layout
 	    createNewsLayout();
-		
+
 	   
 	}
 	
@@ -184,10 +188,14 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		 m_pullToRefreshListView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
 				// TODO Auto-generated method stub
-				
+				ListView listView = (ListView)parent;
+			    MNews news=(MNews) listView.getItemAtPosition(position);
+			    Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
+                intent.putExtra("url",news.mRedirectUrl);
+                MainActivity.this.startActivity(intent);
 			}
 			 
 		 });
