@@ -149,7 +149,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		m_content.addView(m_imageLayout);
 	    container.addView(m_content);
 	    
-	    MultiColumnPullToRefreshListView pinList=new MultiColumnPullToRefreshListView(this,null);
+	   MultiColumnPullToRefreshListView pinList=new MultiColumnPullToRefreshListView(this,null);
+	    //MultiColumnListView tt= new MultiColumnListView(this,null);
 	    
 	    // create news layout
 	    createNewsLayout();
@@ -169,6 +170,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 					refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 					m_newsPageNO=1;
 					m_client.getNews(m_newsPageNO, m_newsPageSize);
+					m_newsRequest=true;
 					// Do work to refresh the list here.
 					//new GetDataTask().execute();
 				}
@@ -183,6 +185,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 						return;
 					m_newsPageNO++;
 					m_client.getNews(m_newsPageNO, m_newsPageSize);
+					m_newsRequest=true;
 				}
 			});
 		 m_pullToRefreshListView.setOnItemClickListener(new OnItemClickListener(){
