@@ -15,12 +15,13 @@ import android.widget.RelativeLayout.LayoutParams;
 public class ImageAdapter extends BaseAdapter{
 	private Context _context;
     private List<Drawable> m_imgList;
-	public ImageAdapter(Context context) {
+	public ImageAdapter(Context context,List<Drawable> imgList) {
 	    _context = context;
+	    m_imgList=imgList;
 	}
 
 	public int getCount() {
-	    return Integer.MAX_VALUE;
+	    return m_imgList.size();
 	}
 
 	public Object getItem(int position) {
@@ -41,7 +42,7 @@ public class ImageAdapter extends BaseAdapter{
 		    imageView.setAdjustViewBounds(true);
 		    imageView.setScaleType(ScaleType.FIT_XY);
 		    imageView.setLayoutParams(new Gallery.LayoutParams(
-			    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			    LayoutParams.MATCH_PARENT,   LayoutParams.MATCH_PARENT));
 		    convertView = imageView;
 		    viewHolder.imageView = (ImageView)convertView; 
 		    convertView.setTag(viewHolder);

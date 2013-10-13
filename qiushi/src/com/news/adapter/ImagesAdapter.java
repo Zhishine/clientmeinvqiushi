@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+
 import com.news.modal.MImage;
+import com.news.modal.MNews;
 import com.news.qiushi.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,6 +50,10 @@ public class ImagesAdapter extends BaseAdapter{
 
     }
 	
+    public void addImages(List<MImage> images){
+    	m_imgsList.addAll(images);
+    }
+    
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -83,11 +89,13 @@ public class ImagesAdapter extends BaseAdapter{
 		
 		if(convertView==null){
 			
-			 convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
+	//		 convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
+			 convertView = this.m_layoutInflater.inflate(R.layout.images_item, null); 
 			 convertView.setBackgroundColor(Color.WHITE);
 			 viewHold = new ImageViewHold();
+			 //(ImageView) convertView.findViewById(R.id.title_img);
 			 viewHold.img = (ImageView)convertView.findViewById(R.id.image_img);
-			 viewHold.img.setBackgroundColor(Color.WHITE);
+			// viewHold.img.setBackgroundColor(Color.WHITE);
 			 convertView.setTag(viewHold);
 			 
 		}else{
@@ -98,7 +106,7 @@ public class ImagesAdapter extends BaseAdapter{
 		//imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, options, animateFirstListener);
 		imageLoader.displayImage(Item.mImageUrl, viewHold.img,options,animateFirstListener);
 		
-		return null;
+		return convertView;
 	}
 	
 	private static class ImageViewHold

@@ -9,11 +9,8 @@
 <fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase"/>
 <fullyQualifiedTypeName name="android.text.format.DateUtils"/>
 <fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2"/>
-<fullyQualifiedTypeName name="android.content.Context"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.news.modal.MNews"/>
 <fullyQualifiedTypeName name="android.view.LayoutInflater"/>
-<fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.news.qiushi.R"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.ImageLoader"/>
@@ -38,4 +35,14 @@
 <fullyQualifiedTypeName name="android.webkit.WebView"/>
 <fullyQualifiedTypeName name="android.widget.AdapterView.OnItemClickListener"/>
 <fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="android.widget.BaseAdapter"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="android.view.ViewGroup"/>
+<fullyQualifiedTypeName name="android.widget.ImageView.ScaleType"/>
+<fullyQualifiedTypeName name="android.widget.Gallery"/>
+<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 </qualifiedTypeNameHistroy>
