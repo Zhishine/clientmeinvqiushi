@@ -72,7 +72,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     boolean m_newsRequest=false;
     
     
-    int m_adHeight=180;
+    int m_adHeight=150;
     PullToRefreshListView m_pullToRefreshListView=null;
     MultiColumnPullToRefreshListView m_multiColumnPullToRefreshListView = null;
     
@@ -255,6 +255,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		adFrameLayout.setLayoutParams(lp1);
 		
 		MyGallery gallery=new MyGallery(this);
+		gallery.setFadingEdgeLength(0);
+		gallery.setSoundEffectsEnabled(false);
+		gallery.setKeepScreenOn(true);
+		gallery.setBackgroundColor(Color.TRANSPARENT);
 		LayoutParams lp4=new LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight));
 		gallery.setLayoutParams(lp4);
 		adFrameLayout.addView(gallery);
@@ -299,7 +303,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		focusContainer.setOrientation(LinearLayout.HORIZONTAL);
 		focusContainer.setLayoutParams(lp2);
 		focusContainer.setGravity(Gravity.CENTER_HORIZONTAL);
-		focusContainer.setPadding(0, DensityUtil.dip2px(m_adHeight-10), 0, 0);
+		focusContainer.setPadding(0, DensityUtil.dip2px(m_adHeight-15), 0, 0);
 		for (int i = 0; i < m_imgList.size(); i++) {
 		    ImageView localImageView = new ImageView(this);
 		    localImageView.setId(i);

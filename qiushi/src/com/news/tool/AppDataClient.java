@@ -22,7 +22,7 @@ import com.news.modal.MSystem;
 
 
 public class AppDataClient {
-	 private static final String BASE_URL = "http://news.hontek.com.cn/news";
+	 private static final String BASE_URL = "http://news.hontek.com.cn/news/";
 	 private  AsyncHttpClient m_client = new AsyncHttpClient();
 	 AppDataObserver m_observer=null;
 	 final String TAG="AppDataClient";
