@@ -1,0 +1,87 @@
+package com.news.adapter;
+
+import java.util.List;
+
+import com.news.modal.MNews;
+import com.news.qiushi.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class NewsAdapter extends BaseAdapter {
+	private List<MNews> m_newsList=null;
+	private Context m_context=null;
+	LayoutInflater m_layoutInflater=null;
+	DisplayImageOptions options=null;
+    public NewsAdapter(Context context,List<MNews> newsList){
+    	this.m_context=context;
+    	this.m_newsList=newsList;
+    	this.m_layoutInflater=LayoutInflater.from(m_context);
+    	options = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.image_click)
+		.showImageForEmptyUri(R.drawable.image_click)
+		.showImageOnFail(R.drawable.image_click)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.displayer(new RoundedBitmapDisplayer(20))
+		.build();
+
+    }
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		if(this.m_newsList==null)
+			return 0;
+		return this.m_newsList.size();
+	}
+
+	@Override
+	public Object getItem(int index) {
+		// TODO Auto-generated method stub
+	   return this.m_newsList.get(index);
+	}
+
+	@Override
+	public long getItemId(int index) {
+		// TODO Auto-generated method stub
+		return index;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		MNews entity = this.m_newsList.get(position);
+	    ImageLoader imageLoader = ImageLoader.getInstance();
+    	ViewHolder viewHolder = null;	
+	    if (convertView == null)
+	    {
+			  convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
+	    	  viewHolder = new ViewHolder();
+			  viewHolder.mTitleImg = (ImageView) convertView.findViewById(R.id.title_img);
+			  viewHolder.mTitleTxt = (TextView) convertView.findViewById(R.id.title);
+			  viewHolder.mDescriptionTxt = (TextView) convertView.findViewById(R.id.description);
+			  convertView.setTag(viewHolder);
+	    }else{
+	        viewHolder = (ViewHolder) convertView.getTag();
+	    }
+	
+		imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, null, null);
+	    viewHolder.mTitleTxt.setText(entity.mTitle);
+	    viewHolder.mDescriptionTxt.setText(entity.mDescription);
+	    return convertView;
+	}
+
+    static class ViewHolder { 
+        public ImageView mTitleImg;
+        public TextView mTitleTxt;
+        public TextView mDescriptionTxt;
+    }
+
+}

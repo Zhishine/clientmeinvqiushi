@@ -44,8 +44,6 @@ public class ImagesAdapter extends BaseAdapter{
 		.showImageOnFail(R.drawable.image_click)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
-
-		.displayer(new RoundedBitmapDisplayer(20))
 		.build();
 
     }

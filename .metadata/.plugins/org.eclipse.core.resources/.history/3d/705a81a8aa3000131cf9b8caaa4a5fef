@@ -1,0 +1,51 @@
+package com.news.adapter;
+
+import java.util.List;
+
+import com.news.modal.MNews;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+
+public class NewsAdapter extends BaseAdapter {
+	private List<MNews> m_newsList=null;
+	private Context m_context=null;
+    public NewsAdapter(Context context,List<MNews> newsList){
+    	this.m_context=context;
+    	this.m_newsList=newsList;
+    }
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		if(this.m_newsList==null)
+			return 0;
+		return this.m_newsList.size();
+	}
+
+	@Override
+	public Object getItem(int index) {
+		// TODO Auto-generated method stub
+		try{
+			return this.m_newsList[index];
+		}
+		catch(Exception e){
+			
+		}
+		return null;
+	}
+
+	@Override
+	public long getItemId(int arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public View getView(int arg0, View arg1, ViewGroup arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

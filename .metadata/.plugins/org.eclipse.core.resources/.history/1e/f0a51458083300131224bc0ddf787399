@@ -1,0 +1,8 @@
+package com.news.view;
+
+public class Snippet {
+	public static void main(String[] args) {
+		MyGallery
+	}
+}
+

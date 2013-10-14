@@ -1,0 +1,7 @@
+package com.news.qiushi;
+
+import android.app.Application;
+
+public class UIApplication extends Application {
+
+}

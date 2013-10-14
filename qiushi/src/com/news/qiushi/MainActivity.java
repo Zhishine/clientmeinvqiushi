@@ -48,6 +48,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 //import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ImageView.ScaleType;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +65,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	RelativeLayout m_content=null;
     int IMG_ID=1;
     int NEWS_ID=2;
+    int GAME_ID=3;
+    int NAV_ID=4;
     int BOTTOMHEIGHT=50;
     int m_oldSelectIndex=0;
     int m_newSelectIndex=0;
@@ -141,6 +144,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    newsBtn.setLayoutParams(lp3);
 		bottom.addView(newsBtn);
 		
+		
 		 Rect rect = new Rect();
          MainActivity.this.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
          View view = MainActivity.this.getWindow().findViewById(Window.ID_ANDROID_CONTENT);
@@ -159,16 +163,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
 		m_imageLayout.setLayoutParams(lp4);
 	    lp4.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-	   // lp4.topMargin=DensityUtil.dip2px(0);
-	    //lp4.bottomMargin=DensityUtil.dip2px(1);
-		//m_imageLayout.setBackgroundColor(Color.BLUE);
-		
+	
 		RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
 		m_newsLayout.setLayoutParams(lp5);
 		lp5.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		//lp5.topMargin=DensityUtil.dip2px(1);
-		//lp5.bottomMargin=DensityUtil.dip2px(1);
-		//m_newsLayout.setBackgroundColor(Color.BLACK);
 		
 		m_content.addView(m_imageLayout);
 	    container.addView(m_content);
@@ -178,7 +176,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    
 	    // create news layout
 	    
-	    createAdBanner();
+	 
 	    createNewsLayout();
 	    
 	    createImageLayout();
@@ -186,6 +184,42 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	   
 	}
 	
+	void createNavIcon(){
+		int screenWidth=DensityUtil.getActualWidth();
+		int width=DensityUtil.dip2px(screenWidth/2);
+		RelativeLayout navLayout=new RelativeLayout(this);
+	
+		int bottomHeight=DensityUtil.dip2px(BOTTOMHEIGHT);
+		
+		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		navLayout.setLayoutParams(lp1);
+	    ImageView gameBtn=new ImageView(this);
+	    gameBtn.setAdjustViewBounds(true);
+	    gameBtn.setScaleType(ScaleType.FIT_XY);
+	    //imgBtn.setBackgroundColor(Color.GREEN);
+	    gameBtn.setOnClickListener(this);
+	    gameBtn.setBackgroundResource(R.drawable.game);
+	    //gameBtn.setId(IMG_ID);
+	   
+	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		gameBtn.setLayoutParams(lp2);
+	    navLayout.addView(gameBtn);
+		
+	    ImageView navBtn=new ImageView(this);
+	    //newsBtn.setBackgroundColor(Color.RED);
+	    navBtn.setOnClickListener(this);
+	    navBtn.setAdjustViewBounds(true);
+	    navBtn.setScaleType(ScaleType.FIT_XY);
+	    navBtn.setBackgroundResource(R.drawable.navigation);
+	    navBtn.setId(NAV_ID);
+	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+	    navBtn.setLayoutParams(lp3);
+	    navLayout.addView(navBtn);
+		m_newsLayout.addView(navLayout);
+		
+	}
 	
 	void createImageLayout(){
 		
@@ -255,12 +289,15 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		FrameLayout.LayoutParams lp1=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight));
 		adFrameLayout.setLayoutParams(lp1);
 		
+		//create nav and game
+		
+		
 		MyGallery gallery=new MyGallery(this);
 		gallery.setFadingEdgeLength(0);
 		gallery.setSoundEffectsEnabled(false);
 		gallery.setKeepScreenOn(true);
 		gallery.setBackgroundColor(Color.TRANSPARENT);
-		LayoutParams lp4=new LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight));
+		LayoutParams lp4=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//DensityUtil.dip2px(m_adHeight)
 		gallery.setLayoutParams(lp4);
 		adFrameLayout.addView(gallery);
 		gallery.setAdapter(new ImageAdapter(this,this.m_imgList));
@@ -311,9 +348,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		    ImageView.ScaleType localScaleType = ImageView.ScaleType.FIT_XY;
 		    localImageView.setScaleType(localScaleType);
 		    LinearLayout.LayoutParams localLayoutParams = new LinearLayout.LayoutParams(
-			    24, 24);
+		    		DensityUtil.dip2px(12), DensityUtil.dip2px(12));
 		    localImageView.setLayoutParams(localLayoutParams);
-		    localImageView.setPadding(5, 5, 5, 5);
+		    localImageView.setPadding(DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3));
 		    localImageView.setImageResource(R.drawable.ic_focus);
 		    focusContainer.addView(localImageView);
 		}
@@ -334,7 +371,20 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		  m_imgList.add(this.getResources().getDrawable(R.drawable.img5));
 		  m_imgList.add(this.getResources().getDrawable(R.drawable.img6));
 		    }
+	  
 	void createNewsLayout(){
+		 createAdBanner();
+		 
+		 createNavIcon();
+		 
+		 ImageView infoBg=new ImageView(this);
+		 LayoutParams lp1=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//DensityUtil.dip2px(30)
+		 infoBg.setLayoutParams(lp1);
+		 infoBg.setBackgroundResource(R.drawable.news_info_bg);
+		 infoBg.setAdjustViewBounds(true);
+		 infoBg.setScaleType(ScaleType.FIT_XY);
+		 m_newsLayout.addView(infoBg);
+		 
 		 m_pullToRefreshListView=new PullToRefreshListView(this);
 		 m_pullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 				@Override
