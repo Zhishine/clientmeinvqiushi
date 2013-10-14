@@ -161,7 +161,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    lp4.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 	   // lp4.topMargin=DensityUtil.dip2px(0);
 	    //lp4.bottomMargin=DensityUtil.dip2px(1);
-		m_imageLayout.setBackgroundColor(Color.BLUE);
+		//m_imageLayout.setBackgroundColor(Color.BLUE);
 		
 		RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
 		m_newsLayout.setLayoutParams(lp5);
@@ -190,7 +190,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	void createImageLayout(){
 		
 		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
-		
+		LayoutParams lp1=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
 
 			@Override
