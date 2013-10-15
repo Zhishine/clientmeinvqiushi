@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 public class NewsAdapter extends BaseAdapter {
@@ -77,7 +78,8 @@ public class NewsAdapter extends BaseAdapter {
 			  convertView.setBackgroundColor(Color.WHITE);
 	    	  viewHolder = new ViewHolder();
 			  viewHolder.mTitleImg = (ImageView) convertView.findViewById(R.id.title_img);
-			  viewHolder.mTitleImg.setBackgroundColor(Color.RED);
+			  viewHolder.mTitleImg.setScaleType(ScaleType.FIT_XY);
+			  //viewHolder.mTitleImg.setBackgroundColor(Color.RED);
 			  
 			  viewHolder.mTitleTxt = (TextView) convertView.findViewById(R.id.title);
 			  viewHolder.mTitleTxt.setTextColor(Color.BLACK);

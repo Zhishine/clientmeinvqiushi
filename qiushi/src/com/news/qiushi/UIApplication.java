@@ -1,11 +1,14 @@
 package com.news.qiushi;
 
+import java.io.IOException;
+
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.news.tool.AppDataManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -19,8 +22,14 @@ public class UIApplication extends Application {
 	public void onCreate() {
 
 		super.onCreate();
-
+        
 		initImageLoader(getApplicationContext());
+		try {
+			AppDataManager.getInstance().init(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void initImageLoader(Context context) {

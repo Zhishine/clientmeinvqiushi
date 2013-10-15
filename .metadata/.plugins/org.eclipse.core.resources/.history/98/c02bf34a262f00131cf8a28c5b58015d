@@ -1,5 +1,0 @@
-package com.news.tool;
-
-public interface AppDataObserver {
-
-}

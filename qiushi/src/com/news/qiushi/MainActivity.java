@@ -3,9 +3,7 @@ package com.news.qiushi;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.jpush.android.api.JPushInterface;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -23,13 +21,15 @@ import com.news.modal.MNews;
 import com.news.modal.MProduct;
 import com.news.modal.MSystem;
 import com.news.tool.AppDataClient;
+import com.news.tool.AppDataManager;
 import com.news.tool.AppDataObserver;
 import com.news.tool.AppUtil;
 import com.news.tool.DensityUtil;
 import com.news.view.MyGallery;
 import com.umeng.analytics.MobclickAgent;
-
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -59,10 +59,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	private Context mContext;
 	private final  String mPageName = "Home";
 	public static boolean isForeground = false;
-	RelativeLayout m_imageLayout=null;
+	LinearLayout m_imageLayout=null;
 	
 	LinearLayout m_newsLayout=null;
-	RelativeLayout m_content=null;
+	LinearLayout m_content=null;
     int IMG_ID=1;
     int NEWS_ID=2;
     int GAME_ID=3;
@@ -93,9 +93,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext=this;
-		m_imageLayout=new RelativeLayout(this);
+		m_imageLayout=new LinearLayout(this);
 		m_newsLayout=new LinearLayout(this);
 		m_newsLayout.setOrientation(1);
+		m_imageLayout.setOrientation(1);
 		//setContentView(R.layout.activity_main);
 		MobclickAgent.setDebugMode(true);
 		 // JPushInterface.setDebugMode(true);
@@ -110,37 +111,53 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	{
 		int screenWidth=DensityUtil.getActualWidth();
 		int width=DensityUtil.dip2px(screenWidth/2);
-		RelativeLayout container=new RelativeLayout(this);
+		int contentHeight=DensityUtil.getLogicalHeight()-getBarHeight();
+		int bottomHeight=contentHeight/10;
+		LinearLayout container=new LinearLayout(this);
+		container.setOrientation(1);
+		//container.setBackgroundColor(Color.BLUE);
 		container.setBackgroundResource(R.drawable.bg);
 		container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 		setContentView(container);
-		m_content=new RelativeLayout(this);
+		m_content=new LinearLayout(this);
+		LinearLayout.LayoutParams lp0=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight-bottomHeight);
+		m_content.setLayoutParams(lp0);
 		
-		RelativeLayout bottom=new RelativeLayout(this);
+		LinearLayout bottom=new LinearLayout(this);
+		
+		//bottom.setWeightSum( 2f);
 		bottom.setBackgroundResource(R.drawable.bottom_bg);//µ×²¿¹¤¾ßÀ¼±³¾°Í¼Æ¬
-		int bottomHeight=DensityUtil.dip2px(BOTTOMHEIGHT);
+		//bottom.setBackgroundColor(Color.RED);
+		
 		
 		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,bottomHeight);
 		lp1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		bottom.setLayoutParams(lp1);
+		
 	    ImageView imgBtn=new ImageView(this);
-	    //imgBtn.setBackgroundColor(Color.GREEN);
+	    imgBtn.setAdjustViewBounds(true);
+	    imgBtn.setScaleType(ScaleType.FIT_XY);
+	    imgBtn.setClickable(true);
+	    imgBtn.setBackgroundColor(Color.GREEN);
 	    imgBtn.setOnClickListener(this);
 	    imgBtn.setBackgroundResource(R.drawable.image_click);
 	    imgBtn.setId(IMG_ID);
 	   
-	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
-		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+	    LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
+		//lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 	    imgBtn.setLayoutParams(lp2);
 		bottom.addView(imgBtn);
 		
 	    ImageView newsBtn=new ImageView(this);
-	    //newsBtn.setBackgroundColor(Color.RED);
+	   newsBtn.setAdjustViewBounds(true);
+	    newsBtn.setClickable(true);
+	    newsBtn.setScaleType(ScaleType.FIT_XY);
+	    newsBtn.setBackgroundColor(Color.RED);
 	    newsBtn.setOnClickListener(this);
 	    newsBtn.setBackgroundResource(R.drawable.news_no_click);
 	    newsBtn.setId(NEWS_ID);
-	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
-	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+	    LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
+	    //lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 	    newsBtn.setLayoutParams(lp3);
 		bottom.addView(newsBtn);
 		
@@ -152,25 +169,28 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
          int topT = rect.height() - view.getHeight();
 		
 		
-		container.addView(bottom);
+		
 		//int contentTop = getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
 		//Rect rect= new Rect();  
 		//this.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect); ;
 		//int screenHeight=DensityUtil.getLoHeight();
-		int contentHeight=DensityUtil.getLogicalHeight()-bottomHeight-getBarHeight()-DensityUtil.dip2px(1);
+		//int contentHeight=DensityUtil.getLogicalHeight()-bottomHeight-getBarHeight()-DensityUtil.dip2px(1);
 		//int height=DensityUtil.dip2px(contentHeight);
 		
-		RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
+		RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		m_imageLayout.setLayoutParams(lp4);
 	    lp4.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 	
-		RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,contentHeight);
+		RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		m_newsLayout.setLayoutParams(lp5);
 		lp5.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		
+		//m_content.setBackgroundColor(Color.RED);
+		
+		//m_content.setWeightSum(8f);
 		m_content.addView(m_imageLayout);
 	    container.addView(m_content);
-	    
+	    container.addView(bottom);
 	   //MultiColumnPullToRefreshListView pinList=new MultiColumnPullToRefreshListView(this,null);
 	    //MultiColumnListView tt= new MultiColumnListView(this,null);
 	    
@@ -184,21 +204,24 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	   
 	}
 	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@SuppressWarnings("deprecation")
 	void createNavIcon(){
 		int screenWidth=DensityUtil.getActualWidth();
 		int width=DensityUtil.dip2px(screenWidth/2);
 		RelativeLayout navLayout=new RelativeLayout(this);
 	
-		int bottomHeight=DensityUtil.dip2px(BOTTOMHEIGHT);
 		
 		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 		navLayout.setLayoutParams(lp1);
 	    ImageView gameBtn=new ImageView(this);
 	    gameBtn.setAdjustViewBounds(true);
-	    gameBtn.setScaleType(ScaleType.FIT_XY);
+	    gameBtn.setScaleType(ScaleType.FIT_CENTER);
 	    //imgBtn.setBackgroundColor(Color.GREEN);
 	    gameBtn.setOnClickListener(this);
-	    gameBtn.setBackgroundResource(R.drawable.game);
+	    Drawable leftUpIcon=AppDataManager.getInstance().getLeftUpIcon();
+	    gameBtn.setImageDrawable(leftUpIcon);
+	    //gameBtn.setBackgroundResource(R.drawable.game);
 	    //gameBtn.setId(IMG_ID);
 	   
 	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
@@ -210,8 +233,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    //newsBtn.setBackgroundColor(Color.RED);
 	    navBtn.setOnClickListener(this);
 	    navBtn.setAdjustViewBounds(true);
-	    navBtn.setScaleType(ScaleType.FIT_XY);
-	    navBtn.setBackgroundResource(R.drawable.navigation);
+	    navBtn.setScaleType(ScaleType.FIT_CENTER);
+	    // navBtn.setBackground(AppDataManager.getInstance().getRightUpIcon());
+	    navBtn.setImageDrawable(AppDataManager.getInstance().getRightUpIcon());
+	    //navBtn.setBackgroundResource(R.drawable.navigation);
 	    navBtn.setId(NAV_ID);
 	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
 	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -382,7 +407,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		 infoBg.setLayoutParams(lp1);
 		 infoBg.setBackgroundResource(R.drawable.news_info_bg);
 		 infoBg.setAdjustViewBounds(true);
-		 infoBg.setScaleType(ScaleType.FIT_XY);
+		 infoBg.setScaleType(ScaleType.FIT_CENTER);
 		 m_newsLayout.addView(infoBg);
 		 
 		 m_pullToRefreshListView=new PullToRefreshListView(this);
@@ -476,6 +501,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			}
 			img.setBackgroundResource(R.drawable.image_click);
 			news.setBackgroundResource(R.drawable.news_no_click);
+			img.invalidate();
+			news.invalidate();
 			m_content.removeAllViews();
 			m_content.addView(m_imageLayout);
 			m_oldSelectIndex=m_newSelectIndex;
@@ -487,6 +514,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			}
 			img.setBackgroundResource(R.drawable.image_no_click);
 			news.setBackgroundResource(R.drawable.news_click);
+			img.invalidate();
+			news.invalidate();
 			m_content.removeAllViews();
 			m_content.addView(m_newsLayout);
 			m_oldSelectIndex=m_newSelectIndex;

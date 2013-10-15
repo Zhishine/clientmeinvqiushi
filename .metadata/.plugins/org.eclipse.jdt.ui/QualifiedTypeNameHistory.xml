@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.graphics.Rect"/>
-<fullyQualifiedTypeName name="android.view.Window"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Field"/>
-<fullyQualifiedTypeName name="com.news.tool.AppDataObserver"/>
-<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshListView"/>
-<fullyQualifiedTypeName name="android.widget.ListView"/>
-<fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase"/>
 <fullyQualifiedTypeName name="android.text.format.DateUtils"/>
 <fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2"/>
 <fullyQualifiedTypeName name="com.news.modal.MNews"/>
 <fullyQualifiedTypeName name="android.view.LayoutInflater"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
-<fullyQualifiedTypeName name="com.news.qiushi.R"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.ImageLoader"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.DisplayImageOptions"/>
 <fullyQualifiedTypeName name="com.news.tool.AppDataClient"/>
@@ -21,7 +13,6 @@
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
-<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer"/>
 <fullyQualifiedTypeName name="com.nostra13.universalimageloader.core.assist.ImageLoadingListener"/>
 <fullyQualifiedTypeName name="android.graphics.Bitmap.Config"/>
@@ -35,7 +26,6 @@
 <fullyQualifiedTypeName name="android.widget.AdapterView.OnItemClickListener"/>
 <fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="android.widget.BaseAdapter"/>
-<fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="android.view.ViewGroup"/>
@@ -52,12 +42,22 @@
 <fullyQualifiedTypeName name="android.view.Gravity"/>
 <fullyQualifiedTypeName name="com.handmark.pulltorefresh.library.PullToRefreshBase.Orientation"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
-<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
-<fullyQualifiedTypeName name="com.news.qiushi.R.drawable"/>
 <fullyQualifiedTypeName name="com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener"/>
 <fullyQualifiedTypeName name="com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener"/>
 <fullyQualifiedTypeName name="android.widget.AdapterView"/>
 <fullyQualifiedTypeName name="com.news.adapter.ImagesAdapter"/>
 <fullyQualifiedTypeName name="com.huewu.pla.lib.MultiColumnListView.OnLoadMoreListener"/>
+<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
+<fullyQualifiedTypeName name="com.news.modal.MAppData"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
+<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R"/>
+<fullyQualifiedTypeName name="com.news.qiushi.R.drawable"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
+<fullyQualifiedTypeName name="java.io.BufferedOutputStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
 </qualifiedTypeNameHistroy>
