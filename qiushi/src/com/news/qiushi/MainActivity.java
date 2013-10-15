@@ -67,6 +67,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     int NEWS_ID=2;
     int GAME_ID=3;
     int NAV_ID=4;
+    int LEFT_DOWN_ID=5;
+    int RIGHT_DOWN_ID=6;
     int BOTTOMHEIGHT=50;
     int m_oldSelectIndex=0;
     int m_newSelectIndex=0;
@@ -204,31 +206,36 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	   
 	}
 	
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	@SuppressWarnings("deprecation")
+	
 	void createNavIcon(){
 		int screenWidth=DensityUtil.getActualWidth();
 		int width=DensityUtil.dip2px(screenWidth/2);
 		RelativeLayout navLayout=new RelativeLayout(this);
-	
-		
 		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 		navLayout.setLayoutParams(lp1);
+		
+	    Drawable leftUpIcon=AppDataManager.getInstance().getLeftUpIcon();
+	    Drawable rightUpIcon=AppDataManager.getInstance().getRightUpIcon();
+	    Drawable leftDownIcon=AppDataManager.getInstance().getLeftDownIcon();
+	    Drawable rightDownIcon=AppDataManager.getInstance().getRightDownIcon();
+        if(leftUpIcon!=null){
+		
 	    ImageView gameBtn=new ImageView(this);
 	    gameBtn.setAdjustViewBounds(true);
 	    gameBtn.setScaleType(ScaleType.FIT_CENTER);
 	    //imgBtn.setBackgroundColor(Color.GREEN);
 	    gameBtn.setOnClickListener(this);
-	    Drawable leftUpIcon=AppDataManager.getInstance().getLeftUpIcon();
+	 
 	    gameBtn.setImageDrawable(leftUpIcon);
 	    //gameBtn.setBackgroundResource(R.drawable.game);
-	    //gameBtn.setId(IMG_ID);
+	    gameBtn.setId(GAME_ID);
 	   
 	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
 		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		gameBtn.setLayoutParams(lp2);
 	    navLayout.addView(gameBtn);
-		
+        }
+        if(rightUpIcon!=null){
 	    ImageView navBtn=new ImageView(this);
 	    //newsBtn.setBackgroundColor(Color.RED);
 	    navBtn.setOnClickListener(this);
@@ -242,6 +249,41 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 	    navBtn.setLayoutParams(lp3);
 	    navLayout.addView(navBtn);
+        }
+        if(leftDownIcon!=null||rightDownIcon!=null){
+        	ImageView leftDownBtn=new ImageView(this);
+        	leftDownBtn.setAdjustViewBounds(true);
+        	leftDownBtn.setScaleType(ScaleType.FIT_CENTER);
+      	    //imgBtn.setBackgroundColor(Color.GREEN);
+        	leftDownBtn.setOnClickListener(this);
+      	 
+        	leftDownBtn.setImageDrawable(leftDownIcon);
+      	    //gameBtn.setBackgroundResource(R.drawable.game);
+        	leftDownBtn.setId(LEFT_DOWN_ID);
+      	   
+      	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+      	    //lp3.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+      	    lp3.addRule(RelativeLayout.BELOW,GAME_ID);
+      		leftDownBtn.setLayoutParams(lp3);
+      	    navLayout.addView(leftDownBtn);
+      	    
+      	   ImageView rightDownBtn=new ImageView(this);
+      	   rightDownBtn.setAdjustViewBounds(true);
+      	   rightDownBtn.setScaleType(ScaleType.FIT_CENTER);
+    	    //imgBtn.setBackgroundColor(Color.GREEN);
+      	   rightDownBtn.setOnClickListener(this);
+    	 
+      	   rightDownBtn.setImageDrawable(rightDownIcon);
+    	    //gameBtn.setBackgroundResource(R.drawable.game);
+      	   rightDownBtn.setId(RIGHT_DOWN_ID);
+    	   
+    	    RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+    	    //lp4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+    	    lp4.addRule(RelativeLayout.RIGHT_OF,LEFT_DOWN_ID);
+    	    lp4.addRule(RelativeLayout.BELOW,NAV_ID);
+    	    rightDownBtn.setLayoutParams(lp4);
+    	    navLayout.addView(rightDownBtn);
+        }
 		m_newsLayout.addView(navLayout);
 		
 	}
@@ -308,6 +350,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	
 	
 	void createAdBanner(){
+		if(AppDataManager.getInstance().getBannerIsShow()==false)
+			return;
 		InitImgList();
 		final LinearLayout focusContainer=new LinearLayout(this);
 		FrameLayout adFrameLayout=new FrameLayout(this);

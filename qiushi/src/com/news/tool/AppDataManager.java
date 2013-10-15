@@ -108,7 +108,7 @@ public class AppDataManager implements AppDataObserver {
     	}
     	
     	String leftDownIconUrl=m_setting.getString("leftDownIcon",null);
-    	if(leftDownIconUrl!=null&&leftDownIconUrl.equalsIgnoreCase("")){
+    	if(leftDownIconUrl!=null&&!leftDownIconUrl.equalsIgnoreCase("")){
     		File file = new File(leftDownIconUrl);  
  	       if(file.exists()){        //判断文件是否存在  
  	              Bitmap bm = BitmapFactory.decodeFile(leftDownIconUrl,options);
@@ -121,7 +121,7 @@ public class AppDataManager implements AppDataObserver {
           localEditor.putString("leftDownIconUrl", fileName);
     	}
     	String rightDownIconUrl=m_setting.getString("rightDownIcon",null);
-    	if(rightDownIconUrl!=null&&rightDownIconUrl.equalsIgnoreCase("")){
+    	if(rightDownIconUrl!=null&&!rightDownIconUrl.equalsIgnoreCase("")){
     		File file = new File(rightDownIconUrl);  
  	       if(file.exists()){        //判断文件是否存在  
  	              Bitmap bm = BitmapFactory.decodeFile(rightDownIconUrl,options);

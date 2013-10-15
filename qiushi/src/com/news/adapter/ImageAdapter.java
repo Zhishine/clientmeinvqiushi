@@ -40,7 +40,7 @@ public class ImageAdapter extends BaseAdapter{
 			viewHolder = new ViewHolder();
 			ImageView imageView = new ImageView(_context);
 		    imageView.setAdjustViewBounds(true);
-		    imageView.setScaleType(ScaleType.FIT_XY);
+		    imageView.setScaleType(ScaleType.FIT_CENTER );
 		    imageView.setLayoutParams(new Gallery.LayoutParams(
 			    LayoutParams.MATCH_PARENT,   LayoutParams.MATCH_PARENT));
 		    convertView = imageView;
