@@ -39,6 +39,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -252,7 +253,14 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			public void onItemClick(PLA_AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
+				Log.i("m_multiColumnPullToRefreshListView", "item click");
 				
+				
+				MImage data = (MImage)parent.getItemAtPosition(position);
+				
+				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+				intent.putExtra("imgurl",data.mImageUrl);
+			    MainActivity.this.startActivity(intent);
 			}
 			
 		});
