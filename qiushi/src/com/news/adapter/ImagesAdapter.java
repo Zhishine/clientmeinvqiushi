@@ -6,9 +6,13 @@ import java.util.List;
 
 
 
+
+
+
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.qiushi.R;
+import com.news.tool.DensityUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -24,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 
 public class ImagesAdapter extends BaseAdapter{
 	
@@ -32,7 +38,7 @@ public class ImagesAdapter extends BaseAdapter{
 	LayoutInflater m_layoutInflater=null;
 	DisplayImageOptions options=null;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
-	
+	private final int IMAGE_PADDING =10;
     public ImagesAdapter(Context context,List<MImage> imgsList){
     	
     	this.m_context=context;
@@ -87,12 +93,14 @@ public class ImagesAdapter extends BaseAdapter{
 		
 		if(convertView==null){
 			
+            
 	//		 convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
 			 convertView = this.m_layoutInflater.inflate(R.layout.images_item, null); 
 			 convertView.setBackgroundColor(Color.WHITE);
 			 viewHold = new ImageViewHold();
 			 //(ImageView) convertView.findViewById(R.id.title_img);
 			 viewHold.img = (ImageView)convertView.findViewById(R.id.image_img);
+	
 			// viewHold.img.setBackgroundColor(Color.WHITE);
 			 convertView.setTag(viewHold);
 			 
@@ -100,7 +108,20 @@ public class ImagesAdapter extends BaseAdapter{
 			
 			viewHold = (ImageViewHold)convertView.getTag();
 		}
-		
+		float scale = ((float)Item.mHeight)/((float)Item.mWidth);
+		 int screenWidth=DensityUtil.getActualWidth();
+		 int width=DensityUtil.dip2px(screenWidth/2);
+		 
+		 int imgWidth = width-DensityUtil.dip2px(IMAGE_PADDING);
+		 int imgHeight = (int)(imgWidth*scale);
+		 RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(imgWidth,imgHeight);
+		 viewHold.img.setLayoutParams(lp1);
+		 //lp1.setMargins(left, top, right, bottom);
+		 int pading=DensityUtil.dip2px(5);
+		 lp1.setMargins(DensityUtil.dip2px(5),pading,DensityUtil.dip2px(0),pading);
+		 viewHold.img.setScaleType(ScaleType.FIT_CENTER);
+		 viewHold.img.setImageDrawable(null);
+		 viewHold.img.setBackgroundColor(Color.BLUE);
 		//imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, options, animateFirstListener);
 		imageLoader.displayImage(Item.mImageUrl, viewHold.img,options,animateFirstListener);
 		

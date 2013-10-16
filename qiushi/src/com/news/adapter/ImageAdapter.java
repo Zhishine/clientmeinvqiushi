@@ -3,6 +3,7 @@ package com.news.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class ImageAdapter extends BaseAdapter{
 			viewHolder = new ViewHolder();
 			ImageView imageView = new ImageView(_context);
 		    imageView.setAdjustViewBounds(true);
+		    imageView.setBackgroundColor(Color.BLUE);
 		    imageView.setScaleType(ScaleType.FIT_CENTER );
 		    imageView.setLayoutParams(new Gallery.LayoutParams(
 			    LayoutParams.MATCH_PARENT,   LayoutParams.MATCH_PARENT));

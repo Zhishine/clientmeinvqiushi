@@ -3,7 +3,11 @@ package com.news.qiushi;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.xmlpull.v1.XmlPullParser;
+
 import cn.jpush.android.api.JPushInterface;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -27,6 +31,7 @@ import com.news.tool.AppUtil;
 import com.news.tool.DensityUtil;
 import com.news.view.MyGallery;
 import com.umeng.analytics.MobclickAgent;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
@@ -39,7 +44,9 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -78,12 +85,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     boolean m_newsRequest=false;
     
     
-    int m_adHeight=150;
+   // int m_adHeight=150;
     PullToRefreshListView m_pullToRefreshListView=null;
     MultiColumnPullToRefreshListView m_multiColumnPullToRefreshListView = null;
     
     int m_ImagePageNO = 1;
-    final int m_ImagePageSize = 8;
+    final int m_ImagePageSize = 12;
     boolean m_ImageRequest = false;
     
     AppDataClient m_client=null;
@@ -290,9 +297,14 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	}
 	
 	void createImageLayout(){
-		
+		XmlPullParser parser = this.getResources().getXml(R.xml.attr);
+		AttributeSet attributes = Xml.asAttributeSet(parser);
+		//com.huewu.pla.sample:plaColumnNumber
 		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
-		LayoutParams lp1=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
+		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,900);
+	    //lp1.addRule(RelativeLayout., 3);
+	    lp1.setMargins(0,0, 0, 40);
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
 
@@ -363,7 +375,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		InitImgList();
 		final LinearLayout focusContainer=new LinearLayout(this);
 		FrameLayout adFrameLayout=new FrameLayout(this);
-		FrameLayout.LayoutParams lp1=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight));
+		FrameLayout.LayoutParams lp1=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		adFrameLayout.setLayoutParams(lp1);
 		
 		//create nav and game
@@ -373,7 +385,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		gallery.setFadingEdgeLength(0);
 		gallery.setSoundEffectsEnabled(false);
 		gallery.setKeepScreenOn(true);
-		gallery.setBackgroundColor(Color.TRANSPARENT);
+		gallery.setBackgroundColor(Color.RED);
 		LayoutParams lp4=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//DensityUtil.dip2px(m_adHeight)
 		gallery.setLayoutParams(lp4);
 		adFrameLayout.addView(gallery);
@@ -405,8 +417,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		
 		LinearLayout bottomNavPoint=new LinearLayout(this);
 		LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
-		lp3.gravity=Gravity.CENTER;
+		lp3.gravity=Gravity.BOTTOM;
 		//bottomNavPoint.setPadding(0, 0, 0, DensityUtil.dip2px(5));
+		lp3.bottomMargin= DensityUtil.dip2px(15);
 		bottomNavPoint.setOrientation(LinearLayout.VERTICAL);
 		bottomNavPoint.setBackgroundColor(Color.TRANSPARENT);
 		bottomNavPoint.setLayoutParams(lp3);
@@ -415,10 +428,13 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		
 		LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
 		lp2.gravity=Gravity.CENTER;
+		//lp2.bottomMargin= DensityUtil.dip2px(15);
 		focusContainer.setOrientation(LinearLayout.HORIZONTAL);
 		focusContainer.setLayoutParams(lp2);
 		focusContainer.setGravity(Gravity.CENTER_HORIZONTAL);
-		focusContainer.setPadding(0, DensityUtil.dip2px(m_adHeight-15), 0, 0);
+		
+	
+		//focusContainer.setPadding(0, DensityUtil.dip2px(m_adHeight-15), 0, 0);
 		for (int i = 0; i < m_imgList.size(); i++) {
 		    ImageView localImageView = new ImageView(this);
 		    localImageView.setId(i);

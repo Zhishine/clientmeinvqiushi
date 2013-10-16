@@ -31,6 +31,11 @@
             android:screenOrientation="portrait"
            >
         </activity>
+        <activity
+            android:name="com.news.qiushi.ImageViewActivity"
+            android:screenOrientation="portrait"
+           >
+        </activity>
          <meta-data
             android:name="UMENG_APPKEY"
             android:value="524c2a3c56240bae3c0ab4d3" >

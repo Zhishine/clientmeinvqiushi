@@ -1508,13 +1508,13 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080005;
-        public static final int activity_vertical_margin=0x7f080006;
-        public static final int header_footer_left_right_padding=0x7f080003;
-        public static final int header_footer_top_bottom_padding=0x7f080004;
-        public static final int indicator_corner_radius=0x7f080001;
-        public static final int indicator_internal_padding=0x7f080002;
-        public static final int indicator_right_padding=0x7f080000;
+        public static final int activity_horizontal_margin=0x7f090005;
+        public static final int activity_vertical_margin=0x7f090006;
+        public static final int header_footer_left_right_padding=0x7f090003;
+        public static final int header_footer_top_bottom_padding=0x7f090004;
+        public static final int indicator_corner_radius=0x7f090001;
+        public static final int indicator_internal_padding=0x7f090002;
+        public static final int indicator_right_padding=0x7f090000;
     }
     public static final class drawable {
         public static final int back=0x7f020000;
@@ -1566,88 +1566,88 @@ containing a value of this type.
         public static final int top_bar_bg=0x7f02002e;
     }
     public static final class id {
-        public static final int action_settings=0x7f050051;
-        public static final int afterDescendants=0x7f050028;
-        public static final int all=0x7f050026;
-        public static final int always=0x7f05000e;
-        public static final int alwaysScroll=0x7f05002c;
-        public static final int animation=0x7f050024;
-        public static final int anyRtl=0x7f05001b;
-        public static final int auto=0x7f05000b;
-        public static final int back=0x7f05004f;
-        public static final int beforeDescendants=0x7f050027;
-        public static final int blocksDescendants=0x7f050029;
-        public static final int both=0x7f050032;
-        public static final int card_list=0x7f05003d;
-        public static final int center=0x7f05001f;
-        public static final int defaultPosition=0x7f050011;
-        public static final int description=0x7f050042;
-        public static final int disabled=0x7f05002a;
-        public static final int firstStrong=0x7f05001a;
-        public static final int fl_inner=0x7f050049;
-        public static final int flip=0x7f050037;
-        public static final int gone=0x7f050003;
-        public static final int gravity=0x7f05001c;
-        public static final int gridview=0x7f050038;
-        public static final int hardware=0x7f050015;
-        public static final int high=0x7f05000d;
-        public static final int horizontal=0x7f050005;
-        public static final int ifContentScrolls=0x7f05000f;
-        public static final int image_img=0x7f05003c;
-        public static final int inherit=0x7f050018;
-        public static final int insideInset=0x7f050008;
-        public static final int insideOverlay=0x7f050007;
-        public static final int invisible=0x7f050002;
-        public static final int left=0x7f050012;
-        public static final int list=0x7f05003b;
-        public static final int locale=0x7f050019;
-        public static final int low=0x7f05000c;
-        public static final int ltr=0x7f050016;
-        public static final int manualOnly=0x7f050033;
-        public static final int multipleChoice=0x7f05002e;
-        public static final int multipleChoiceModal=0x7f05002f;
-        public static final int never=0x7f050010;
-        public static final int no=0x7f050023;
-        public static final int none=0x7f050004;
-        public static final int normal=0x7f05002b;
-        public static final int outsideInset=0x7f05000a;
-        public static final int outsideOverlay=0x7f050009;
-        public static final int ptr_id_header=0x7f050043;
-        public static final int ptr_id_image=0x7f050044;
-        public static final int ptr_id_last_updated=0x7f050048;
-        public static final int ptr_id_spinner=0x7f050045;
-        public static final int ptr_id_text=0x7f050047;
-        public static final int ptr_id_textwrapper=0x7f050046;
-        public static final int pullDownFromTop=0x7f050034;
-        public static final int pullFromEnd=0x7f050031;
-        public static final int pullFromStart=0x7f050030;
-        public static final int pullUpFromBottom=0x7f050035;
-        public static final int pull_to_refresh_image=0x7f05004a;
-        public static final int pull_to_refresh_progress=0x7f05004b;
-        public static final int pull_to_refresh_sub_text=0x7f05004d;
-        public static final int pull_to_refresh_text=0x7f05004c;
-        public static final int right=0x7f050013;
-        public static final int rotate=0x7f050036;
-        public static final int rtl=0x7f050017;
-        public static final int scrapped_view=0x7f050000;
-        public static final int scrolling=0x7f050025;
-        public static final int scrollview=0x7f05003a;
-        public static final int singleChoice=0x7f05002d;
-        public static final int software=0x7f050014;
-        public static final int text=0x7f05003f;
-        public static final int textEnd=0x7f05001e;
-        public static final int textStart=0x7f05001d;
-        public static final int thumbnail=0x7f05003e;
-        public static final int titile_txt=0x7f050050;
-        public static final int title=0x7f050041;
-        public static final int title_img=0x7f050040;
-        public static final int top_bg=0x7f05004e;
-        public static final int vertical=0x7f050006;
-        public static final int viewEnd=0x7f050021;
-        public static final int viewStart=0x7f050020;
-        public static final int visible=0x7f050001;
-        public static final int webview=0x7f050039;
-        public static final int yes=0x7f050022;
+        public static final int action_settings=0x7f060051;
+        public static final int afterDescendants=0x7f060028;
+        public static final int all=0x7f060026;
+        public static final int always=0x7f06000e;
+        public static final int alwaysScroll=0x7f06002c;
+        public static final int animation=0x7f060024;
+        public static final int anyRtl=0x7f06001b;
+        public static final int auto=0x7f06000b;
+        public static final int back=0x7f06004f;
+        public static final int beforeDescendants=0x7f060027;
+        public static final int blocksDescendants=0x7f060029;
+        public static final int both=0x7f060032;
+        public static final int card_list=0x7f06003d;
+        public static final int center=0x7f06001f;
+        public static final int defaultPosition=0x7f060011;
+        public static final int description=0x7f060042;
+        public static final int disabled=0x7f06002a;
+        public static final int firstStrong=0x7f06001a;
+        public static final int fl_inner=0x7f060049;
+        public static final int flip=0x7f060037;
+        public static final int gone=0x7f060003;
+        public static final int gravity=0x7f06001c;
+        public static final int gridview=0x7f060038;
+        public static final int hardware=0x7f060015;
+        public static final int high=0x7f06000d;
+        public static final int horizontal=0x7f060005;
+        public static final int ifContentScrolls=0x7f06000f;
+        public static final int image_img=0x7f06003c;
+        public static final int inherit=0x7f060018;
+        public static final int insideInset=0x7f060008;
+        public static final int insideOverlay=0x7f060007;
+        public static final int invisible=0x7f060002;
+        public static final int left=0x7f060012;
+        public static final int list=0x7f06003b;
+        public static final int locale=0x7f060019;
+        public static final int low=0x7f06000c;
+        public static final int ltr=0x7f060016;
+        public static final int manualOnly=0x7f060033;
+        public static final int multipleChoice=0x7f06002e;
+        public static final int multipleChoiceModal=0x7f06002f;
+        public static final int never=0x7f060010;
+        public static final int no=0x7f060023;
+        public static final int none=0x7f060004;
+        public static final int normal=0x7f06002b;
+        public static final int outsideInset=0x7f06000a;
+        public static final int outsideOverlay=0x7f060009;
+        public static final int ptr_id_header=0x7f060043;
+        public static final int ptr_id_image=0x7f060044;
+        public static final int ptr_id_last_updated=0x7f060048;
+        public static final int ptr_id_spinner=0x7f060045;
+        public static final int ptr_id_text=0x7f060047;
+        public static final int ptr_id_textwrapper=0x7f060046;
+        public static final int pullDownFromTop=0x7f060034;
+        public static final int pullFromEnd=0x7f060031;
+        public static final int pullFromStart=0x7f060030;
+        public static final int pullUpFromBottom=0x7f060035;
+        public static final int pull_to_refresh_image=0x7f06004a;
+        public static final int pull_to_refresh_progress=0x7f06004b;
+        public static final int pull_to_refresh_sub_text=0x7f06004d;
+        public static final int pull_to_refresh_text=0x7f06004c;
+        public static final int right=0x7f060013;
+        public static final int rotate=0x7f060036;
+        public static final int rtl=0x7f060017;
+        public static final int scrapped_view=0x7f060000;
+        public static final int scrolling=0x7f060025;
+        public static final int scrollview=0x7f06003a;
+        public static final int singleChoice=0x7f06002d;
+        public static final int software=0x7f060014;
+        public static final int text=0x7f06003f;
+        public static final int textEnd=0x7f06001e;
+        public static final int textStart=0x7f06001d;
+        public static final int thumbnail=0x7f06003e;
+        public static final int titile_txt=0x7f060050;
+        public static final int title=0x7f060041;
+        public static final int title_img=0x7f060040;
+        public static final int top_bg=0x7f06004e;
+        public static final int vertical=0x7f060006;
+        public static final int viewEnd=0x7f060021;
+        public static final int viewStart=0x7f060020;
+        public static final int visible=0x7f060001;
+        public static final int webview=0x7f060039;
+        public static final int yes=0x7f060022;
     }
     public static final class layout {
         public static final int act_pull_to_refresh_sample=0x7f030000;
@@ -1662,26 +1662,26 @@ containing a value of this type.
         public static final int webview=0x7f030009;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f07000b;
-        public static final int app_name=0x7f070000;
-        public static final int hello_world=0x7f07000c;
-        public static final int news_title=0x7f07000d;
-        public static final int ptr_last_updated=0x7f070004;
-        public static final int ptr_pull_to_refresh=0x7f070001;
-        public static final int ptr_refreshing=0x7f070003;
-        public static final int ptr_release_to_refresh=0x7f070002;
+        public static final int action_settings=0x7f08000b;
+        public static final int app_name=0x7f080000;
+        public static final int hello_world=0x7f08000c;
+        public static final int news_title=0x7f08000d;
+        public static final int ptr_last_updated=0x7f080004;
+        public static final int ptr_pull_to_refresh=0x7f080001;
+        public static final int ptr_refreshing=0x7f080003;
+        public static final int ptr_release_to_refresh=0x7f080002;
         /**  Just use standard Pull Down String when pulling up. These can be set for languages which require it 
  Just use standard Pull Down String when pulling up. These can be set for languages which require it 
          */
-        public static final int pull_to_refresh_from_bottom_pull_label=0x7f070008;
-        public static final int pull_to_refresh_from_bottom_refreshing_label=0x7f07000a;
-        public static final int pull_to_refresh_from_bottom_release_label=0x7f070009;
-        public static final int pull_to_refresh_pull_label=0x7f070005;
-        public static final int pull_to_refresh_refreshing_label=0x7f070007;
-        public static final int pull_to_refresh_release_label=0x7f070006;
+        public static final int pull_to_refresh_from_bottom_pull_label=0x7f080008;
+        public static final int pull_to_refresh_from_bottom_refreshing_label=0x7f08000a;
+        public static final int pull_to_refresh_from_bottom_release_label=0x7f080009;
+        public static final int pull_to_refresh_pull_label=0x7f080005;
+        public static final int pull_to_refresh_refreshing_label=0x7f080007;
+        public static final int pull_to_refresh_release_label=0x7f080006;
     }
     public static final class style {
         /** 
@@ -1705,18 +1705,21 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060008;
+        public static final int AppBaseTheme=0x7f070008;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060007;
-        public static final int ptr_arrow=0x7f060002;
-        public static final int ptr_header=0x7f060001;
-        public static final int ptr_headerContainer=0x7f060000;
-        public static final int ptr_last_updated=0x7f060006;
-        public static final int ptr_spinner=0x7f060003;
-        public static final int ptr_text=0x7f060005;
-        public static final int ptr_textwrapper=0x7f060004;
+        public static final int AppTheme=0x7f070007;
+        public static final int ptr_arrow=0x7f070002;
+        public static final int ptr_header=0x7f070001;
+        public static final int ptr_headerContainer=0x7f070000;
+        public static final int ptr_last_updated=0x7f070006;
+        public static final int ptr_spinner=0x7f070003;
+        public static final int ptr_text=0x7f070005;
+        public static final int ptr_textwrapper=0x7f070004;
+    }
+    public static final class xml {
+        public static final int attr=0x7f050000;
     }
     public static final class styleable {
         /** Attributes that can be used with a AbsListView.
