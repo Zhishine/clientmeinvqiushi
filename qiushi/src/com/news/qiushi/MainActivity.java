@@ -302,9 +302,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		//com.huewu.pla.sample:plaColumnNumber
 		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
 		m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
-		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,900);
+		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 	    //lp1.addRule(RelativeLayout., 3);
-	    lp1.setMargins(0,0, 0, 40);
+	    lp1.setMargins(0,0, 0, 1);
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
 
