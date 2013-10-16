@@ -318,8 +318,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	}
 	
 	void createImageLayout(){
-		XmlPullParser parser = this.getResources().getXml(R.xml.attr);
-		AttributeSet attributes = Xml.asAttributeSet(parser);
+		//XmlPullParser parser = this.getResources().getXml(R.xml.attr);
+		//AttributeSet attributes = Xml.asAttributeSet(parser);
 		//com.huewu.pla.sample:plaColumnNumber
 		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
 		m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
@@ -357,9 +357,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				
 				MImage data = (MImage)parent.getItemAtPosition(position);
+				float scale =  (float)data.mWidth/(float)data.mHeight;
 				
 				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
 				intent.putExtra("imgurl",data.mImageUrl);
+				intent.putExtra("scale", scale);
+				//intent.putExtra("height", data.mHeight);
 			    MainActivity.this.startActivity(intent);
 			}
 			
