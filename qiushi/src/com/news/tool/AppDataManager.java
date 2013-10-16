@@ -109,17 +109,16 @@ public class AppDataManager implements AppDataObserver {
     	
     	String leftDownIconUrl=m_setting.getString("leftDownIcon",null);
     	if(leftDownIconUrl!=null&&!leftDownIconUrl.equalsIgnoreCase("")){
-    		File file = new File(leftDownIconUrl);  
+    		String fileName="left_up_icon.png";
+    		String filePath=systemImgDir+"/"+fileName;
+    		File file = new File(filePath);  
  	       if(file.exists()){        //判断文件是否存在  
  	              Bitmap bm = BitmapFactory.decodeFile(leftDownIconUrl,options);
  	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
  	              this.m_leftDowmIcon=bd;
  	       }
     	}
-    	if(leftDownIconUrl==null){
-    		String fileName="left_down_icon.png";
-          localEditor.putString("leftDownIconUrl", fileName);
-    	}
+  
     	String rightDownIconUrl=m_setting.getString("rightDownIcon",null);
     	if(rightDownIconUrl!=null&&!rightDownIconUrl.equalsIgnoreCase("")){
     		File file = new File(rightDownIconUrl);  
@@ -129,10 +128,7 @@ public class AppDataManager implements AppDataObserver {
  	              this.m_rightDownIcon=bd;
  	       }
     	}
-    	if(rightDownIconUrl==null){
-    		String fileName="right_down_icon.png";
-            localEditor.putString("rightDownIconUrl", fileName);
-    	}
+
     	this.m_leftUpRedirectUrl=m_setting.getString("leftUpRedirectUrl","");
     	this.m_rightUpRedirectUrl=m_setting.getString("rightUpRedirectUrl","");
     	this.m_leftDownRedirectUrl=m_setting.getString("leftDownRedirectUrl","");
@@ -223,20 +219,20 @@ public class AppDataManager implements AppDataObserver {
 	@Override
 	public void getSystemResponse(MSystem system) {
 		// TODO Auto-generated method stub
-		//if(system.mAppUpdateLastTime>this.m_lastUpdateTime){
+		if(system.mAppUpdateLastTime>this.m_lastUpdateTime){
 			m_client.getAppData();
 			m_setting=m_context.getSharedPreferences("app_data", 0);
 	    	SharedPreferences.Editor localEditor = m_setting.edit();
 			this.m_lastUpdateTime=system.mAppUpdateLastTime;
 			localEditor.putLong("lastUpdateTime", m_lastUpdateTime);
 			localEditor.commit();
-		//}
+		}
 	}
 	@Override
 	public void getAppDataResponse(MAppData appData) {
 		// TODO Auto-generated method stub
 		m_setting=m_context.getSharedPreferences("app_data", 0);
-    	SharedPreferences.Editor localEditor = m_setting.edit();
+    	final SharedPreferences.Editor localEditor = m_setting.edit();
     	localEditor.putString("leftUpRedirectUrl",appData.mLeftUpRedirectUrl);
     	localEditor.putString("rightUpRedirectUrl",appData.mRightUpRedirectUrl);
     	localEditor.putString("leftDownRedirectUrl",appData.mLeftDownRedirectUrl);
@@ -244,7 +240,7 @@ public class AppDataManager implements AppDataObserver {
     	localEditor.putBoolean("adIsShow",appData.mAdIsShow);
     	localEditor.putBoolean("bannerIsShow",appData.mBannerIsShow);
     	localEditor.putBoolean("taobaokeIsShow",appData.mTaobaokeIsShow);
-    	localEditor.commit();
+    	
     	this.m_adIsShow=appData.mAdIsShow;
     	this.m_bannerIsShow=appData.mBannerIsShow;
     	this.m_taobaokeIsShow=appData.mTaobaokeIsShow;
@@ -264,7 +260,9 @@ public class AppDataManager implements AppDataObserver {
     			}
     		});
     	}
-    	
+    	else
+         localEditor.putString("leftUpIcon",appData.mLeftUpIconUrl);
+
     	if(!appData.mRightUpIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mRightUpIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
@@ -276,18 +274,25 @@ public class AppDataManager implements AppDataObserver {
     			}
     		});
     	}
+    	else
+            localEditor.putString("rightUpIcon",appData.mRightUpIconUrl);
     	
     	if(!appData.mLeftDownIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mLeftDownIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
+    			
     				String fileName="left_down_icon.png";
+    	    		String filePath=systemImgDir+"/"+fileName;
+    	            localEditor.putString("leftDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);
     			}
     		});
     	}
+    	else
+            localEditor.putString("leftDownIcon",appData.mLeftDownIconUrl);
     	
     	if(!appData.mRightDownIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mRightDownIconUrl, new BinaryHttpResponseHandler(){
@@ -295,11 +300,16 @@ public class AppDataManager implements AppDataObserver {
     				if(data==null)
     					return;
     				String fileName="right_down_icon.png";
+    				String filePath=systemImgDir+"/"+fileName;
+    	            localEditor.putString("rightDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);
     			}
     		});
     	}
+    	else
+            localEditor.putString("rightDownIcon",appData.mRightDownIconUrl);
+    	localEditor.commit();
 	}
 	@Override
 	public void getImageResponse(List<MImage> imageList, int pageIndex) {

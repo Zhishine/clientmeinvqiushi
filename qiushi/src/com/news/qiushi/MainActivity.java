@@ -237,6 +237,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	
 	
 	void createNavIcon(){
+		float rate=211f/360f;
 		int screenWidth=DensityUtil.getActualWidth();
 		int width=DensityUtil.dip2px(screenWidth/2);
 		RelativeLayout navLayout=new RelativeLayout(this);
@@ -258,8 +259,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    gameBtn.setImageDrawable(leftUpIcon);
 	    //gameBtn.setBackgroundResource(R.drawable.game);
 	    gameBtn.setId(GAME_ID);
-	   
-	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+	    
+	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,(int) (rate*width));
 		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 		gameBtn.setLayoutParams(lp2);
 	    navLayout.addView(gameBtn);
@@ -274,7 +275,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    navBtn.setImageDrawable(AppDataManager.getInstance().getRightUpIcon());
 	    //navBtn.setBackgroundResource(R.drawable.navigation);
 	    navBtn.setId(NAV_ID);
-	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,(int) (rate*width));
 	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 	    navBtn.setLayoutParams(lp3);
 	    navLayout.addView(navBtn);
@@ -290,7 +291,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
       	    //gameBtn.setBackgroundResource(R.drawable.game);
         	leftDownBtn.setId(LEFT_DOWN_ID);
       	   
-      	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+      	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,(int) (rate*width));
       	    //lp3.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
       	    lp3.addRule(RelativeLayout.BELOW,GAME_ID);
       		leftDownBtn.setLayoutParams(lp3);
@@ -306,7 +307,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     	    //gameBtn.setBackgroundResource(R.drawable.game);
       	   rightDownBtn.setId(RIGHT_DOWN_ID);
     	   
-    	    RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
+    	    RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(width,(int) (rate*width));
     	    //lp4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     	    lp4.addRule(RelativeLayout.RIGHT_OF,LEFT_DOWN_ID);
     	    lp4.addRule(RelativeLayout.BELOW,NAV_ID);
