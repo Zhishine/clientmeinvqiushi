@@ -153,7 +153,7 @@ public class AppDataManager implements AppDataObserver {
     public Drawable getLeftUpIcon(){
     	return this.m_leftUpIcon;
     }
-    public String getLeftRedirectUrl(){
+    public String getLeftUpRedirectUrl(){
     	return this.m_leftUpRedirectUrl;
     }
     public Drawable getRightUpIcon(){
@@ -223,9 +223,14 @@ public class AppDataManager implements AppDataObserver {
 	@Override
 	public void getSystemResponse(MSystem system) {
 		// TODO Auto-generated method stub
-		if(system.mAppUpdateLastTime>this.m_lastUpdateTime){
+		//if(system.mAppUpdateLastTime>this.m_lastUpdateTime){
 			m_client.getAppData();
-		}
+			m_setting=m_context.getSharedPreferences("app_data", 0);
+	    	SharedPreferences.Editor localEditor = m_setting.edit();
+			this.m_lastUpdateTime=system.mAppUpdateLastTime;
+			localEditor.putLong("lastUpdateTime", m_lastUpdateTime);
+			localEditor.commit();
+		//}
 	}
 	@Override
 	public void getAppDataResponse(MAppData appData) {
@@ -240,11 +245,19 @@ public class AppDataManager implements AppDataObserver {
     	localEditor.putBoolean("bannerIsShow",appData.mBannerIsShow);
     	localEditor.putBoolean("taobaokeIsShow",appData.mTaobaokeIsShow);
     	localEditor.commit();
-    	
+    	this.m_adIsShow=appData.mAdIsShow;
+    	this.m_bannerIsShow=appData.mBannerIsShow;
+    	this.m_taobaokeIsShow=appData.mTaobaokeIsShow;
+    	this.m_leftUpRedirectUrl=appData.mLeftUpRedirectUrl;
+    	this.m_rightUpRedirectUrl=appData.mRightUpRedirectUrl;
+    	this.m_leftDownRedirectUrl=appData.mLeftDownRedirectUrl;
+    	this.m_rightDownRedirectUrl=appData.mRightDownRedirectUrl;
     	AsyncHttpClient m_client = new AsyncHttpClient();
     	if(!appData.mLeftUpIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mLeftUpIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
+    				if(data==null)
+    					return;
     				String fileName="left_up_icon.png";
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);
@@ -255,6 +268,8 @@ public class AppDataManager implements AppDataObserver {
     	if(!appData.mRightUpIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mRightUpIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
+    				if(data==null)
+    					return;
     				String fileName="right_up_icon.png";
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);
@@ -265,6 +280,8 @@ public class AppDataManager implements AppDataObserver {
     	if(!appData.mLeftDownIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mLeftDownIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
+    				if(data==null)
+    					return;
     				String fileName="left_down_icon.png";
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);
@@ -275,6 +292,8 @@ public class AppDataManager implements AppDataObserver {
     	if(!appData.mRightDownIconUrl.equalsIgnoreCase("")){
     		m_client.get(appData.mRightDownIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
+    				if(data==null)
+    					return;
     				String fileName="right_down_icon.png";
     				InputStream is = new ByteArrayInputStream(data); 
     				AppDataManager.this.saveImg(is, fileName);

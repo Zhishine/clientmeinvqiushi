@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     int LEFT_DOWN_ID=5;
     int RIGHT_DOWN_ID=6;
     int BOTTOMHEIGHT=50;
-    int m_oldSelectIndex=0;
+    int m_oldSelectIndex=1;
     int m_newSelectIndex=0;
     int m_newsPageNO=1;
     final int m_newsPageSize=8;
@@ -98,7 +98,17 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     ImagesAdapter m_imageAdapter = null;
     
     private List<Drawable> m_imgList = new ArrayList<Drawable>();
+    Drawable imageClick = null;
+    Drawable newsNoClick = null;
+	Drawable imageNoClick = null;
+	Drawable newsClick = null;
     private int preSelImgIndex = 0;
+    ImageView newsBtn=null;
+    ImageView imgBtn=null;
+    ImageView gameBtn=null;
+    ImageView navBtn=null;
+    ImageView leftDownBtn=null;
+    ImageView rightDownBtn=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,6 +129,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 
 	void createView()
 	{
+		imageClick = this.getResources().getDrawable(R.drawable.image_click);
+		newsNoClick = this.getResources().getDrawable(R.drawable.news_no_click);
+	    imageNoClick = this.getResources().getDrawable(R.drawable.image_no_click);
+	    newsClick = this.getResources().getDrawable(R.drawable.news_click);
 		int screenWidth=DensityUtil.getActualWidth();
 		int width=DensityUtil.dip2px(screenWidth/2);
 		int contentHeight=DensityUtil.getLogicalHeight()-getBarHeight();
@@ -144,13 +158,16 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		lp1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		bottom.setLayoutParams(lp1);
 		
-	    ImageView imgBtn=new ImageView(this);
+	    imgBtn=new ImageView(this);
 	    imgBtn.setAdjustViewBounds(true);
 	    imgBtn.setScaleType(ScaleType.FIT_XY);
 	    imgBtn.setClickable(true);
-	    imgBtn.setBackgroundColor(Color.GREEN);
+	   // imgBtn.setBackgroundColor(Color.GREEN);
 	    imgBtn.setOnClickListener(this);
-	    imgBtn.setBackgroundResource(R.drawable.image_click);
+	
+		imgBtn.setImageDrawable(imageNoClick);
+		//news.setBackgroundResource(R.drawable.news_no_click);
+	    //imgBtn.setBackgroundResource(R.drawable.image_click);
 	    imgBtn.setId(IMG_ID);
 	   
 	    LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
@@ -158,13 +175,17 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    imgBtn.setLayoutParams(lp2);
 		bottom.addView(imgBtn);
 		
-	    ImageView newsBtn=new ImageView(this);
-	   newsBtn.setAdjustViewBounds(true);
+	    newsBtn=new ImageView(this);
+	    newsBtn.setAdjustViewBounds(true);
 	    newsBtn.setClickable(true);
 	    newsBtn.setScaleType(ScaleType.FIT_XY);
-	    newsBtn.setBackgroundColor(Color.RED);
+	    //newsBtn.setBackgroundColor(Color.RED);
 	    newsBtn.setOnClickListener(this);
-	    newsBtn.setBackgroundResource(R.drawable.news_no_click);
+	    //Drawable imageClick = this.getResources().getDrawable(R.drawable.image_click);
+		
+		newsBtn.setImageDrawable(newsClick);
+		//newsBtn.setBackgroundResource(R.drawable.news_no_click);
+	    //newsBtn.setBackgroundResource(R.drawable.news_no_click);
 	    newsBtn.setId(NEWS_ID);
 	    LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(width,LayoutParams.MATCH_PARENT);
 	    //lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -198,7 +219,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		//m_content.setBackgroundColor(Color.RED);
 		
 		//m_content.setWeightSum(8f);
-		m_content.addView(m_imageLayout);
+		
 	    container.addView(m_content);
 	    container.addView(bottom);
 	   //MultiColumnPullToRefreshListView pinList=new MultiColumnPullToRefreshListView(this,null);
@@ -211,7 +232,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    
 	    createImageLayout();
 	    
-	   
+	    m_content.addView(m_newsLayout);
 	}
 	
 	
@@ -228,9 +249,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    Drawable rightDownIcon=AppDataManager.getInstance().getRightDownIcon();
         if(leftUpIcon!=null){
 		
-	    ImageView gameBtn=new ImageView(this);
+	    gameBtn=new ImageView(this);
 	    gameBtn.setAdjustViewBounds(true);
-	    gameBtn.setScaleType(ScaleType.FIT_CENTER);
+	    gameBtn.setScaleType(ScaleType.FIT_XY);
 	    //imgBtn.setBackgroundColor(Color.GREEN);
 	    gameBtn.setOnClickListener(this);
 	 
@@ -239,27 +260,27 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    gameBtn.setId(GAME_ID);
 	   
 	    RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
-		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 		gameBtn.setLayoutParams(lp2);
 	    navLayout.addView(gameBtn);
         }
         if(rightUpIcon!=null){
-	    ImageView navBtn=new ImageView(this);
+	    navBtn=new ImageView(this);
 	    //newsBtn.setBackgroundColor(Color.RED);
 	    navBtn.setOnClickListener(this);
 	    navBtn.setAdjustViewBounds(true);
-	    navBtn.setScaleType(ScaleType.FIT_CENTER);
+	    navBtn.setScaleType(ScaleType.FIT_XY);
 	    // navBtn.setBackground(AppDataManager.getInstance().getRightUpIcon());
 	    navBtn.setImageDrawable(AppDataManager.getInstance().getRightUpIcon());
 	    //navBtn.setBackgroundResource(R.drawable.navigation);
 	    navBtn.setId(NAV_ID);
 	    RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(width,LayoutParams.WRAP_CONTENT);
-	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+	    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 	    navBtn.setLayoutParams(lp3);
 	    navLayout.addView(navBtn);
         }
         if(leftDownIcon!=null||rightDownIcon!=null){
-        	ImageView leftDownBtn=new ImageView(this);
+            leftDownBtn=new ImageView(this);
         	leftDownBtn.setAdjustViewBounds(true);
         	leftDownBtn.setScaleType(ScaleType.FIT_CENTER);
       	    //imgBtn.setBackgroundColor(Color.GREEN);
@@ -275,7 +296,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
       		leftDownBtn.setLayoutParams(lp3);
       	    navLayout.addView(leftDownBtn);
       	    
-      	   ImageView rightDownBtn=new ImageView(this);
+      	   rightDownBtn=new ImageView(this);
       	   rightDownBtn.setAdjustViewBounds(true);
       	   rightDownBtn.setScaleType(ScaleType.FIT_CENTER);
     	    //imgBtn.setBackgroundColor(Color.GREEN);
@@ -385,7 +406,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		gallery.setFadingEdgeLength(0);
 		gallery.setSoundEffectsEnabled(false);
 		gallery.setKeepScreenOn(true);
-		gallery.setBackgroundColor(Color.RED);
+		//gallery.setBackgroundColor(Color.RED);
 		LayoutParams lp4=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//DensityUtil.dip2px(m_adHeight)
 		gallery.setLayoutParams(lp4);
 		adFrameLayout.addView(gallery);
@@ -415,16 +436,26 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		});
 		
 		
-		LinearLayout bottomNavPoint=new LinearLayout(this);
-		LinearLayout.LayoutParams lp3=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
+		RelativeLayout bottomNavPoint=new RelativeLayout(this);
+		bottomNavPoint.setId(1000);
+		FrameLayout.LayoutParams lp3=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
+		
+		//lp3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		//lp3.setMargins(0, 50, 0, 10);
+	   // lp3.topMargin=100;
 		lp3.gravity=Gravity.BOTTOM;
-		//bottomNavPoint.setPadding(0, 0, 0, DensityUtil.dip2px(5));
-		lp3.bottomMargin= DensityUtil.dip2px(15);
-		bottomNavPoint.setOrientation(LinearLayout.VERTICAL);
-		bottomNavPoint.setBackgroundColor(Color.TRANSPARENT);
+		lp3.bottomMargin= DensityUtil.dip2px(5);
+		//bottomNavPoint.setOrientation(LinearLayout.VERTICAL);
+		//bottomNavPoint.setBackgroundColor(Color.RED);
 		bottomNavPoint.setLayoutParams(lp3);
 		adFrameLayout.addView(bottomNavPoint);
 		
+		View view=new View(this);
+        RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(0,0 );
+        lp5.addRule(RelativeLayout.BELOW,1000);
+        lp5.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		view.setLayoutParams(lp5);
+		adFrameLayout.addView(view);
 		
 		LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
 		lp2.gravity=Gravity.CENTER;
@@ -523,9 +554,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			 
 		 });
 		  
-		   this.m_newsLayout.addView(m_pullToRefreshListView);
-		   //RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight))
-		   
+		
+		  // LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+		  // m_pullToRefreshListView.setLayoutParams(lp2);
 		   m_client.getNews(this.m_newsPageNO, this.m_newsPageSize);
 		   m_newsRequest=true;
 	}
@@ -559,34 +590,62 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	}
 	
 	public void onClick(View v) {
-		ImageView img=(ImageView) this.findViewById(IMG_ID);
-		ImageView news=(ImageView) this.findViewById(NEWS_ID);
-		if(v.getId()==IMG_ID){
+		//ImageView img=(ImageView) this.findViewById(IMG_ID);
+		//ImageView news=(ImageView) this.findViewById(NEWS_ID);
+		//imgBtn.setImageDrawable(null);
+		//newsBtn.setImageDrawable(null);
+		if(v==imgBtn){
 			//
 			m_newSelectIndex=0;
 			if(m_oldSelectIndex==m_newSelectIndex){
 				return;
 			}
-			img.setBackgroundResource(R.drawable.image_click);
-			news.setBackgroundResource(R.drawable.news_no_click);
-			img.invalidate();
-			news.invalidate();
+			
+			//img.setBackgroundResource(R.drawable.image_click);
+			//news.setBackgroundResource(R.drawable.news_no_click);
+			imgBtn.setImageDrawable(imageClick);
+			newsBtn.setImageDrawable(newsNoClick);
+			imgBtn.invalidate();
+			newsBtn.invalidate();
 			m_content.removeAllViews();
 			m_content.addView(m_imageLayout);
 			m_oldSelectIndex=m_newSelectIndex;
 		}
-		else if(v.getId()==NEWS_ID){
+		else if(v==newsBtn){
 			m_newSelectIndex=1;
 			if(m_oldSelectIndex==m_newSelectIndex){
 				return;
 			}
-			img.setBackgroundResource(R.drawable.image_no_click);
-			news.setBackgroundResource(R.drawable.news_click);
-			img.invalidate();
-			news.invalidate();
+			
+			imgBtn.setImageDrawable(imageNoClick);
+			newsBtn.setImageDrawable(newsClick);
+			//img.setBackgroundResource(R.drawable.image_no_click);
+			//news.setBackgroundResource(R.drawable.news_click);
+			imgBtn.invalidate();
+			newsBtn.invalidate();
 			m_content.removeAllViews();
 			m_content.addView(m_newsLayout);
 			m_oldSelectIndex=m_newSelectIndex;
+		}
+		else if(v==gameBtn){
+			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+             intent.putExtra("url",AppDataManager.getInstance().getLeftUpRedirectUrl());
+             MainActivity.this.startActivity(intent);
+		}
+		else if(v==navBtn){
+			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+            intent.putExtra("url",AppDataManager.getInstance().getRightUpRedirectUrl());
+            MainActivity.this.startActivity(intent);
+		}
+		else if(v==leftDownBtn){
+			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+            intent.putExtra("url",AppDataManager.getInstance().getLeftDownRedirectUrl());
+            MainActivity.this.startActivity(intent);
+		}
+		else if(v==rightDownBtn){
+			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+           intent.putExtra("url",AppDataManager.getInstance().getRightDownRedirectUrl());
+           MainActivity.this.startActivity(intent);
 		}
 	}
 	public int getBarHeight(){
@@ -668,7 +727,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				m_imageAdapter=new ImagesAdapter(this,imageList);
 			    
-				
+				//m_multiColumnPullToRefreshListView.invalidate();
 				//ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
 			    //actualListView.setFadingEdgeLength(0);
 			    //m_pullToRefreshListView.onRefreshComplete();
@@ -689,7 +748,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			// TODO Auto-generated method stub
 			
 		}
-
+        boolean m_refreshViewHasAdd=false;
 		@Override
 		public void getNewsResponse(List<MNews> newsList, int pageIndex) {
 			// TODO Auto-generated method stub
@@ -697,11 +756,20 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			if(newsList==null)
 				return;
 			if(pageIndex==1){
+				if(!m_refreshViewHasAdd){
+				   this.m_newsLayout.addView(m_pullToRefreshListView);
+				   m_pullToRefreshListView.setBackgroundColor(Color.BLACK);
+				   m_refreshViewHasAdd=true;
+				}
 				m_newsAdapter=new NewsAdapter(this,newsList);
 			    ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
+			    actualListView.setDividerHeight(0);
 			    actualListView.setFadingEdgeLength(0);
 			    m_pullToRefreshListView.onRefreshComplete();
-				actualListView.setAdapter(m_newsAdapter);
+			    //LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+			   //m_pullToRefreshListView.setLayoutParams(lp2);
+			   // m_pullToRefreshListView.invalidate();
+			    m_pullToRefreshListView.setAdapter(m_newsAdapter);
 				m_newsAdapter.notifyDataSetChanged();
 			}
 			else

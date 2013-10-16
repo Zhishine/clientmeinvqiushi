@@ -23,6 +23,7 @@ import com.news.modal.MSystem;
 
 public class AppDataClient {
 	 private static final String BASE_URL = "http://news.hontek.com.cn/news/";
+	 // private static final String BASE_URL = "http://192.168.1.115:8080/news/";
 	 private  AsyncHttpClient m_client = new AsyncHttpClient();
 	 AppDataObserver m_observer=null;
 	 final String TAG="AppDataClient";
@@ -66,10 +67,10 @@ public class AppDataClient {
 	            public void onSuccess(String response) {
 	               Log.i(TAG, response);
 	               Gson gson = new Gson();
-	               MAppData appData=gson.fromJson(response,new TypeToken<MAppData>(){}.getType());
+	               List<MAppData> appData=gson.fromJson(response,new TypeToken<List<MAppData>>(){}.getType());
 					if(m_observer!=null)
 					{
-						m_observer.getAppDataResponse(appData);
+						m_observer.getAppDataResponse(appData.get(0));
 					}
 				
 	            }

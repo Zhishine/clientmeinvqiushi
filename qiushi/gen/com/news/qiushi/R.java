@@ -1558,12 +1558,13 @@ containing a value of this type.
         public static final int indicator_arrow=0x7f020026;
         public static final int indicator_bg_bottom=0x7f020027;
         public static final int indicator_bg_top=0x7f020028;
-        public static final int navigation=0x7f020029;
-        public static final int news_click=0x7f02002a;
-        public static final int news_info_bg=0x7f02002b;
-        public static final int news_no_click=0x7f02002c;
-        public static final int share=0x7f02002d;
-        public static final int top_bar_bg=0x7f02002e;
+        public static final int line=0x7f020029;
+        public static final int navigation=0x7f02002a;
+        public static final int news_click=0x7f02002b;
+        public static final int news_info_bg=0x7f02002c;
+        public static final int news_no_click=0x7f02002d;
+        public static final int share=0x7f02002e;
+        public static final int top_bar_bg=0x7f02002f;
     }
     public static final class id {
         public static final int action_settings=0x7f060051;

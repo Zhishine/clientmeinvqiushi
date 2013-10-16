@@ -33,7 +33,6 @@
 <fullyQualifiedTypeName name="android.widget.AdapterView"/>
 <fullyQualifiedTypeName name="com.news.adapter.ImagesAdapter"/>
 <fullyQualifiedTypeName name="com.huewu.pla.lib.MultiColumnListView.OnLoadMoreListener"/>
-<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
 <fullyQualifiedTypeName name="com.news.modal.MAppData"/>
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.content.SharedPreferences"/>
@@ -51,8 +50,6 @@
 <fullyQualifiedTypeName name="com.news.qiushi.R.drawable"/>
 <fullyQualifiedTypeName name="android.graphics.Color"/>
 <fullyQualifiedTypeName name="android.widget.FrameLayout.LayoutParams"/>
-<fullyQualifiedTypeName name="com.news.tool.DensityUtil"/>
-<fullyQualifiedTypeName name="android.widget.RelativeLayout"/>
 <fullyQualifiedTypeName name="com.news.tool.AppDataManager"/>
 <fullyQualifiedTypeName name="android.widget.ImageView.ScaleType"/>
 <fullyQualifiedTypeName name="android.util.AttributeSet"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="android.util.Xml"/>
 <fullyQualifiedTypeName name="com.news.qiushi.R.attr"/>
 <fullyQualifiedTypeName name="com.news.qiushi.R.xml"/>
+<fullyQualifiedTypeName name="com.news.tool.DensityUtil"/>
+<fullyQualifiedTypeName name="android.widget.RelativeLayout"/>
+<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
 </qualifiedTypeNameHistroy>

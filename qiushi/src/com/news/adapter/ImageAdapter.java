@@ -2,6 +2,8 @@ package com.news.adapter;
 
 import java.util.List;
 
+import com.news.tool.DensityUtil;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +18,7 @@ import android.widget.RelativeLayout.LayoutParams;
 public class ImageAdapter extends BaseAdapter{
 	private Context _context;
     private List<Drawable> m_imgList;
+    float m_rate=(float)257/(float)480;
 	public ImageAdapter(Context context,List<Drawable> imgList) {
 	    _context = context;
 	    m_imgList=imgList;
@@ -41,10 +44,11 @@ public class ImageAdapter extends BaseAdapter{
 			viewHolder = new ViewHolder();
 			ImageView imageView = new ImageView(_context);
 		    imageView.setAdjustViewBounds(true);
-		    imageView.setBackgroundColor(Color.BLUE);
+		    imageView.setBackgroundColor(Color.BLACK);
 		    imageView.setScaleType(ScaleType.FIT_CENTER );
+		    int height=(int) (DensityUtil.getLogicalWidth()*m_rate+0.5);
 		    imageView.setLayoutParams(new Gallery.LayoutParams(
-			    LayoutParams.MATCH_PARENT,   LayoutParams.MATCH_PARENT));
+		    		LayoutParams.MATCH_PARENT  ,height));
 		    convertView = imageView;
 		    viewHolder.imageView = (ImageView)convertView; 
 		    convertView.setTag(viewHolder);

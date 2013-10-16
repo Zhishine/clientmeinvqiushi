@@ -15,4 +15,5 @@ public class MAppData {
      public boolean mBannerIsShow;
      public boolean mTaobaokeIsShow;
      public boolean mAdIsShow;
+
 }
