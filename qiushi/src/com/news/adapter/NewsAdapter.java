@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NewsAdapter extends BaseAdapter {
@@ -30,6 +31,7 @@ public class NewsAdapter extends BaseAdapter {
 	LayoutInflater m_layoutInflater=null;
 	DisplayImageOptions options=null;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+	private LinearLayout m_otherView;
     public NewsAdapter(Context context,List<MNews> newsList){
     	this.m_context=context;
     	this.m_newsList=newsList;
@@ -42,6 +44,9 @@ public class NewsAdapter extends BaseAdapter {
 		.cacheOnDisc(true)
 		.build();
 
+    }
+    public void setTopView(LinearLayout view){
+    	m_otherView=view;
     }
     public void addNews(List<MNews> news){
     	m_newsList.addAll(news);
@@ -65,17 +70,24 @@ public class NewsAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return index;
 	}
-
+     int time=0;
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		MNews entity = this.m_newsList.get(position);
 	    ImageLoader imageLoader = ImageLoader.getInstance();
     	ViewHolder viewHolder = null;	
-	    if (convertView == null)
+//    	if(position==0){
+//    		//m_otherView.invalidate();
+//    	return this.m_otherView;	
+//    	}
+	    if (convertView!= null &&convertView.getTag()!=null)
 	    {
-			  convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
-			  convertView.setBackgroundColor(Color.WHITE);
+	    	 viewHolder = (ViewHolder) convertView.getTag();
+			 
+	    }else{
+	    	 convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
+			 // convertView.setBackgroundColor(Color.WHITE);
 	    	  viewHolder = new ViewHolder();
 			  viewHolder.mTitleImg = (ImageView) convertView.findViewById(R.id.title_img);
 			  viewHolder.mTitleImg.setScaleType(ScaleType.FIT_XY);
@@ -90,8 +102,6 @@ public class NewsAdapter extends BaseAdapter {
 			  viewHolder.mDescriptionTxt.setTextSize(14);
 			  viewHolder.mDescriptionTxt.setMaxLines(2);
 			  convertView.setTag(viewHolder);
-	    }else{
-	        viewHolder = (ViewHolder) convertView.getTag();
 	    }
 	
 		imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, options, animateFirstListener);

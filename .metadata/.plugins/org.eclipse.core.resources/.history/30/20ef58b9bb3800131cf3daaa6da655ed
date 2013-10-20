@@ -1,0 +1,59 @@
+package net.loonggg.fragment;
+
+import com.news.qiushi.R;
+import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+public class RightFragment extends Fragment implements OnClickListener {
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.right_fragment, null);
+		view.setBackgroundResource(R.drawable.booklist_menu_bg_unit);
+		ImageView share=(ImageView)view.findViewById(R.id.share);
+		share.setOnClickListener(this);
+		ImageView comment=(ImageView)view.findViewById(R.id.comment);
+		comment.setOnClickListener(this);
+		ImageView fankui=(ImageView)view.findViewById(R.id.fankui);
+		fankui.setOnClickListener(this);
+		return view;
+	}
+
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+	}
+
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		switch(view.getId()){
+		case R.id.share:
+			break;
+		case R.id.comment:
+			 int id=getActivity().getIntent().getIntExtra("id", 0);
+			 UMSocialService controller = UMServiceFactory.getUMSocialService("meinvqiushi.news."+id, RequestType.SOCIAL);
+	        /**
+	        * 参数说明
+	        * arg0  上下文，传入当前Activity的实例即可
+	        * arg1  评论时是否需要登录，取值false将以游客的身份进行评论
+	        */
+	        Context context=getActivity().getApplicationContext();
+	        controller.openComment(context, false);
+			break;
+		case R.id.fankui:
+		    break;
+		}
+	}
+}

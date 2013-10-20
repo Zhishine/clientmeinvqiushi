@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <com.huewu.pla.sample plaColumnNumber="3"/>
+ <com.huewu.pla.sample plaColumnPaddingLeft="3"/>
+ <com.huewu.pla.sample plaColumnPaddingRight="3"/>
+ <com.huewu.pla.sample plaLandscapeColumnNumber="3"/>
+</resources>

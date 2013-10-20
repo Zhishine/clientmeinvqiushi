@@ -18,7 +18,7 @@ import android.widget.RelativeLayout.LayoutParams;
 public class ImageAdapter extends BaseAdapter{
 	private Context _context;
     private List<Drawable> m_imgList;
-    float m_rate=(float)257/(float)480;
+    float m_rate=(float)240/(float)480;
 	public ImageAdapter(Context context,List<Drawable> imgList) {
 	    _context = context;
 	    m_imgList=imgList;

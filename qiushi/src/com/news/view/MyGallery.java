@@ -25,6 +25,9 @@ public class MyGallery extends Gallery
 			switch (msg.what)
 			{
 			case timerAnimation:
+				if(!isShown())
+					return;
+				onScroll(null, null, 1, 0);  
 				int position = getSelectedItemPosition();
 				Log.i("msg", "position:"+position);
 				if (position >= (getCount() - 1))
@@ -85,6 +88,9 @@ public class MyGallery extends Gallery
 	public boolean onFling(MotionEvent paramMotionEvent1,
 			MotionEvent paramMotionEvent2, float paramFloat1, float paramFloat2)
 	{
+		if(!isShown())
+			return false;
+		onScroll(null, null, 1, 0);  
 		int keyCode;
 		if (isScrollingLeft(paramMotionEvent1, paramMotionEvent2))
 		{

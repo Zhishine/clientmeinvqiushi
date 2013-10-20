@@ -96,7 +96,7 @@ public class ImagesAdapter extends BaseAdapter{
             
 	//		 convertView = this.m_layoutInflater.inflate(R.layout.news_item, null);
 			 convertView = this.m_layoutInflater.inflate(R.layout.images_item, null); 
-			 convertView.setBackgroundColor(Color.WHITE);
+			 //convertView.setBackgroundColor(Color.WHITE);
 			 viewHold = new ImageViewHold();
 			 //(ImageView) convertView.findViewById(R.id.title_img);
 			 viewHold.img = (ImageView)convertView.findViewById(R.id.image_img);
@@ -121,7 +121,7 @@ public class ImagesAdapter extends BaseAdapter{
 		 lp1.setMargins(DensityUtil.dip2px(5),pading,DensityUtil.dip2px(0),pading);
 		 viewHold.img.setScaleType(ScaleType.FIT_CENTER);
 		 viewHold.img.setImageDrawable(null);
-		 viewHold.img.setBackgroundColor(Color.BLUE);
+		 //viewHold.img.setBackgroundColor(Color.BLUE);
 		//imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, options, animateFirstListener);
 		imageLoader.displayImage(Item.mImageUrl, viewHold.img,options,animateFirstListener);
 		

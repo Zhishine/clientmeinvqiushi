@@ -2,10 +2,15 @@ package com.news.tool;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -15,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.util.Base64;
 import android.view.View.OnClickListener;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -31,7 +37,8 @@ import com.news.qiushi.R;
 public class AppDataManager implements AppDataObserver {
     private static final AppDataManager m_instance=new AppDataManager();
     private MAppData m_appData=null;
-    private AppDataClient m_client=null;
+     AppDataClient m_client=null;
+     AsyncHttpClient m_clientHttp = new AsyncHttpClient();
     private Context m_context;
     private SharedPreferences m_setting=null;
     private Drawable m_leftUpIcon=null;
@@ -42,12 +49,16 @@ public class AppDataManager implements AppDataObserver {
     private String m_leftDownRedirectUrl=null;
     private Drawable m_rightDownIcon=null;
     private String m_rightDownRedirectUrl=null;
-    private String systemDir="/sdcard/meinvqiushi";
-    private String systemImgDir="/sdcard/meinvqiushi/img";
-    private boolean m_bannerIsShow=true;
+    private String systemImgDir="/sdcard/meinvqiushi/img/";
+    private String systemAdDir="/sdcard/meinvqiushi/ad/";
+    private boolean m_bannerIsShow=false;
     private boolean m_adIsShow=true;
     private boolean m_taobaokeIsShow=true;
     private long m_lastUpdateTime=0;
+    private long m_lastAddateTime=0;
+    private long m_lastAdDateTimeTemp=0;
+    List<Drawable> m_adDrawable=null;
+    List<MAd> m_adList=null; 
     private AppDataManager(){
     	
     }
@@ -60,15 +71,14 @@ public class AppDataManager implements AppDataObserver {
     	m_setting=m_context.getSharedPreferences("app_data", 0);
     	SharedPreferences.Editor localEditor = m_setting.edit();
     	//localEditor.clear();
-    	BitmapFactory.Options options = new BitmapFactory.Options();  
- 	   options.inSampleSize=1;
+   
     	String leftUpIconUrl=m_setting.getString("leftUpIcon",null);
     	if(leftUpIconUrl==null||leftUpIconUrl.equalsIgnoreCase("")){
     		InputStream is = m_context.getResources().openRawResource(R.drawable.game);
     		String fileName="left_up_icon.png";
-    		String filePath=systemImgDir+"/"+fileName;
+    		String filePath=systemImgDir+fileName;
     		localEditor.putString("leftUpIcon",filePath);
-    		if(saveImg(is,fileName)){
+    		if(saveImg(is,systemImgDir,fileName)){
     		
     		 Bitmap bm = BitmapFactory.decodeStream(is);
      		 BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
@@ -79,7 +89,7 @@ public class AppDataManager implements AppDataObserver {
     		File file = new File(leftUpIconUrl);  
     	       if(file.exists()){        //判断文件是否存在  
     	    	   
-    	              Bitmap bm = BitmapFactory.decodeFile(leftUpIconUrl,options);
+    	              Bitmap bm = BitmapFactory.decodeFile(leftUpIconUrl);
     	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
     	              this.m_leftUpIcon=bd;
     	       }
@@ -89,9 +99,9 @@ public class AppDataManager implements AppDataObserver {
     	if(rightUpIconUrl==null||rightUpIconUrl.equalsIgnoreCase("")){
     		InputStream is = m_context.getResources().openRawResource(R.drawable.navigation);
     		String fileName="right_up_icon.png";
-    		String filePath=systemImgDir+"/"+fileName;
+    		String filePath=systemImgDir+fileName;
     		 localEditor.putString("rightUpIcon",filePath);
-    		if(saveImg(is,fileName)){
+    		if(saveImg(is,systemImgDir,fileName)){
     	
     		 Bitmap bm = BitmapFactory.decodeStream(is);
      		 BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
@@ -101,7 +111,7 @@ public class AppDataManager implements AppDataObserver {
     	}else{
     		File file = new File(rightUpIconUrl);  
     	       if(file.exists()){        //判断文件是否存在  
-    	              Bitmap bm = BitmapFactory.decodeFile(rightUpIconUrl,options);
+    	              Bitmap bm = BitmapFactory.decodeFile(rightUpIconUrl);
     	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
     	              this.m_rightUpIcon=bd;
     	       }
@@ -109,11 +119,9 @@ public class AppDataManager implements AppDataObserver {
     	
     	String leftDownIconUrl=m_setting.getString("leftDownIcon",null);
     	if(leftDownIconUrl!=null&&!leftDownIconUrl.equalsIgnoreCase("")){
-    		String fileName="left_up_icon.png";
-    		String filePath=systemImgDir+"/"+fileName;
-    		File file = new File(filePath);  
+    		File file = new File(leftDownIconUrl);  
  	       if(file.exists()){        //判断文件是否存在  
- 	              Bitmap bm = BitmapFactory.decodeFile(leftDownIconUrl,options);
+ 	              Bitmap bm = BitmapFactory.decodeFile(leftDownIconUrl);
  	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
  	              this.m_leftDowmIcon=bd;
  	       }
@@ -123,7 +131,7 @@ public class AppDataManager implements AppDataObserver {
     	if(rightDownIconUrl!=null&&!rightDownIconUrl.equalsIgnoreCase("")){
     		File file = new File(rightDownIconUrl);  
  	       if(file.exists()){        //判断文件是否存在  
- 	              Bitmap bm = BitmapFactory.decodeFile(rightDownIconUrl,options);
+ 	              Bitmap bm = BitmapFactory.decodeFile(rightDownIconUrl);
  	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
  	              this.m_rightDownIcon=bd;
  	       }
@@ -139,12 +147,117 @@ public class AppDataManager implements AppDataObserver {
     	this.m_taobaokeIsShow=m_setting.getBoolean("taobaokeIsShow", this.m_taobaokeIsShow);
     	
     	this.m_lastUpdateTime=m_setting.getLong("lastUpdateTime", this.m_lastUpdateTime);
+    	this.m_lastAddateTime=m_setting.getLong("lastAdUpdateTime", this.m_lastAddateTime);
     	localEditor.commit();
+    	if(this.m_bannerIsShow)
+    		loadAd();
+    		
     	requestSystem();
+    
     }
-   
+     void loadAd(){
+    	m_adDrawable=new ArrayList<Drawable>();
+    	SharedPreferences adSetting=m_context.getSharedPreferences("ad", 0);
+    	SharedPreferences.Editor editor = adSetting.edit();
+    	//editor.clear();
+    	//editor.commit();
+     	String adListStr=adSetting.getString("adList",null);
+     	if(adListStr==null){
+     		List<MAd> list=new ArrayList<MAd>();
+     	  MAd ad1=new MAd();
+     	  ad1.mInfo="http://www.baidu.com";
+     	  ad1.mOrder=1;
+     	  ad1.mType="0";
+     	  list.add(ad1);
+     	  
+     	  MAd ad2=new MAd();
+    	  ad2.mInfo="http://www.baidu.com";
+    	  ad2.mOrder=2;
+    	  ad2.mType="0";
+    	  list.add(ad2);
+    	  
+    	  MAd ad3=new MAd();
+     	  ad3.mInfo="http://www.baidu.com";
+     	  ad3.mOrder=3;
+     	  ad3.mType="0";
+     	  list.add(ad3);
+     	  
+     	  MAd ad4=new MAd();
+    	  ad4.mInfo="http://www.baidu.com";
+    	  ad4.mOrder=4;
+    	  ad4.mType="0";
+    	  list.add(ad4);
+    	  this.m_adList=list;
+    	  ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  		 ObjectOutputStream oos;
+  		 try {
+  			oos = new ObjectOutputStream(baos);
+  			oos.writeObject(list);
+  			String adListBase64 = new String(Base64.encode(baos.toByteArray(),0));
+  		
+  			editor.putString("adList", adListBase64);
+  			editor.commit();
+  		  } catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		  }
+  		String fileName="1.png";
+		InputStream is1 = m_context.getResources().openRawResource(R.drawable.img1); 
+		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img1));
+		AppDataManager.this.saveImg(is1,systemAdDir, fileName);
+	    fileName="2.png";
+		InputStream is2 = m_context.getResources().openRawResource(R.drawable.img2);
+		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img2));
+		AppDataManager.this.saveImg(is2,systemAdDir, fileName);
+		fileName="3.png";
+		InputStream is3 = m_context.getResources().openRawResource(R.drawable.img3); 
+		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img3));
+		AppDataManager.this.saveImg(is3,systemAdDir, fileName);
+	    fileName="4.png";
+		InputStream is4 = m_context.getResources().openRawResource(R.drawable.img4); 
+		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img4));
+		AppDataManager.this.saveImg(is4,systemAdDir, fileName);
+     	}
+     	else{
+     		// 从ObjectInputStream中读取Product对象
+     		try {
+     			byte[] base64Bytes = Base64.decode(adListStr,0);
+         		ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
+         		ObjectInputStream ois = new ObjectInputStream(bais);
+				m_adList= (List<MAd>) ois.readObject();
+				for(MAd ad:m_adList){
+				File file = new File(systemAdDir+ad.mOrder+".png");  
+		 	       if(file.exists()){        //判断文件是否存在  
+		 	              Bitmap bm = BitmapFactory.decodeFile(systemAdDir+ad.mOrder+".png");
+		 	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
+		 	              this.m_adDrawable.add(bd);
+		 	       }
+				}
+			} catch (OptionalDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+     		
+     	}
+     
+     }
+    
     public MAppData getAppData(){
     	return m_appData;
+    }
+    public List<Drawable> getDrawableList(){
+    	return this.m_adDrawable;
+    }
+    public MAd getAd(int index){
+    	if(m_adList==null||m_adList.size()<=index)
+    		return null;
+    	return m_adList.get(index);
     }
     public Drawable getLeftUpIcon(){
     	return this.m_leftUpIcon;
@@ -182,11 +295,11 @@ public class AppDataManager implements AppDataObserver {
     public void requestSystem(){
     	m_client.getSystem();
     }
-    boolean saveImg(InputStream is, String fileName)  {  
+    boolean saveImg(InputStream is,String fileDir, String fileName)  {  
     	
     	try {
     		Bitmap bm = BitmapFactory.decodeStream(is);
-			saveImg(bm,fileName);
+			saveImg(bm,fileDir,fileName);
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -194,16 +307,16 @@ public class AppDataManager implements AppDataObserver {
 			return false;
 		}
     }   
-    void saveImg(Bitmap bm, String fileName) throws IOException {  
+    void saveImg(Bitmap bm,String fileDir, String fileName) throws IOException {  
     	if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
     		// sd card 可用                          
-    		 File dirFile = new File(systemImgDir+"/");  
+    		 File dirFile = new File(fileDir);  
     		 boolean result=false;
     	        if(!dirFile.exists()){ 
     	        	
     	          result=dirFile.mkdirs()   ;
     	        }   
-    	        File myFile = new File(systemImgDir +"/"+ fileName);   
+    	        File myFile = new File(fileDir+ fileName);   
     	        if(myFile.exists())
     	        	myFile.delete();
     	        myFile.createNewFile();
@@ -218,8 +331,11 @@ public class AppDataManager implements AppDataObserver {
     }   
 	@Override
 	public void getSystemResponse(MSystem system) {
+		boolean appIsUpdate=false;
 		// TODO Auto-generated method stub
 		if(system.mAppUpdateLastTime>this.m_lastUpdateTime){
+			appIsUpdate=true;
+			this.m_lastAdDateTimeTemp=system.mPublicAdLastTime;
 			m_client.getAppData();
 			m_setting=m_context.getSharedPreferences("app_data", 0);
 	    	SharedPreferences.Editor localEditor = m_setting.edit();
@@ -227,6 +343,15 @@ public class AppDataManager implements AppDataObserver {
 			localEditor.putLong("lastUpdateTime", m_lastUpdateTime);
 			localEditor.commit();
 		}
+		if(system.mPublicAdLastTime>this.m_lastAddateTime&&this.m_bannerIsShow&&!appIsUpdate){
+			m_client.getAd();
+			m_setting=m_context.getSharedPreferences("app_data", 0);
+	    	SharedPreferences.Editor localEditor = m_setting.edit();
+			this.m_lastAddateTime=system.mPublicAdLastTime;
+			localEditor.putLong("lastAdUpdateTime", m_lastAddateTime);
+			localEditor.commit();
+		}
+
 	}
 	@Override
 	public void getAppDataResponse(MAppData appData) {
@@ -248,15 +373,24 @@ public class AppDataManager implements AppDataObserver {
     	this.m_rightUpRedirectUrl=appData.mRightUpRedirectUrl;
     	this.m_leftDownRedirectUrl=appData.mLeftDownRedirectUrl;
     	this.m_rightDownRedirectUrl=appData.mRightDownRedirectUrl;
-    	AsyncHttpClient m_client = new AsyncHttpClient();
+    	
+    	if(this.m_lastAdDateTimeTemp>this.m_lastAddateTime&&this.m_bannerIsShow){
+			m_client.getAd();
+			//m_setting=m_context.getSharedPreferences("app_data", 0);
+			this.m_lastAddateTime=m_lastAdDateTimeTemp;
+			localEditor.putLong("lastAdUpdateTime", m_lastAddateTime);
+		}
+    	
     	if(!appData.mLeftUpIconUrl.equalsIgnoreCase("")){
-    		m_client.get(appData.mLeftUpIconUrl, new BinaryHttpResponseHandler(){
+    		m_clientHttp.get(appData.mLeftUpIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
     				String fileName="left_up_icon.png";
+    				String filePath=systemImgDir+fileName;
+    	            localEditor.putString("leftUpIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
-    				AppDataManager.this.saveImg(is, fileName);
+    				AppDataManager.this.saveImg(is,systemImgDir, fileName);
     			}
     		});
     	}
@@ -264,13 +398,15 @@ public class AppDataManager implements AppDataObserver {
          localEditor.putString("leftUpIcon",appData.mLeftUpIconUrl);
 
     	if(!appData.mRightUpIconUrl.equalsIgnoreCase("")){
-    		m_client.get(appData.mRightUpIconUrl, new BinaryHttpResponseHandler(){
+    		m_clientHttp.get(appData.mRightUpIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
     				String fileName="right_up_icon.png";
+    				String filePath=systemImgDir+fileName;
+    	            localEditor.putString("rightUpIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
-    				AppDataManager.this.saveImg(is, fileName);
+    				AppDataManager.this.saveImg(is,systemAdDir, fileName);
     			}
     		});
     	}
@@ -278,16 +414,16 @@ public class AppDataManager implements AppDataObserver {
             localEditor.putString("rightUpIcon",appData.mRightUpIconUrl);
     	
     	if(!appData.mLeftDownIconUrl.equalsIgnoreCase("")){
-    		m_client.get(appData.mLeftDownIconUrl, new BinaryHttpResponseHandler(){
+    		m_clientHttp.get(appData.mLeftDownIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
     			
     				String fileName="left_down_icon.png";
-    	    		String filePath=systemImgDir+"/"+fileName;
+    	    		String filePath=systemImgDir+fileName;
     	            localEditor.putString("leftDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
-    				AppDataManager.this.saveImg(is, fileName);
+    				AppDataManager.this.saveImg(is,systemAdDir,fileName);
     			}
     		});
     	}
@@ -295,15 +431,15 @@ public class AppDataManager implements AppDataObserver {
             localEditor.putString("leftDownIcon",appData.mLeftDownIconUrl);
     	
     	if(!appData.mRightDownIconUrl.equalsIgnoreCase("")){
-    		m_client.get(appData.mRightDownIconUrl, new BinaryHttpResponseHandler(){
+    		m_clientHttp.get(appData.mRightDownIconUrl, new BinaryHttpResponseHandler(){
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
     				String fileName="right_down_icon.png";
-    				String filePath=systemImgDir+"/"+fileName;
+    				String filePath=systemImgDir+fileName;
     	            localEditor.putString("rightDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
-    				AppDataManager.this.saveImg(is, fileName);
+    				AppDataManager.this.saveImg(is,systemImgDir, fileName);
     			}
     		});
     	}
@@ -349,6 +485,34 @@ public class AppDataManager implements AppDataObserver {
 	@Override
 	public void getAdResponse(List<MAd> adList) {
 		// TODO Auto-generated method stub
+		SharedPreferences adSetting=m_context.getSharedPreferences("ad", 0);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(adList);
+			String adListBase64 = new String(Base64.encode(baos.toByteArray(),0));
+			SharedPreferences.Editor editor = adSetting.edit();
+			editor.putString("adList", adListBase64);
+			editor.commit();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		for(MAd ad:adList){
+		    final MAd param=ad;
+			m_clientHttp.get(ad.mImageUrl, new BinaryHttpResponseHandler(){
+    			public void onSuccess(byte[] data){
+    				if(data==null)
+    					return;
+    				String fileName=param.mOrder+".png";
+    				String filePath=systemAdDir+fileName;
+    	            //localEditor.putString("rightDownIcon", filePath);
+    				InputStream is = new ByteArrayInputStream(data); 
+    				AppDataManager.this.saveImg(is,systemAdDir, fileName);
+    			}
+    		});
+		}
 	}
 }
