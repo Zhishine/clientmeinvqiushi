@@ -332,21 +332,20 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		//m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
 		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,m_actualContentHeight);
 	    //lp1.addRule(RelativeLayout., 3);
-	    lp1.setMargins(0,0, 0, 1);
+	    lp1.setMargins(0 , 0, 0, DensityUtil.dip2px(1));
+		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
+		m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
+		m_multiColumnPullToRefreshListView.setTextPullToRefresh("下拉刷新...");
+		m_multiColumnPullToRefreshListView.setTextReleaseToRefresh("放开以刷新...");
+		m_multiColumnPullToRefreshListView.setTextRefreshing("正在载入...");
+		
+		
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
 
 			@Override
 			public void onRefresh() {
-				// TODO Auto-generated method stub
-				String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-				// Update the LastUpdatedLabel
-				//refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-				m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
-				//m_multiColumnPullToRefreshListView.setLastUpdatedDateFormat(label);
-				int height=m_multiColumnPullToRefreshListView.getHeight();
+				// TODO Auto-generated method stub	
 				m_ImagePageNO=1;
 				m_client.getImage(m_ImagePageNO, m_ImagePageSize);
 				m_ImageRequest=true;

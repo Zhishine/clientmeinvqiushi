@@ -68,6 +68,9 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		int topBackBtnWidth = DensityUtil.dip2px(TOP_BACKBTN_WIDTH);
 		int topTitleWidth = width - topBackBtnWidth;
 		
+		int pad10 = DensityUtil.dip2px(10);
+		int pad3 = DensityUtil.dip2px(3);
+		int pad2 = DensityUtil.dip2px(2);
 		
 		RelativeLayout container=new RelativeLayout(this);
 		container.setBackgroundResource(R.drawable.bg);
@@ -83,12 +86,13 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		
 		//title
 		RelativeLayout.LayoutParams lp12=new RelativeLayout.LayoutParams( topTitleWidth,LayoutParams.MATCH_PARENT);
-		//lp12.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		lp12.setMargins(topBackBtnWidth, 0, 0, 0);
+		lp12.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		//lp12.setMargins(topBackBtnWidth, 0, 0, 0);
 		
 		TextView lbtitle = new TextView(this);
 		lbtitle.setLayoutParams(lp12);
-		lbtitle.setPadding(5, 3, 3, 5);
+		
+		//lbtitle.setPadding(pad10, pad3, pad3, pad10);
 		lbtitle.setTextSize(20.0f);
 		lbtitle.setText(mtitle);
 		lbtitle.setTextColor(Color.BLACK);
@@ -99,7 +103,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		//backBtn
 		RelativeLayout.LayoutParams lp13=new RelativeLayout.LayoutParams( topBackBtnWidth,LayoutParams.MATCH_PARENT);
 		//lp13.setMargins(0, 3, 3, 3);
-		lp12.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		lp13.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		
 		ImageView topBackBtn = new ImageView(this);
 		topBackBtn.setOnClickListener(this);
@@ -127,7 +131,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*leftWidth);
 		RelativeLayout.LayoutParams lp21 = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,imgHeight);
 		lp21.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-		lp21.setMargins(2,2,2,2);
+		lp21.setMargins(pad2,pad2,pad2,pad2);
 		
 		img.setBackgroundColor(Color.BLACK);
 		img.setLayoutParams(lp21);
@@ -150,7 +154,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		dlimgBtn.setBackgroundResource(R.drawable.back);
 		dlimgBtn.setId(DONW_IMG_BTN_ID);
 		RelativeLayout.LayoutParams lp31=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,topHeight);
-		lp31.setMargins(3, topHeight+rightBtnPadding, 3, 0);
+		lp31.setMargins(pad3, topHeight+rightBtnPadding, pad3, 0);
 		dlimgBtn.setLayoutParams(lp31);
 		rightContianer.addView(dlimgBtn);
 		
@@ -160,7 +164,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		viewimgBtn.setBackgroundResource(R.drawable.back);
 		viewimgBtn.setId(VIEW_IMG_BTN_ID);
 		RelativeLayout.LayoutParams lp32=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,topHeight);
-		lp32.setMargins(3,2*topHeight+rightBtnPadding,3,0);
+		lp32.setMargins(pad3,2*topHeight+rightBtnPadding,pad3,0);
 		viewimgBtn.setLayoutParams(lp32);
 		rightContianer.addView(viewimgBtn);
 		
@@ -170,7 +174,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		shareimgBtn.setBackgroundResource(R.drawable.back);
 		shareimgBtn.setId(SHARE_IMG_BTN_ID);
 		RelativeLayout.LayoutParams lp33=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,topHeight);
-		lp33.setMargins(3,3*topHeight+rightBtnPadding,3,0);
+		lp33.setMargins(pad3,3*topHeight+rightBtnPadding,pad3,0);
 		shareimgBtn.setLayoutParams(lp33);
 		rightContianer.addView(shareimgBtn);
 		
