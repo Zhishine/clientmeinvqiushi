@@ -1,5 +1,6 @@
 package net.loonggg.fragment;
 
+import com.lurencun.android.common.RandomUtil;
 import com.news.qiushi.R;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -18,12 +19,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.ZoomDensity;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 public class RightFragment extends Fragment implements OnClickListener {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		com.umeng.socom.Log.LOG = true;
 		View view = inflater.inflate(R.layout.right_fragment, null);
 		view.setBackgroundResource(R.drawable.booklist_menu_bg_unit);
 		ImageView share=(ImageView)view.findViewById(R.id.share);
@@ -32,6 +37,8 @@ public class RightFragment extends Fragment implements OnClickListener {
 		comment.setOnClickListener(this);
 		ImageView fankui=(ImageView)view.findViewById(R.id.fankui);
 		fankui.setOnClickListener(this);
+		ImageView adjust=(ImageView)view.findViewById(R.id.adjust);
+		adjust.setOnClickListener(this);
 		return view;
 	}
 
@@ -49,7 +56,7 @@ public class RightFragment extends Fragment implements OnClickListener {
                     RequestType.SOCIAL);
 			
 			// wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
-			String appID = "wxd7cc59142f387129";
+			String appID = "wxdea18af3126b8fc8";
 			// 微信图文分享必须设置一个url 
 			String contentUrl = "http://www.umeng.com/social";
 			// 添加微信平台，参数1为当前Activity, 参数2为用户申请的AppID, 参数3为点击分享内容跳转到的目标url
@@ -92,6 +99,16 @@ public class RightFragment extends Fragment implements OnClickListener {
 			 FeedbackAgent agent = new FeedbackAgent(getActivity());
 			    agent.startFeedbackActivity();
 		    break;
+		case R.id.adjust:
+			WebView wv=(WebView) getActivity().findViewById(R.id.webview);
+			WebSettings settings = wv.getSettings();
+			settings.setSupportZoom(true);
+			ZoomDensity[] array=ZoomDensity.values();
+			//settings.setBuiltInZoomControls(true);
+			wv.zoomIn();
+			wv.setInitialScale(25);
+			//settings.setDefaultZoom(ZoomDensity.CLOSE);//webSettings.setDefaultZoom(zoomDensity); 
+		    break;    
 		}
 	}
 }

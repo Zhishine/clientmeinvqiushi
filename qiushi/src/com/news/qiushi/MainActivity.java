@@ -363,7 +363,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				
 				MImage data = (MImage)parent.getItemAtPosition(position);
-				float scale =  (float)data.mWidth/(float)data.mHeight;
+				float scale =  (float)data.mHeight/(float)data.mWidth;
 				
 				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
 				intent.putExtra("imgurl",data.mImageUrl);
