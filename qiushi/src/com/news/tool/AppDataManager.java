@@ -51,6 +51,9 @@ public class AppDataManager implements AppDataObserver {
     private String m_rightDownRedirectUrl=null;
     private String systemImgDir="/sdcard/meinvqiushi/img/";
     private String systemAdDir="/sdcard/meinvqiushi/ad/";
+    
+    private String systemImageDir = "/sdcard/meinvqiushi/image/";
+    
     private boolean m_bannerIsShow=false;
     private boolean m_adIsShow=true;
     private boolean m_taobaokeIsShow=true;
@@ -248,6 +251,18 @@ public class AppDataManager implements AppDataObserver {
      
      }
     
+    public boolean SaveImage(Bitmap bm,String fileName){
+    	
+    	boolean ret  = false;
+    	try {
+    		ret  = AppDataManager.this.saveImg(bm, this.systemImageDir, fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		return ret;
+    }
     public MAppData getAppData(){
     	return m_appData;
     }
@@ -306,8 +321,9 @@ public class AppDataManager implements AppDataObserver {
 			e.printStackTrace();
 			return false;
 		}
-    }   
-    void saveImg(Bitmap bm,String fileDir, String fileName) throws IOException {  
+    }
+    
+    boolean saveImg(Bitmap bm,String fileDir, String fileName) throws IOException {  
     	if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
     		// sd card 可用                          
     		 File dirFile = new File(fileDir);  
@@ -324,10 +340,11 @@ public class AppDataManager implements AppDataObserver {
     	        bm.compress(Bitmap.CompressFormat.PNG, 100, bos);   
     	        bos.flush();   
     	        bos.close(); 
+    	        return true;
     		}else {   
     		// 当前不可用   
+    			return false;
     		} 
-         
     }   
 	@Override
 	public void getSystemResponse(MSystem system) {
