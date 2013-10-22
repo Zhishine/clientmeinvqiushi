@@ -1,24 +1,22 @@
 package com.news.qiushi;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-
-
-
-
+import com.news.tool.AppDataManager;
 import com.news.tool.DensityUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,23 +26,24 @@ import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ImageViewActivity extends Activity implements OnClickListener{
 	
-	private final String mtitle = "ͼƬ";
+	private final String mtitle = "图片";
+	private final String msgSuccess = "保存成功";
+	private final String msgFail = "保存失败";
 	private final int TOP_HEIGHT = 50;
 	private final int RIGHT_WIDTH = 70;
 	private final int TOP_BACKBTN_WIDTH = 70;
 	private final int RIGHT_BIN_PADDING = 50;
-	
-	
 	private final int DONW_IMG_BTN_ID = 1;
 	private final int VIEW_IMG_BTN_ID = 2;
 	private final int SHARE_IMG_BTN_ID = 3;
 	private final int TOP_BACK_BTN_ID = 4;
+	private ImageView imgData = null;
+	private String imageurl  = null;
 	
-	//private LayoutInflater m_layoutInflater=null;
-	//private DisplayImageOptions options=null;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	
 	protected void onCreate(Bundle savedInstanceState)
@@ -57,7 +56,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		
 		
 	}
-	ImageView img =null;
+	
 	protected void createImageView()
 	{
 		ImageLoader imageLoader = ImageLoader.getInstance();
@@ -72,11 +71,11 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		int leftWidth = width - rightWidth;
 		
 		int topBackBtnWidth = DensityUtil.dip2px(TOP_BACKBTN_WIDTH);
-		int topTitleWidth = width - topBackBtnWidth;
+		//int topTitleWidth = width - topBackBtnWidth;
 		
-		int pad10 = DensityUtil.dip2px(10);
+		//int pad10 = DensityUtil.dip2px(10);
 		int pad3 = DensityUtil.dip2px(3);
-		int pad2 = DensityUtil.dip2px(2);
+		//int pad2 = DensityUtil.dip2px(2);
 		
 		RelativeLayout container=new RelativeLayout(this);
 		container.setBackgroundResource(R.drawable.bg);
@@ -138,26 +137,25 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		scrollview.setLayoutParams(lp21);
 		leftContianer.addView(scrollview);
 		
-		 img = new ImageView(this);
+		//ImageView img = new ImageView(this);
+		imgData = new ImageView(this);
 		
 		//img.setBackgroundColor(Color.YELLOW);
 		Intent intent = getIntent();
-		String imageurl  = intent.getStringExtra("imgurl");
-		//leftWidth=920;
+		imageurl  = intent.getStringExtra("imgurl");
 		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*leftWidth);
 		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth,imgHeight);
 		
 		//img.setMaxHeight(3000);
-		img.setScaleType(ScaleType.FIT_CENTER);   
-		img.setAdjustViewBounds(true);
-	
+		imgData.setScaleType(ScaleType.FIT_CENTER);   
+		imgData.setAdjustViewBounds(true);
+		imgData.setLayoutParams(lp22);
+		imageLoader.displayImage(imageurl, imgData , null,animateFirstListener);
 		
-		img.setLayoutParams(lp22);
-		imageLoader.displayImage(imageurl, img,null,animateFirstListener);
-		scrollview.addView(img);
+		scrollview.addView(imgData);
 		//img.setImageResource(R.drawable.download);
 		container.addView(leftContianer);
-		//leftContianer.addView(img);
+		
 		
 		//*right
 		RelativeLayout rightContianer = new RelativeLayout(this);
@@ -168,15 +166,13 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		//downLoad btn
 		ImageView dlimgBtn = new ImageView(this);
 		dlimgBtn.setOnClickListener(this);
-	
 		dlimgBtn.setBackgroundResource(R.drawable.download);
-		
 		dlimgBtn.setId(DONW_IMG_BTN_ID);
 		RelativeLayout.LayoutParams lp31=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,rightWidth);
 		
 		int pp = topHeight+rightBtnPadding;
 		int pt = DensityUtil.dip2px(20);
-   	lp31.setMargins(pad3, pp, pad3, 0);
+		lp31.setMargins(pad3, pp, pad3, 0);
 		dlimgBtn.setLayoutParams(lp31);
 		rightContianer.addView(dlimgBtn);
 		
@@ -199,7 +195,6 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		lp33.setMargins(pad3,pp+2*(pt+topHeight),pad3,0);
 		shareimgBtn.setLayoutParams(lp33);
 		rightContianer.addView(shareimgBtn);
-		
 		container.addView(rightContianer);
 		
 	}
@@ -227,13 +222,13 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		
 		switch(arg0.getId()){
 			case DONW_IMG_BTN_ID:
-				int height=img.getHeight();
+				downLoadImage();
 				break;
 			case VIEW_IMG_BTN_ID:
-			//	scrollview;
+				viewImage();
 				break;
 			case SHARE_IMG_BTN_ID:
-				
+				shareImage();
 				break;
 			case TOP_BACK_BTN_ID:
 				this.finish();
@@ -243,5 +238,41 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		}
 		
 	}
-
+	
+	@SuppressLint("SimpleDateFormat")
+	protected void downLoadImage()
+	{
+		imgData.setDrawingCacheEnabled(true);
+		Bitmap  bitmap = Bitmap.createBitmap(imgData.getDrawingCache());
+		imgData.setDrawingCacheEnabled(false);
+		SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd");
+		long ms = System.currentTimeMillis();
+		String dt = formatter.format(ms);
+		String fileName = dt + "_" + ms + ".png";
+		if( AppDataManager.getInstance().SaveImage(bitmap, fileName)){
+			//success
+			//Log.i("downLoadImage", "downLoadImage click"+fileName);
+			Toast.makeText(this, msgSuccess, Toast.LENGTH_SHORT).show();
+			
+		}else{
+			//fail
+			Toast.makeText(this, msgFail, Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	protected void viewImage()
+	{
+		Intent intent = new Intent(this,ViewImageActivity.class);
+		intent.putExtra("imgurl",imageurl);
+		
+		Log.i("viewImage", "viewImage click");
+		
+		this.startActivity(intent);
+		
+	}
+	
+	protected void shareImage()
+	{
+		Log.i("shareImage", "shareImage click");
+	}
 }
