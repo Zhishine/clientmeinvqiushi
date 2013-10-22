@@ -36,6 +36,11 @@
             android:screenOrientation="portrait"
            >
         </activity>
+		 <activity
+            android:name="com.news.qiushi.ViewImageActivity"
+            android:screenOrientation="portrait"
+           >
+        </activity>
          <activity
             android:name="com.news.qiushi.NormalWebViewActivity"
             android:screenOrientation="portrait"
