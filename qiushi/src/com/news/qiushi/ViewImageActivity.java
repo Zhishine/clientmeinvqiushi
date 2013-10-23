@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,23 +25,16 @@ public class ViewImageActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		Log.i("viewImage", "ViewImageActivity");
-		
-		//setContentView(R.layout);
 		ScrollView scrollview =  new ScrollView(this);
 		scrollview.setFillViewport(true);
-		
 		ImageView img = new ImageView(this);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 		scrollview.setLayoutParams(lp);
-		
+		scrollview.setBackgroundColor(Color.WHITE);
+		setContentView(scrollview);
 		scrollview.addView(img);
-		
 		String imageurl  =  getIntent().getStringExtra("imgurl");
-		Log.i("viewImage", imageurl);
-		
 		ImageLoader imageLoader = ImageLoader.getInstance();
-		
 		imageLoader.displayImage(imageurl, img , null,animateFirstListener);
 		
 	}

@@ -2,8 +2,10 @@ package com.news.qiushi;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.news.tool.AppDataManager;
 import com.news.tool.DensityUtil;
@@ -11,11 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.umeng.socialize.controller.RequestType;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.UMSsoHandler;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -36,9 +33,11 @@ import android.widget.Toast;
 
 public class ImageViewActivity extends Activity implements OnClickListener{
 	
-	private final String mtitle = "ÂõæÁâá";
-	private final String msgSuccess = "‰øùÂ≠òÊàêÂäü";
-	private final String msgFail = "‰øùÂ≠òÂ§±Ë¥•";
+	//private final String mtitle = "ÂõæÁâá";
+	//private final String msgSuccess = "‰øùÂ≠òÊàêÂäü";
+	//private final String msgFail = "‰øùÂ≠òÂ§±Ë¥•";
+	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
+	
 	private final int TOP_HEIGHT = 50;
 	private final int RIGHT_WIDTH = 70;
 	private final int TOP_BACKBTN_WIDTH = 70;
@@ -49,6 +48,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 	private final int TOP_BACK_BTN_ID = 4;
 	private ImageView imgData = null;
 	private String imageurl  = null;
+	private String redirectUrl = null;
 	
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	
@@ -108,7 +108,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 	    lp12.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		//lbtitle.setPadding(pad10, pad3, pad3, pad10);
 		lbtitle.setTextSize(20.0f);
-		lbtitle.setText(mtitle);
+		lbtitle.setText(this.getString(R.string.mTitle));
 		lbtitle.setTextColor(Color.BLACK);
 		
 		//lbtitle.setBackgroundColor(Color.BLUE);
@@ -149,6 +149,8 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		//img.setBackgroundColor(Color.YELLOW);
 		Intent intent = getIntent();
 		imageurl  = intent.getStringExtra("imgurl");
+		redirectUrl = intent.getStringExtra("redirectUrl");
+		
 		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*leftWidth);
 		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth,imgHeight);
 		
@@ -204,17 +206,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		container.addView(rightContianer);
 		
 	}
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    super.onActivityResult(requestCode, resultCode, data);
-	    /** π”√SSO ⁄»®±ÿ–ÎÃÌº”»Áœ¬¥˙¬Î */
-	    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",
-                RequestType.SOCIAL);
-	    
-	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
-	    if(ssoHandler != null){
-	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-	    }
-	}
+	
 	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
 		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
@@ -255,24 +247,26 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		
 	}
 	
-	@SuppressLint("SimpleDateFormat")
+
 	protected void downLoadImage()
 	{
 		imgData.setDrawingCacheEnabled(true);
 		Bitmap  bitmap = Bitmap.createBitmap(imgData.getDrawingCache());
 		imgData.setDrawingCacheEnabled(false);
-		SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd");
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
 		long ms = System.currentTimeMillis();
 		String dt = formatter.format(ms);
 		String fileName = dt + "_" + ms + ".png";
 		if( AppDataManager.getInstance().SaveImage(bitmap, fileName)){
 			//success
 			//Log.i("downLoadImage", "downLoadImage click"+fileName);
-			Toast.makeText(this, msgSuccess, Toast.LENGTH_SHORT).show();
+			String msg = this.getString(R.string.msgSuccess) + ":" + systemImageDir;
+			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 			
 		}else{
 			//fail
-			Toast.makeText(this, msgFail, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, this.getString(R.string.msgFail), Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -280,15 +274,13 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 	{
 		Intent intent = new Intent(this,ViewImageActivity.class);
 		intent.putExtra("imgurl",imageurl);
-		
-		Log.i("viewImage", "viewImage click");
-		
+		//Log.i("viewImage", "viewImage click");
 		this.startActivity(intent);
-		
 	}
 	
 	protected void shareImage()
 	{
 		Log.i("shareImage", "shareImage click");
+		
 	}
 }
