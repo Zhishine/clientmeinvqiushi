@@ -2,6 +2,7 @@ package net.loonggg.fragment;
 
 import com.lurencun.android.common.RandomUtil;
 import com.news.qiushi.R;
+import com.news.tool.AppShareManager;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.RequestType;
@@ -9,6 +10,7 @@ import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.TencentWBSsoHandler;
 
 import android.content.Context;
@@ -52,37 +54,10 @@ public class RightFragment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch(view.getId()){
 		case R.id.share:
-			final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",
-                    RequestType.SOCIAL);
-			
-			// wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
-			String appID = "wxdea18af3126b8fc8";
-			// 微信图文分享必须设置一个url 
-			String contentUrl = "http://www.umeng.com/social";
-			// 添加微信平台，参数1为当前Activity, 参数2为用户申请的AppID, 参数3为点击分享内容跳转到的目标url
-			mController.getConfig().supportWXPlatform(getActivity(),appID, contentUrl);     
-			// 支持微信朋友圈
-			mController.getConfig().supportWXCirclePlatform(getActivity(),appID, contentUrl) ;
-			// 设置分享文字     
-			mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
-			// 设置分享图片, 参数2为图片的地址
-			mController.setShareMedia(new UMImage(getActivity(), 
-			                              "http://www.umeng.com/images/pic/banner_module_social.png"));
-            //设置分享内容
-            mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
-           //设置分享图片, 参数2为图片的地址
-           mController.setShareMedia(new UMImage(getActivity(), 
-             "http://www.umeng.com/images/pic/banner_module_social.png"));
-           
-           mController.getConfig().supportQQPlatform(getActivity(), "http://www.umeng.com/social");
-           mController.getConfig().setSsoHandler( new QZoneSsoHandler(getActivity()) );
-         //设置腾讯微博SSO handler
-           mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
-           mController.openShare(getActivity(), false);
-           
-        // 设置分享平台选择面板的平台显示顺序
-           mController.getConfig().setPlatformOrder(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE,
-                                                    SHARE_MEDIA.QZONE,SHARE_MEDIA.QQ, SHARE_MEDIA.SINA, SHARE_MEDIA.TENCENT);
+			String description=getActivity().getIntent().getExtras().getString("description");
+			String titleImageUrl=getActivity().getIntent().getExtras().getString("titleImageUrl");
+			String redirectUrl=getActivity().getIntent().getExtras().getString("url");
+			AppShareManager.getInstance().share(getActivity(), description, "http://php1.hontek.com.cn/wordpress/wp-content/uploads/2013/09/logo-144.png", redirectUrl);
 			break;
 		case R.id.comment:
 			 int id=getActivity().getIntent().getIntExtra("id", 0);
@@ -111,4 +86,6 @@ public class RightFragment extends Fragment implements OnClickListener {
 		    break;    
 		}
 	}
+	
+	 
 }

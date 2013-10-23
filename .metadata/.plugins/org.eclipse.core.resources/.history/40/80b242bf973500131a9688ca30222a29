@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
- <string name="plaColumnNumber">3</string>
- <string name="plaColumnPaddingLeft">3</string>
- <string name="plaColumnPaddingRight ">3</string>
- <string name="plaLandscapeColumnNumber">3</string>
-</resources>

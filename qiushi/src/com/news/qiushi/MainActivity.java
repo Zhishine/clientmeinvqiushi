@@ -572,6 +572,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			    Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
                 intent.putExtra("url",news.mRedirectUrl);
                 intent.putExtra("id",news.mId);
+                intent.putExtra("titleImageUrl",news.mTitleImageUrl);
+                intent.putExtra("description",news.mDescription);
                 MainActivity.this.startActivity(intent);
 			}
 			 
