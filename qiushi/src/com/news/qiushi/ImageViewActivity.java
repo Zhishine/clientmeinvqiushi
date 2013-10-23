@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import com.news.tool.AppDataManager;
+import com.news.tool.AppShareManager;
 import com.news.tool.DensityUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -33,9 +34,9 @@ import android.widget.Toast;
 
 public class ImageViewActivity extends Activity implements OnClickListener{
 	
-	//private final String mtitle = "图片";
-	//private final String msgSuccess = "保存成功";
-	//private final String msgFail = "保存失败";
+	//private final String mtitle = "鍥剧墖";
+	//private final String msgSuccess = "淇濆瓨鎴愬姛";
+	//private final String msgFail = "淇濆瓨澶辫触";
 	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
 	
 	private final int TOP_HEIGHT = 50;
@@ -49,6 +50,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 	private ImageView imgData = null;
 	private String imageurl  = null;
 	private String redirectUrl = null;
+	private boolean isNativePage = false;
 	
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	
@@ -150,6 +152,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		Intent intent = getIntent();
 		imageurl  = intent.getStringExtra("imgurl");
 		redirectUrl = intent.getStringExtra("redirectUrl");
+		isNativePage = intent.getBooleanExtra("isNativePage", false);
 		
 		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*leftWidth);
 		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth,imgHeight);
@@ -281,6 +284,17 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 	protected void shareImage()
 	{
 		Log.i("shareImage", "shareImage click");
-		
+		String tmpUrl = imageurl;
+		String testurl="http://php1.hontek.com.cn/wordpress/wp-content/uploads/2013/09/logo-144.png";
+		AppShareManager shareManager = AppShareManager.getInstance();
+		/*
+		if(isNativePage){
+			tmpUrl = redirectUrl;
+		}else{
+			tmpUrl = imageurl;
+		}
+		*/
+		shareManager.share(this, this.getString(R.string.mshareContent), imageurl, tmpUrl);
+		//shareManager.share(this, this.getString(R.string.mshareContent), testurl, tmpUrl);
 	}
 }

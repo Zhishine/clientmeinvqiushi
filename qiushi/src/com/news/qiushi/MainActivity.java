@@ -335,9 +335,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	    lp1.setMargins(0 , 0, 0, DensityUtil.dip2px(1));
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
-		m_multiColumnPullToRefreshListView.setTextPullToRefresh("下拉刷新...");
-		m_multiColumnPullToRefreshListView.setTextReleaseToRefresh("放开以刷新...");
-		m_multiColumnPullToRefreshListView.setTextRefreshing("正在载入...");
+		m_multiColumnPullToRefreshListView.setTextPullToRefresh(this.getString(R.string.mrefresh));
+		m_multiColumnPullToRefreshListView.setTextReleaseToRefresh(this.getString(R.string.mrelease_refresh));
+		m_multiColumnPullToRefreshListView.setTextRefreshing(this.getString(R.string.mrefreshing));
 		
 		
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
@@ -367,6 +367,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
 				intent.putExtra("imgurl",data.mImageUrl);
+				intent.putExtra("redirectUrl", data.mRedirectUrl);
+				intent.putExtra("isNativePage", data.mIsNativePage);
 				intent.putExtra("scale", scale);
 				//intent.putExtra("height", data.mHeight);
 			    MainActivity.this.startActivity(intent);
