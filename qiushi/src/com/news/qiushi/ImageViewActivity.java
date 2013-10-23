@@ -4,12 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import com.news.tool.AppDataManager;
 import com.news.tool.DensityUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.UMSsoHandler;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -198,7 +204,17 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		container.addView(rightContianer);
 		
 	}
-	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+	    /**使用SSO授权必须添加如下代码 */
+	    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",
+                RequestType.SOCIAL);
+	    
+	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
+	    if(ssoHandler != null){
+	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
+	}
 	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
 		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
