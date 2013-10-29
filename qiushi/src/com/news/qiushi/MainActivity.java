@@ -131,8 +131,17 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		DensityUtil densityUtil=new DensityUtil(this);
 		m_client=new AppDataClient(this);
 		createView();
+		/*13/10/29 */
+		 InitDataBase();
 	}
 
+	protected void InitDataBase()
+	{
+		Log.i("cityCode", "InitDataBase");
+		CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
+		cityCode.initDataBase(this);	
+	}
+	
 	void createView()
 	{
 		imageClick = this.getResources().getDrawable(R.drawable.image_click);
