@@ -79,7 +79,7 @@ public class AppDataManager implements AppDataObserver {
     	String leftUpIconUrl=m_setting.getString("leftUpIcon",null);
     	if(leftUpIconUrl==null||leftUpIconUrl.equalsIgnoreCase("")){
     		InputStream is = m_context.getResources().openRawResource(R.drawable.game);
-    		String fileName="left_up_icon.png";
+    		String fileName="left_up_icon";
     		String filePath=systemImgDir+fileName;
     		localEditor.putString("leftUpIcon",filePath);
     		if(saveImg(is,systemImgDir,fileName)){
@@ -102,7 +102,7 @@ public class AppDataManager implements AppDataObserver {
     	String rightUpIconUrl=m_setting.getString("rightUpIcon",null);
     	if(rightUpIconUrl==null||rightUpIconUrl.equalsIgnoreCase("")){
     		InputStream is = m_context.getResources().openRawResource(R.drawable.navigation);
-    		String fileName="right_up_icon.png";
+    		String fileName="right_up_icon";
     		String filePath=systemImgDir+fileName;
     		 localEditor.putString("rightUpIcon",filePath);
     		if(saveImg(is,systemImgDir,fileName)){
@@ -205,19 +205,19 @@ public class AppDataManager implements AppDataObserver {
   			// TODO Auto-generated catch block
   			e.printStackTrace();
   		  }
-  		String fileName="1.png";
+  		String fileName="1";
 		InputStream is1 = m_context.getResources().openRawResource(R.drawable.img1); 
 		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img1));
 		AppDataManager.this.saveImg(is1,systemAdDir, fileName);
-	    fileName="2.png";
+	    fileName="2";
 		InputStream is2 = m_context.getResources().openRawResource(R.drawable.img2);
 		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img2));
 		AppDataManager.this.saveImg(is2,systemAdDir, fileName);
-		fileName="3.png";
+		fileName="3";
 		InputStream is3 = m_context.getResources().openRawResource(R.drawable.img3); 
 		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img3));
 		AppDataManager.this.saveImg(is3,systemAdDir, fileName);
-	    fileName="4.png";
+	    fileName="4";
 		InputStream is4 = m_context.getResources().openRawResource(R.drawable.img4); 
 		m_adDrawable.add(m_context.getResources().getDrawable(R.drawable.img4));
 		AppDataManager.this.saveImg(is4,systemAdDir, fileName);
@@ -230,9 +230,9 @@ public class AppDataManager implements AppDataObserver {
          		ObjectInputStream ois = new ObjectInputStream(bais);
 				m_adList= (List<MAd>) ois.readObject();
 				for(MAd ad:m_adList){
-				File file = new File(systemAdDir+ad.mOrder+".png");  
+				File file = new File(systemAdDir+ad.mOrder);  
 		 	       if(file.exists()){        //判断文件是否存在  
-		 	              Bitmap bm = BitmapFactory.decodeFile(systemAdDir+ad.mOrder+".png");
+		 	              Bitmap bm = BitmapFactory.decodeFile(systemAdDir+ad.mOrder);
 		 	              BitmapDrawable bd= new BitmapDrawable(m_context.getResources(), bm);   
 		 	              this.m_adDrawable.add(bd);
 		 	       }
@@ -404,7 +404,7 @@ public class AppDataManager implements AppDataObserver {
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
-    				String fileName="left_up_icon.png";
+    				String fileName="left_up_icon";
     				String filePath=systemImgDir+fileName;
     	            localEditor.putString("leftUpIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
@@ -420,7 +420,7 @@ public class AppDataManager implements AppDataObserver {
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
-    				String fileName="right_up_icon.png";
+    				String fileName="right_up_icon";
     				String filePath=systemImgDir+fileName;
     	            localEditor.putString("rightUpIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
@@ -437,7 +437,7 @@ public class AppDataManager implements AppDataObserver {
     				if(data==null)
     					return;
     			
-    				String fileName="left_down_icon.png";
+    				String fileName="left_down_icon";
     	    		String filePath=systemImgDir+fileName;
     	            localEditor.putString("leftDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
@@ -453,7 +453,7 @@ public class AppDataManager implements AppDataObserver {
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
-    				String fileName="right_down_icon.png";
+    				String fileName="right_down_icon";
     				String filePath=systemImgDir+fileName;
     	            localEditor.putString("rightDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 
@@ -524,7 +524,7 @@ public class AppDataManager implements AppDataObserver {
     			public void onSuccess(byte[] data){
     				if(data==null)
     					return;
-    				String fileName=param.mOrder+".png";
+    				String fileName=param.mOrder+"";
     				String filePath=systemAdDir+fileName;
     	            //localEditor.putString("rightDownIcon", filePath);
     				InputStream is = new ByteArrayInputStream(data); 

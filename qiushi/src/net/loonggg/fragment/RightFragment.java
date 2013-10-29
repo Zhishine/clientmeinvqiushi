@@ -20,17 +20,21 @@ import com.umeng.socialize.sso.TencentWBSsoHandler;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class RightFragment extends Fragment implements OnClickListener {
@@ -86,9 +90,10 @@ public class RightFragment extends Fragment implements OnClickListener {
 		otherTxt.setText(otherStr);
 		View lookMore=view.findViewById(R.id.look_more_container);
 		lookMore.setOnClickListener(this);
+		m_view=view;
 		return view;
 	}
-
+    View m_view;
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
@@ -120,14 +125,14 @@ public class RightFragment extends Fragment implements OnClickListener {
 			    agent.startFeedbackActivity();
 		    break;
 		case R.id.adjust_container:
-			WebView wv=(WebView) getActivity().findViewById(R.id.webview);
-			WebSettings settings = wv.getSettings();
-			settings.setSupportZoom(true);
-			ZoomDensity[] array=ZoomDensity.values();
-			//settings.setBuiltInZoomControls(true);
-			wv.zoomIn();
-			wv.setInitialScale(25);
-			//settings.setDefaultZoom(ZoomDensity.CLOSE);//webSettings.setDefaultZoom(zoomDensity); 
+//			WebView wv=(WebView) getActivity().findViewById(R.id.webview);
+//			WebSettings settings = wv.getSettings();
+//			settings.setSupportZoom(true);
+//			ZoomDensity[] array=ZoomDensity.values();
+//		
+//			wv.zoomIn();
+//			wv.setInitialScale(25);
+		
 		    break;    
 		}
 	}

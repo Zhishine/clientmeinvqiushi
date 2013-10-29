@@ -30,6 +30,7 @@ import com.news.tool.AppDataClient;
 import com.news.tool.AppDataManager;
 import com.news.tool.AppDataObserver;
 import com.news.tool.AppUtil;
+import com.news.tool.CityCodeDataBase;
 import com.news.tool.DensityUtil;
 import com.news.view.MyGallery;
 import com.umeng.analytics.MobclickAgent;
@@ -132,7 +133,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		m_client=new AppDataClient(this);
 		createView();
 		/*13/10/29 */
-		 InitDataBase();
+		//InitDataBase();
 	}
 
 	protected void InitDataBase()
