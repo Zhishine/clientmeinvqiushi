@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -42,13 +43,19 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 			
 		});
 		WebView web=(WebView)mView.findViewById(R.id.webview);
+        
+		WebSettings settings = web.getSettings();
+		settings.setSupportZoom(true);
+		//web.zoomIn();
+		//web.setInitialScale(200);
+		  settings.setTextSize(WebSettings.TextSize.LARGER);
         String url  = getActivity().getIntent().getStringExtra("url");
         m_id=getActivity().getIntent().getIntExtra("id", 0);
 		web.loadUrl(url);
 		ImageView back=(ImageView) mView.findViewById(R.id.back);
 		back.setOnClickListener(this);
-		ImageView share=(ImageView) mView.findViewById(R.id.share);
-		share.setOnClickListener(new OnClickListener(){
+		ImageView expand=(ImageView) mView.findViewById(R.id.expand);
+		expand.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {

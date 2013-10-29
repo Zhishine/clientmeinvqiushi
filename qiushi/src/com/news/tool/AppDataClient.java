@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.news.modal.MAd;
 import com.news.modal.MAppData;
+import com.news.modal.MGallery;
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
@@ -22,12 +23,12 @@ import com.news.modal.MSystem;
 
 
 public class AppDataClient {
-	 private static final String BASE_URL = "http://news.hontek.com.cn/news/";
-	 // private static final String BASE_URL = "http://192.168.1.115:8080/news/";
+	 // private static final String BASE_URL = "http://news.hontek.com.cn/news/";
+	 private static final String BASE_URL = "http://192.168.1.115:8080/news/";
 	 private  AsyncHttpClient m_client = new AsyncHttpClient();
 	 AppDataObserver m_observer=null;
 	 final String TAG="AppDataClient";
-	 final String APPID="1";
+	 final String APPID="7";
 	 final String CATEGORYID="1";
 	 public AppDataClient(AppDataObserver observer)
 	 {
@@ -177,7 +178,15 @@ public class AppDataClient {
 	            public void onSuccess(String response) {
 	               Log.i(TAG, response);
 	               Gson gson = new Gson();
+	               URLDecoder ud = new URLDecoder();
 	               MNews news=gson.fromJson(response,new TypeToken<MNews>(){}.getType());
+	               try {
+					news.mTitle=ud.decode(news.mTitle, "utf-8");
+					news.mDescription=ud.decode(news.mDescription, "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 					if(m_observer!=null)
 					{
 						m_observer.getNewsResponse(news);
@@ -287,4 +296,108 @@ public class AppDataClient {
 		 String fullUrl=BASE_URL+"GetAd?appId="+APPID;
 		 m_client.get(fullUrl,responseHandler);
 	 }
+	 
+		//获取图集
+	 public void getNewsGallery(int newsId)
+	 {
+		 String fullUrl=BASE_URL+"GetGallery?newsId="+newsId+"&type=news";
+		 m_client.get(fullUrl, new AsyncHttpResponseHandler() {
+	            @Override
+	            public void onSuccess(String response) {
+	               Log.i(TAG, response);
+	               Gson gson = new Gson();
+	               List<MGallery> galleryList=gson.fromJson(response,new TypeToken<List<MGallery>>(){}.getType());
+	               URLDecoder ud = new URLDecoder();
+	               for(MGallery gallery:galleryList){
+						try {
+							
+							gallery.mDescription=ud.decode(gallery.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					if(m_observer!=null)
+					{
+						m_observer.getNewsGalleryResponse(galleryList);
+					}
+	            }
+	        }); 
+	 }
+	 
+	 public  void getNewsGallery(int newsId,AsyncHttpResponseHandler responseHandler)
+	 {
+		 String fullUrl=BASE_URL+"GetGallery?newsId="+newsId+"&type=news";
+		 m_client.get(fullUrl,responseHandler);
+	 }
+	 
+		//获取图集
+	 public void getImageGallery(int imageId)
+	 {
+		 String fullUrl=BASE_URL+"GetGallery?imageId="+imageId+"&type=image";
+		 m_client.get(fullUrl, new AsyncHttpResponseHandler() {
+	            @Override
+	            public void onSuccess(String response) {
+	               Log.i(TAG, response);
+	               Gson gson = new Gson();
+	               List<MGallery> galleryList=gson.fromJson(response,new TypeToken<List<MGallery>>(){}.getType());
+	               if(galleryList==null)
+	            	   return;
+	               URLDecoder ud = new URLDecoder();
+	               for(MGallery gallery:galleryList){
+						try {
+							
+							gallery.mDescription=ud.decode(gallery.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					if(m_observer!=null)
+					{
+						m_observer.getImageGalleryResponse(galleryList);
+					}
+	            }
+	        }); 
+	 }
+	 
+	 public  void getImageGallery(int imageId,AsyncHttpResponseHandler responseHandler)
+	 {
+		 String fullUrl=BASE_URL+"GetGallery?imageId="+imageId+"&type=image";
+		 m_client.get(fullUrl,responseHandler);
+	 }
+	 
+	//获取图集
+		 public void getAdGallery(int order)
+		 {
+			 String fullUrl=BASE_URL+"GetGallery?appId="+APPID+"&type=banner&order="+order;
+			 m_client.get(fullUrl, new AsyncHttpResponseHandler() {
+		            @Override
+		            public void onSuccess(String response) {
+		               Log.i(TAG, response);
+		               Gson gson = new Gson();
+		               List<MGallery> galleryList=gson.fromJson(response,new TypeToken<List<MGallery>>(){}.getType());
+		               URLDecoder ud = new URLDecoder();
+		               for(MGallery gallery:galleryList){
+							try {
+								
+								gallery.mDescription=ud.decode(gallery.mDescription, "utf-8");
+							} catch (UnsupportedEncodingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						if(m_observer!=null)
+						{
+							m_observer.getAdGalleryResponse(galleryList);
+						}
+		            }
+		        }); 
+		 }
+		 
+		 public  void getAdGallery(int order,AsyncHttpResponseHandler responseHandler)
+		 {
+			 String fullUrl=BASE_URL+"GetGallery?appId="+APPID+"&type=banner&order="+order;
+			 m_client.get(fullUrl,responseHandler);
+		 }
 }

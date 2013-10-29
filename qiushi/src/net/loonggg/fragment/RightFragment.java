@@ -1,8 +1,13 @@
 package net.loonggg.fragment;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import com.lurencun.android.common.RandomUtil;
 import com.news.qiushi.R;
 import com.news.tool.AppShareManager;
+import com.news.tool.DensityUtil;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.RequestType;
@@ -21,10 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class RightFragment extends Fragment implements OnClickListener {
 
@@ -32,15 +39,53 @@ public class RightFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		com.umeng.socom.Log.LOG = true;
 		View view = inflater.inflate(R.layout.right_fragment, null);
-		view.setBackgroundResource(R.drawable.booklist_menu_bg_unit);
-		ImageView share=(ImageView)view.findViewById(R.id.share);
+		LayoutParams lp=new LayoutParams((int) (DensityUtil.getLogicalWidth()*0.75),LayoutParams.MATCH_PARENT);
+		view.setLayoutParams(lp);
+		view.setBackgroundResource(R.drawable.silder_bg);
+		View share=view.findViewById(R.id.share_container);
 		share.setOnClickListener(this);
-		ImageView comment=(ImageView)view.findViewById(R.id.comment);
+		View comment=view.findViewById(R.id.comment_container);
 		comment.setOnClickListener(this);
-		ImageView fankui=(ImageView)view.findViewById(R.id.fankui);
+		View fankui=view.findViewById(R.id.fankui_container);
 		fankui.setOnClickListener(this);
-		ImageView adjust=(ImageView)view.findViewById(R.id.adjust);
+		View adjust=view.findViewById(R.id.adjust_container);
 		adjust.setOnClickListener(this);
+		View collect=view.findViewById(R.id.collect_container);
+		collect.setOnClickListener(this);
+		View collectFolder=view.findViewById(R.id.collect_folder_container);
+		collectFolder.setOnClickListener(this);
+		TextView timeTxt=(TextView) view.findViewById(R.id.time);
+		TextView otherTxt=(TextView) view.findViewById(R.id.other_info);
+		TextView jingxuanTxt=(TextView) view.findViewById(R.id.jingxuan1);
+		otherTxt.setTextColor(Color.LTGRAY);
+		jingxuanTxt.setTextColor(Color.LTGRAY);
+		 Date   curDate   =   new   Date(System.currentTimeMillis());
+		String timeStr=String.format("%s:%s",curDate.getHours(),curDate.getMinutes());
+		timeTxt.setText(timeStr);
+		final Calendar c = Calendar.getInstance();  
+	     c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));  
+	     String  month = String.valueOf(c.get(Calendar.MONTH) + 1);// 获取当前月份  
+	     String  day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码  
+	     String  way = String.valueOf(c.get(Calendar.DAY_OF_WEEK));  
+	        if("1".equals(way)){  
+	        	way ="天";  
+	        }else if("2".equals(way)){  
+	        	way ="一";  
+	        }else if("3".equals(way)){  
+	        	way ="二";  
+	        }else if("4".equals(way)){  
+	        	way ="三";  
+	        }else if("5".equals(way)){  
+	        	way ="四";  
+	        }else if("6".equals(way)){  
+	        	way ="五";  
+	        }else if("7".equals(way)){  
+	        	way ="六";  
+	        }  
+		String otherStr=String.format("%s月%s日，星期%s，%s %s",month,day,way,"多云","16-17");
+		otherTxt.setText(otherStr);
+		View lookMore=view.findViewById(R.id.look_more_container);
+		lookMore.setOnClickListener(this);
 		return view;
 	}
 
@@ -53,13 +98,13 @@ public class RightFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		switch(view.getId()){
-		case R.id.share:
+		case R.id.share_container:
 			String description=getActivity().getIntent().getExtras().getString("description");
 			String titleImageUrl=getActivity().getIntent().getExtras().getString("titleImageUrl");
 			String redirectUrl=getActivity().getIntent().getExtras().getString("url");
-			AppShareManager.getInstance().share(getActivity(), description, "http://php1.hontek.com.cn/wordpress/wp-content/uploads/2013/09/logo-144.png", redirectUrl);
+			AppShareManager.getInstance().share(getActivity(), description, titleImageUrl, redirectUrl);
 			break;
-		case R.id.comment:
+		case R.id.comment_container:
 			 int id=getActivity().getIntent().getIntExtra("id", 0);
 			 UMSocialService controller = UMServiceFactory.getUMSocialService("meinvqiushi.news."+id, RequestType.SOCIAL);
 	        /**
@@ -70,11 +115,11 @@ public class RightFragment extends Fragment implements OnClickListener {
 
 	        controller.openComment(getActivity(), false);
 			break;
-		case R.id.fankui:
+		case R.id.fankui_container:
 			 FeedbackAgent agent = new FeedbackAgent(getActivity());
 			    agent.startFeedbackActivity();
 		    break;
-		case R.id.adjust:
+		case R.id.adjust_container:
 			WebView wv=(WebView) getActivity().findViewById(R.id.webview);
 			WebSettings settings = wv.getSettings();
 			settings.setSupportZoom(true);

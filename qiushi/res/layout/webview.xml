@@ -26,13 +26,13 @@
           android:textSize="20sp"
           android:textColor="@android:color/black"
           />
-       <ImageView android:id="@+id/share" 
+       <ImageView android:id="@+id/expand" 
            android:layout_width="54dp" 
            android:layout_height="match_parent"
           
            android:layout_alignParentTop="true"
            android:layout_alignParentRight="true"
-           android:background="@drawable/share"/>
+           android:background="@drawable/expand"/>
   </RelativeLayout>  
 
 <WebView

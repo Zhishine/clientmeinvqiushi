@@ -1,7 +1,7 @@
 package com.news.modal;
 
 public class MImage {
-	  public int mID;
+	  public int mId;
       public String mDescription;
       public String mImageUrl;
       public String mExt1;
@@ -10,5 +10,6 @@ public class MImage {
       public int mWidth;
       public int mHeight;
       public boolean mIsNativePage;
+      public boolean mIsGallery=false;
       public String mRedirectUrl;
 }

@@ -7,4 +7,5 @@ public class MAd  implements Serializable{
      public String mImageUrl;
      public String mInfo;
      public String mType;
+     public boolean mIsGallery=false;
 }

@@ -28,6 +28,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.news.modal.MAd;
 import com.news.modal.MAppData;
+import com.news.modal.MGallery;
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
@@ -54,7 +55,7 @@ public class AppDataManager implements AppDataObserver {
     
     private String systemImageDir = "/sdcard/meinvqiushi/image/";
     
-    private boolean m_bannerIsShow=false;
+    private boolean m_bannerIsShow=true;
     private boolean m_adIsShow=true;
     private boolean m_taobaokeIsShow=true;
     private long m_lastUpdateTime=0;
@@ -531,5 +532,20 @@ public class AppDataManager implements AppDataObserver {
     			}
     		});
 		}
+	}
+	@Override
+	public void getNewsGalleryResponse(List<MGallery> galleryList) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void getImageGalleryResponse(List<MGallery> galleryList) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void getAdGalleryResponse(List<MGallery> galleryList) {
+		// TODO Auto-generated method stub
+		
 	}
 }

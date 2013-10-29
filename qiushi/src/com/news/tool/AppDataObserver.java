@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.news.modal.MAd;
 import com.news.modal.MAppData;
+import com.news.modal.MGallery;
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
@@ -21,4 +22,7 @@ public interface AppDataObserver
 	public void getProductResponse(List<MProduct> productList);
 	public void getProductResponse(MProduct product);
 	public void getAdResponse(List<MAd> adList);
+	public void getNewsGalleryResponse(List<MGallery> galleryList);
+	public void getImageGalleryResponse(List<MGallery> galleryList);
+	public void getAdGalleryResponse(List<MGallery> galleryList);
 }

@@ -70,7 +70,7 @@ public class WebViewActivity extends FragmentActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 	    /**使用SSO授权必须添加如下代码 */
-	    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",
+	    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.meinvqiushi.share",
                 RequestType.SOCIAL);
 	    
 	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;

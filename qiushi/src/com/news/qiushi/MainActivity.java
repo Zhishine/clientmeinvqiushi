@@ -1,5 +1,6 @@
 package com.news.qiushi;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.news.adapter.ImagesAdapter;
 import com.news.adapter.NewsAdapter;
 import com.news.modal.MAd;
 import com.news.modal.MAppData;
+import com.news.modal.MGallery;
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
@@ -363,15 +365,20 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				
 				MImage data = (MImage)parent.getItemAtPosition(position);
-				float scale =  (float)data.mHeight/(float)data.mWidth;
-				
-				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
-				intent.putExtra("imgurl",data.mImageUrl);
-				intent.putExtra("redirectUrl", data.mRedirectUrl);
-				intent.putExtra("isNativePage", data.mIsNativePage);
-				intent.putExtra("scale", scale);
-				//intent.putExtra("height", data.mHeight);
-			    MainActivity.this.startActivity(intent);
+				if(data.mIsGallery){
+					m_client.getImageGallery(data.mId);
+				}
+				else{
+					float scale =  (float)data.mHeight/(float)data.mWidth;
+					
+					Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+					intent.putExtra("imgurl",data.mImageUrl);
+					intent.putExtra("redirectUrl", data.mRedirectUrl);
+					intent.putExtra("isNativePage", data.mIsNativePage);
+					intent.putExtra("scale", scale);
+					//intent.putExtra("height", data.mHeight);
+				    MainActivity.this.startActivity(intent);	
+				}
 			}
 			
 		});
@@ -453,9 +460,23 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 					long arg3) {
 				// TODO Auto-generated method stub
 			  MAd ad=AppDataManager.getInstance().getAd(index);
-			  Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
-              intent.putExtra("url",ad.mInfo);
-              MainActivity.this.startActivity(intent);
+			  if(ad.mIsGallery){
+				  m_client.getAdGallery(ad.mOrder);
+			  }
+			  else{
+			  if(ad.mType.equalsIgnoreCase("0")){
+				  Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+	              intent.putExtra("url",ad.mInfo);
+	              MainActivity.this.startActivity(intent);
+			  }
+			  else if(ad.mType.equalsIgnoreCase("1")){
+				  m_client.getNews(Integer.valueOf(ad.mInfo));
+				
+			  }
+              else if(ad.mType.equalsIgnoreCase("2")){
+            	  m_client.getImage(Integer.valueOf(ad.mInfo));
+			  }
+			  }
 			}
 			
 		});
@@ -571,12 +592,18 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				
 				ListView listView = (ListView)parent;
 			    MNews news=(MNews) listView.getItemAtPosition(position);
-			    Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
-                intent.putExtra("url",news.mRedirectUrl);
-                intent.putExtra("id",news.mId);
-                intent.putExtra("titleImageUrl",news.mTitleImageUrl);
-                intent.putExtra("description",news.mDescription);
-                MainActivity.this.startActivity(intent);
+			    if(news.mIsGallery){
+			    	m_client.getNewsGallery(news.mId);
+			    }
+			    else{
+			    	Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
+	                intent.putExtra("url",news.mRedirectUrl);
+	                intent.putExtra("id",news.mId);
+	                intent.putExtra("titleImageUrl",news.mTitleImageUrl);
+	                intent.putExtra("description",news.mDescription);
+	                MainActivity.this.startActivity(intent);
+			    }
+			    
 			}
 			 
 		 });
@@ -775,7 +802,15 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		@Override
 		public void getImageResponse(MImage image) {
 			// TODO Auto-generated method stub
+			float scale =  (float)image.mHeight/(float)image.mWidth;
 			
+			Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+			intent.putExtra("imgurl",image.mImageUrl);
+			intent.putExtra("redirectUrl", image.mRedirectUrl);
+			intent.putExtra("isNativePage", image.mIsNativePage);
+			intent.putExtra("scale", scale);
+			//intent.putExtra("height", data.mHeight);
+		    MainActivity.this.startActivity(intent);
 		}
         boolean m_refreshViewHasAdd=false;
 		@Override
@@ -820,7 +855,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		@Override
 		public void getNewsResponse(MNews news) {
 			// TODO Auto-generated method stub
-			
+			Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
+            intent.putExtra("url",news.mRedirectUrl);
+            intent.putExtra("id",news.mId);
+            intent.putExtra("titleImageUrl",news.mTitleImageUrl);
+            intent.putExtra("description",news.mDescription);
+            MainActivity.this.startActivity(intent);
 		}
 
 		
@@ -847,6 +887,31 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		public void getAdResponse(List<MAd> adList) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public void getNewsGalleryResponse(List<MGallery> galleryList) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(MainActivity.this,GalleryActivity.class);
+            intent.putExtra("galleryList",(Serializable)galleryList);
+            MainActivity.this.startActivity(intent);
+		
+		}
+
+		@Override
+		public void getImageGalleryResponse(List<MGallery> galleryList) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(MainActivity.this,GalleryActivity.class);
+            intent.putExtra("galleryList",(Serializable)galleryList);
+            MainActivity.this.startActivity(intent);
+		}
+
+		@Override
+		public void getAdGalleryResponse(List<MGallery> galleryList) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(MainActivity.this,GalleryActivity.class);
+            intent.putExtra("galleryList",(Serializable)galleryList);
+            MainActivity.this.startActivity(intent);
 		}
 
 }
