@@ -103,13 +103,13 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 			Log.i("cityCode", "setDatabaseData");
 			
 			switch(code){
-				case CODE_PROVINCE:
+				case DatabaseUtil.CODE_PROVINCE:
 					queryStr = "insert into first_level(code,value) values('";
 					break;
-				case CODE_CITY:
+				case DatabaseUtil.CODE_CITY:
 					queryStr = "insert into second_level(code,value) values('";
 					break;
-				case CODE_COUNTY:
+				case DatabaseUtil.CODE_COUNTY:
 					queryStr = "insert into third_level(code,value) values('";
 					break;
 				default:
@@ -138,28 +138,24 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		return ret;
 	}
 	
-	/*13/10/29 调用接口得到城市编码*/
-	public String getCode(String location,int code)
+	
+	protected String getCode(String location,int code)
 	{
 		String location_code=null;
 		
-		if(checkDatabase()==false){
-			
-			return null;
-		}
 		
 		String queryStr = "first_level";
 		SQLiteDatabase db=getReadableDatabase();
 		Cursor c=null;
 		
 		switch(code){
-			case CODE_PROVINCE:
+			case DatabaseUtil.CODE_PROVINCE:
 				queryStr = "first_level";
 				break;
-			case CODE_CITY:
+			case DatabaseUtil.CODE_CITY:
 				queryStr = "second_level";
 				break;
-			case CODE_COUNTY:
+			case DatabaseUtil.CODE_COUNTY:
 				queryStr = "third_level";
 				break;
 			default:
@@ -186,6 +182,26 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		
 		return location_code;
 	}
+	
+	/* 2013/10/30  调用接口得到城市编码*/
+	public String getCode(String location)
+	{
+		String location_code=null;
+		
+		if(checkDatabase()==false){
+			
+			return null;
+		}
+		
+		if( (location_code=getCode(location, DatabaseUtil.CODE_CITY) )==null ){
+			
+			location_code = getCode(location, DatabaseUtil.CODE_COUNTY);
+		}
+		
+		return location_code;
+	}
+	
+	
 	
 	public String setDatabaseData(List<String> first_level,List<String> second_level,List<String> third_level)
 	{
