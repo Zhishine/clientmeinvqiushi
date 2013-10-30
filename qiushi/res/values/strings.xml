@@ -20,5 +20,6 @@
     <string name="collect_folder">进入收藏夹</string>
     <string name="fankui">用户反馈</string>
     <string name="jingxuan">精选应用</string>
-    <string name="jingxuan1">精彩Android应用</string> 
+    <string name="jingxuan1">精彩Android应用</string>
+    <string name="testCity">兴宁</string> 
 </resources>
