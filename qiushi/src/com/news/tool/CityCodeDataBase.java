@@ -42,14 +42,17 @@ public class CityCodeDataBase {
 		}
 		return true;
 	}
-	
-	protected boolean checkDbfile()
+	protected void initDir()
 	{
-		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
-		File dirFile = new File(path);
-		return dirFile.exists();
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
+    		// sd card ø…”√                          
+    		 File dirFile = new File(CityCodeDataBase.databaseDir);  
+    	     if(!dirFile.exists()){        	
+    	         dirFile.mkdirs();
+    	     }
+		}
 	}
-	
+
 	protected boolean checkDbfile()
 	{
 		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;

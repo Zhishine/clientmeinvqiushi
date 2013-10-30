@@ -1,12 +1,18 @@
 package com.news.tool;
 
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.news.modal.MWeatherInfo;
+import com.news.modal.MWeatherInfo1;
 
 public class AppWeatherClient {
 	
@@ -30,8 +36,9 @@ public class AppWeatherClient {
 	           @Override
 	           public void onSuccess(String response) {
 	              Gson gson = new Gson();
-	              List<MWeatherInfo> appData=gson.fromJson(response,new TypeToken<List<MWeatherInfo>>(){}.getType());
-	              m_observer.getAppWeatherResponse(appData.get(0));
+	            
+	              MWeatherInfo1 appData=gson.fromJson(response,new TypeToken<MWeatherInfo1>(){}.getType());
+	              m_observer.getAppWeatherResponse(appData.weatherinfo);
 	          }
 	    });
 	}

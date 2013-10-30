@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.news.qiushi.R;
 import com.news.qiushi.WebViewActivity;
+import com.news.tool.AppDataManager;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -30,10 +31,11 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 	private ImageView lv_left;
 	private ImageView iv_right;
     private int m_id;
+    View m_View;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.webview, null);
-		mView.setOnClickListener(new OnClickListener(){
+		m_View = inflater.inflate(R.layout.webview, null);
+		m_View.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
@@ -42,19 +44,14 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 			}
 			
 		});
-		WebView web=(WebView)mView.findViewById(R.id.webview);
-        
-		WebSettings settings = web.getSettings();
-		settings.setSupportZoom(true);
-		//web.zoomIn();
-		//web.setInitialScale(200);
-		  settings.setTextSize(WebSettings.TextSize.LARGER);
+		updateWebView();
+		 WebView web=(WebView)m_View.findViewById(R.id.webview);
         String url  = getActivity().getIntent().getStringExtra("url");
         m_id=getActivity().getIntent().getIntExtra("id", 0);
 		web.loadUrl(url);
-		ImageView back=(ImageView) mView.findViewById(R.id.back);
+		ImageView back=(ImageView) m_View.findViewById(R.id.back);
 		back.setOnClickListener(this);
-		ImageView expand=(ImageView) mView.findViewById(R.id.expand);
+		ImageView expand=(ImageView) m_View.findViewById(R.id.expand);
 		expand.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -62,9 +59,30 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 				// TODO Auto-generated method stub
 				((WebViewActivity)getActivity()).showRight();
 			}}); 
-		return mView;
+		return m_View;
 	}
 
+	public void updateWebView(){
+	   WebView web=(WebView)m_View.findViewById(R.id.webview);
+		WebSettings settings = web.getSettings();
+		settings.setSupportZoom(true);
+		int level=AppDataManager.getInstance().getFontSizeLevel();
+		switch(level){
+		case -1:
+			settings.setTextSize(WebSettings.TextSize.SMALLER);
+			break;
+		case 0:
+			settings.setTextSize(WebSettings.TextSize.NORMAL);
+			break;	
+		case 1:
+			settings.setTextSize(WebSettings.TextSize.LARGER);
+			break;	
+		case 2:
+			settings.setTextSize(WebSettings.TextSize.LARGEST);
+			break;			
+		}
+	}
+	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
          

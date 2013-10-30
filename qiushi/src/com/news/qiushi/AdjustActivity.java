@@ -32,7 +32,8 @@ public class AdjustActivity extends Activity implements OnClickListener {
 		m_largeView.setOnClickListener(this);
 		m_largerView=findViewById(R.id.larger_container);
 		m_largerView.setOnClickListener(this);
-		
+		View back=findViewById(R.id.back);
+		back.setOnClickListener(this);
 		m_smallSelect=(ImageView) findViewById(R.id.select1);
 		m_midSelect=(ImageView) findViewById(R.id.select2);
 		m_largeSelect=(ImageView) findViewById(R.id.select3);
@@ -94,6 +95,9 @@ public class AdjustActivity extends Activity implements OnClickListener {
 				return;
 			m_currentLevel=2;
 			break;		
+		case R.id.back:
+			this.finish();
+			return;
 		}
 		AppDataManager.getInstance().setFontSizeLevel(m_currentLevel);
 		updateUI(m_currentLevel);
