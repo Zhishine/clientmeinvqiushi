@@ -17,9 +17,7 @@ import android.util.Log;
 public class CityCodeDataBase {
 	private static final CityCodeDataBase m_instance = new CityCodeDataBase();
 	private Context m_context;
-	
 	public static final String databaseDir = "/sdcard/meinvqiushi/db/";
-	
 	public static CityCodeDataBase getInstance()
 	{
 		return m_instance;
@@ -28,39 +26,39 @@ public class CityCodeDataBase {
 	public boolean initDataBase(Context context)
 	{
 		Log.i("cityCode", "InitDataBase2");
-		boolean ret = false;
+		this.m_context = context;
 		
-		if((ret = initDir()) ){
-			this.m_context = context;
-			int i = 0;
-			int j = 0;
-			String fileName = null;
-			for(i=1,j=5;i<=3;++i,j+=2){
-				fileName = "code" + i + ".txt";
-				loadCodeFile(fileName,j);
-			}
-		}else{
-			ret =  false;
+		if(checkDbfile()){
+			return true;
 		}
 		
-		return ret;
+		int i = 0;
+		int j = 0;
+		String fileName = null;
+		initDir();
+		for(i=1,j=5;i<=3;++i,j+=2){
+			fileName = "code" + i + ".txt";
+			loadCodeFile(fileName,j);
+		}
+		return true;
 	}
 	
-	protected boolean initDir()
+	protected boolean checkDbfile()
 	{
-		boolean result = false;
+		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
+		File dirFile = new File(path);
+		return dirFile.exists();
+	}
+	
+	protected void initDir()
+	{
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
     		// sd card ¿ÉÓÃ                          
     		 File dirFile = new File(CityCodeDataBase.databaseDir);  
     	     if(!dirFile.exists()){        	
-    	          result=dirFile.mkdirs();
+    	         dirFile.mkdirs();
     	     }
-    	     
-		}else{
-			result = false;
 		}
-		
-		return result;
 	}
 	
 	protected void loadCodeFile(String fielName,int j)
