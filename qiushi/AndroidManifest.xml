@@ -134,7 +134,7 @@
             android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
- <!-- Required  显示通知栏 -->
+                <!-- Required  显示通知栏 -->
                 <category android:name="com.news.qiushi" />
             </intent-filter>
             <intent-filter>
@@ -159,16 +159,16 @@
             android:enabled="true" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
- <!-- Required  用户注册SDK的intent -->
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
- <!-- Required  用户接收SDK消息的intent -->
+                <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
- <!-- Required  用户接收SDK通知栏信息的intent -->
+                <!-- Required  用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
- <!-- Required  用户打开自定义通知栏的intent -->
+                <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
- <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <category android:name="com.news.qiushi" />
             </intent-filter>
         </receiver>
@@ -180,7 +180,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="ec711fd13b9dabb91733e9a3" />
- <!-- </>值来自开发者平台取得的AppKey -->
+        <!-- </>值来自开发者平台取得的AppKey -->
 
 
         <!-- 广告 -->
@@ -234,7 +234,7 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <!-- 声明多盟的Activity -->
         <activity
@@ -249,7 +249,10 @@
         <activity
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
-       
+        <activity
+            android:name="com.news.qiushi.AdjustActivity"
+            android:label="@string/title_activity_adjust" >
+        </activity>
     </application>
 
     <permission
@@ -285,7 +288,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
         <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
-        <uses-permission android:name="android.permission.CALL_PHONE" />
+        <uses-permission android:name="android.permission.CALL_PHONE" />
     -->
     <supports-screens
         android:anyDensity="true"

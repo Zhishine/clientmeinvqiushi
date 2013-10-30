@@ -20,5 +20,14 @@
     <string name="collect_folder">进入收藏夹</string>
     <string name="fankui">用户反馈</string>
     <string name="jingxuan">精选应用</string>
-    <string name="jingxuan1">精彩Android应用</string> 
+    <string name="jingxuan1">精彩Android应用</string>
+    <string name="title_activity_adjust">AdjustActivity</string>
+    <string name="font_size_small">12号字体大小</string>
+     <string name="font_size_mid">16号字体大小</string>
+      <string name="font_size_large">24号字体大小</string>
+       <string name="font_size_larger">32号字体大小</string>
+    <string name="small">小号</string>
+    <string name="mid">默认</string>
+     <string name="large">大号</string>
+     <string name="larger">加大号</string> 
 </resources>

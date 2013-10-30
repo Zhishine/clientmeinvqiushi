@@ -311,6 +311,17 @@ public class AppDataManager implements AppDataObserver {
     public void requestSystem(){
     	m_client.getSystem();
     }
+    public int getFontSizeLevel(){
+    	m_setting=m_context.getSharedPreferences("app_data", 0);
+    	int fontSizeLevel=m_setting.getInt("fontSizeLevel",0);
+    	return fontSizeLevel;
+    }
+    public void setFontSizeLevel(int level){
+    	m_setting=m_context.getSharedPreferences("app_data", 0);
+    	SharedPreferences.Editor localEditor = m_setting.edit();
+    	localEditor.putInt("fontSizeLevel", level);
+    	localEditor.commit();
+    }
     boolean saveImg(InputStream is,String fileDir, String fileName)  {  
     	
     	try {

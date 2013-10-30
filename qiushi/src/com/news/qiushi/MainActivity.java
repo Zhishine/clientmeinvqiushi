@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		m_client=new AppDataClient(this);
 		createView();
 		/*13/10/29 */
-		//InitDataBase();
+		InitDataBase();
 	}
 
 	protected void InitDataBase()
