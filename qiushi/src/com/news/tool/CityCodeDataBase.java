@@ -50,15 +50,15 @@ public class CityCodeDataBase {
 		return dirFile.exists();
 	}
 	
-	protected void initDir()
+	protected boolean checkDbfile()
 	{
-		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
-    		// sd card ø…”√                          
-    		 File dirFile = new File(CityCodeDataBase.databaseDir);  
-    	     if(!dirFile.exists()){        	
-    	         dirFile.mkdirs();
-    	     }
+		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
+		File dirFile = new File(path);
+		if(dirFile.exists()){
+			DatabaseUtil.setDatabasePath(path);
+			return true;
 		}
+		return false;
 	}
 	
 	protected void loadCodeFile(String fielName,int j)
