@@ -26,10 +26,13 @@ import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
 import com.news.modal.MSystem;
+import com.news.modal.MWeatherInfo;
 import com.news.tool.AppDataClient;
 import com.news.tool.AppDataManager;
 import com.news.tool.AppDataObserver;
 import com.news.tool.AppUtil;
+import com.news.tool.AppWeatherClient;
+import com.news.tool.CityCodeDataBase;
 import com.news.tool.DensityUtil;
 import com.news.view.MyGallery;
 import com.umeng.analytics.MobclickAgent;
@@ -100,6 +103,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     NewsAdapter m_newsAdapter=null;
     ImagesAdapter m_imageAdapter = null;
     
+    /*13/10/30 weather*/
+    AppWeatherClient m_weatherClient = null;
+    
     private List<Drawable> m_imgList = new ArrayList<Drawable>();
     Drawable imageClick = null;
     Drawable newsNoClick = null;
@@ -128,18 +134,46 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		 // JPushInterface.setDebugMode(true);
 		JPushInterface.init(this);
 		registerMessageReceiver(); 
+		
 		DensityUtil densityUtil=new DensityUtil(this);
 		m_client=new AppDataClient(this);
 		createView();
-		/*13/10/29 */
-		 InitDataBase();
+		
+		
+		/*13/10/29 start a thread do it*/
+		
+		//InitDataBase();
+		m_weatherClient = new AppWeatherClient(this);
+		WeatherInit();
 	}
 
+	
+	protected void WeatherInit()
+	{
+		/*check network*/
+		
+		new Thread(new Runnable(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				//InitDataBase();
+				CityCodeDataBase cityCodeDb = CityCodeDataBase.getInstance();
+				cityCodeDb.initDataBase(mContext);
+				
+				m_weatherClient.getWeatherInfo(mContext.getString(R.string.testCity));
+			}
+		}).start();
+		
+	}
+	
+	
+	
+	
 	protected void InitDataBase()
 	{
 		Log.i("cityCode", "InitDataBase");
 		CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
-		cityCode.initDataBase(this);	
+		cityCode.initDataBase(this);
 	}
 	
 	void createView()
@@ -400,7 +434,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				if(m_ImageRequest){
 					return;
 				}
-				int height=m_multiColumnPullToRefreshListView.getHeight();
+				//int height=m_multiColumnPullToRefreshListView.getHeight();
 				m_client.getImage(++m_ImagePageNO, m_ImagePageSize);
 				m_ImageRequest=true;
 				//m_ImagePageNO;
@@ -921,6 +955,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			Intent intent = new Intent(MainActivity.this,GalleryActivity.class);
             intent.putExtra("galleryList",(Serializable)galleryList);
             MainActivity.this.startActivity(intent);
+		}
+
+		@Override
+		public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
+			// TODO Auto-generated method stub
+			Log.i("getAppWeatherResponse", weatherinfo.weather1+"/"+weatherinfo.temp1);
 		}
 
 }
