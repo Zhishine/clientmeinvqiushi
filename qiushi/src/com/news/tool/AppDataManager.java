@@ -33,13 +33,14 @@ import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.modal.MProduct;
 import com.news.modal.MSystem;
+import com.news.modal.MWeatherInfo;
 import com.news.qiushi.R;
 
 public class AppDataManager implements AppDataObserver {
     private static final AppDataManager m_instance=new AppDataManager();
     private MAppData m_appData=null;
-     AppDataClient m_client=null;
-     AsyncHttpClient m_clientHttp = new AsyncHttpClient();
+    AppDataClient m_client=null;
+    AsyncHttpClient m_clientHttp = new AsyncHttpClient();
     private Context m_context;
     private SharedPreferences m_setting=null;
     private Drawable m_leftUpIcon=null;
@@ -545,6 +546,11 @@ public class AppDataManager implements AppDataObserver {
 	}
 	@Override
 	public void getAdGalleryResponse(List<MGallery> galleryList) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
 		// TODO Auto-generated method stub
 		
 	}
