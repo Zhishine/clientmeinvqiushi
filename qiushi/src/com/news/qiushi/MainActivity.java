@@ -165,9 +165,13 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				//m_weatherClient.getWeatherInfo(mContext.getString(R.string.testCity));
 				CityCodeDataBase cityCodeDb = CityCodeDataBase.getInstance();
 				cityCodeDb.initDataBase(mContext);
-				AppCityClient cityClient = new AppCityClient((AppDataObserver)mContext);
+				AppCityClient cityClient = new AppCityClient();
 				MAddressComponet address = cityClient.getCityInfo();
-				m_weatherClient.getWeatherInfo(address.district);
+				if(address.district!=null){
+					m_weatherClient.getWeatherInfo(address.district);
+				}else{
+					m_weatherClient.getWeatherInfo(address.city);
+				}
 			}
 		}).start();
 		
