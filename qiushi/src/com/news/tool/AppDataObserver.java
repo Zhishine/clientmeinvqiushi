@@ -3,6 +3,7 @@ package com.news.tool;
 import java.util.List;
 
 import com.news.modal.MAd;
+import com.news.modal.MAddressComponet;
 import com.news.modal.MAppData;
 import com.news.modal.MGallery;
 import com.news.modal.MImage;
@@ -16,6 +17,7 @@ public interface AppDataObserver
 	public void getSystemResponse(MSystem system);
 	public void getAppDataResponse(MAppData appData);
 	public void getAppWeatherResponse(MWeatherInfo weatherinfo);
+	public void getAppCityResponse(MAddressComponet address);
 	public void getImageResponse(List<MImage> imageList,int pageIndex);
 	public void getImageResponse(MImage image);
 	public void getNewsResponse(List<MNews> newsList,int pageIndex);
