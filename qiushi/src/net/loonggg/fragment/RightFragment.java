@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import com.lurencun.android.common.RandomUtil;
+import com.news.qiushi.AdjustActivity;
+import com.news.qiushi.FavouriteActivity;
 import com.news.qiushi.R;
 import com.news.tool.AppShareManager;
 import com.news.tool.DensityUtil;
@@ -19,6 +21,7 @@ import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.TencentWBSsoHandler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -132,8 +135,16 @@ public class RightFragment extends Fragment implements OnClickListener {
 //		
 //			wv.zoomIn();
 //			wv.setInitialScale(25);
-		
+			Intent intent=new Intent(getActivity(),AdjustActivity.class);
+		    getActivity().startActivityForResult(intent,1000);
 		    break;    
+		case R.id.collect_folder_container:
+		    intent=new Intent(getActivity(),FavouriteActivity.class);
+		    getActivity().startActivityForResult(intent,1000);
+			break;
+		case R.id.collect_container:
+		    
+			break;	
 		}
 	}
 	

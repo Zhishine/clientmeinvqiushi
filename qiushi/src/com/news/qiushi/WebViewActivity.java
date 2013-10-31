@@ -56,19 +56,16 @@ public class WebViewActivity extends FragmentActivity {
 		
 		
 		com.umeng.socom.Log.LOG = true;
-//		setContentView(R.layout.webview);
-//		WebView web=(WebView)findViewById(R.id.webview);
-//		 Intent intent = getIntent();
-//         String url  = intent.getStringExtra("url");
-//         m_id=intent.getIntExtra("id", 0);
-//		web.loadUrl(url);
-//		ImageView back=(ImageView) findViewById(R.id.back);
-//		back.setOnClickListener(this);
-//		ImageView share=(ImageView) findViewById(R.id.share);
-//		share.setOnClickListener(this); 
+ 
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
+	    if(requestCode==1000){
+	    	centerFragment.updateWebView();
+	    	showRight();
+	    }
+	    else
+	    {
 	    /**使用SSO授权必须添加如下代码 */
 	    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.meinvqiushi.share",
                 RequestType.SOCIAL);
@@ -76,6 +73,7 @@ public class WebViewActivity extends FragmentActivity {
 	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
 	    if(ssoHandler != null){
 	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
 	    }
 	}
 	public void showLeft() {

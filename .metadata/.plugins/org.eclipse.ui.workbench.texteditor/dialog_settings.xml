@@ -3,26 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
 		<item value="144" key="DIALOG_Y_ORIGIN"/>
-		<item value="999" key="DIALOG_X_ORIGIN"/>
 		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="999" key="DIALOG_X_ORIGIN"/>
 		<item value="1|微软雅黑|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|微软雅黑" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="AuthActivity" key="selection"/>
+		<item value="checkDbfile" key="selection"/>
 		<list key="findhistory">
+			<item value="checkDbfile"/>
+			<item value="initDir"/>
+			<item value="getCode"/>
+			<item value="WeatherInit"/>
+			<item value="http://page.m.tmall.com/d11ny/d11yure_yrsc_fs_ny.html"/>
 			<item value="AuthActivity"/>
 			<item value="leftWidth"/>
 			<item value="img"/>
-			<item value="ptrHeaderBackground"/>
-			<item value="ptrRefreshableViewBackground"/>
-			<item value="PullToRefresh_ptrHeaderTextColor"/>
-			<item value="loadingMoreComplete"/>
-			<item value="loadMoreListener"/>
 		</list>
 		<list key="replacehistory">
 			<item value="com.news.pullrefresh"/>
