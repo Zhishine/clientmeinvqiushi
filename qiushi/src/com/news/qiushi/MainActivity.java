@@ -20,6 +20,7 @@ import com.news.adapter.ImageAdapter;
 import com.news.adapter.ImagesAdapter;
 import com.news.adapter.NewsAdapter;
 import com.news.modal.MAd;
+import com.news.modal.MAddressComponet;
 import com.news.modal.MAppData;
 import com.news.modal.MGallery;
 import com.news.modal.MImage;
@@ -27,6 +28,7 @@ import com.news.modal.MNews;
 import com.news.modal.MProduct;
 import com.news.modal.MSystem;
 import com.news.modal.MWeatherInfo;
+import com.news.tool.AppCityClient;
 import com.news.tool.AppDataClient;
 import com.news.tool.AppDataManager;
 import com.news.tool.AppDataObserver;
@@ -160,10 +162,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			public void run() {
 				// TODO Auto-generated method stub
 				//InitDataBase();
+				//m_weatherClient.getWeatherInfo(mContext.getString(R.string.testCity));
 				CityCodeDataBase cityCodeDb = CityCodeDataBase.getInstance();
 				cityCodeDb.initDataBase(mContext);
-				
-				m_weatherClient.getWeatherInfo(mContext.getString(R.string.testCity));
+				AppCityClient cityClient = new AppCityClient((AppDataObserver)mContext);
+				MAddressComponet address = cityClient.getCityInfo();
+				m_weatherClient.getWeatherInfo(address.district);
 			}
 		}).start();
 		
