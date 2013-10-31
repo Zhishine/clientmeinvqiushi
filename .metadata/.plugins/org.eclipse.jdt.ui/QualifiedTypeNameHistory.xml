@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.umeng.socialize.controller.UMSsoHandler"/>
-<fullyQualifiedTypeName name="com.umeng.socialize.sso.QZoneSsoHandler"/>
-<fullyQualifiedTypeName name="com.umeng.socialize.sso.TencentWBSsoHandler"/>
 <fullyQualifiedTypeName name="com.umeng.socialize.bean.SHARE_MEDIA"/>
 <fullyQualifiedTypeName name="android.graphics.Color"/>
 <fullyQualifiedTypeName name="android.webkit.WebView"/>
@@ -37,7 +34,6 @@
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="android.opengl.Visibility"/>
 <fullyQualifiedTypeName name="com.news.tool.AppDataManager"/>
-<fullyQualifiedTypeName name="org.json.JSONObject"/>
 <fullyQualifiedTypeName name="com.news.modal.MWeatherInfo1"/>
 <fullyQualifiedTypeName name="com.news.qiushi.AdjustActivity"/>
 <fullyQualifiedTypeName name="android.content.Intent"/>
@@ -47,7 +43,6 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="android.content.UriMatcher"/>
 <fullyQualifiedTypeName name="android.provider.BaseColumns"/>
-<fullyQualifiedTypeName name="android.net.Uri"/>
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.database.sqlite.SQLiteDatabase"/>
 <fullyQualifiedTypeName name="java.io.File"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="android.database.Cursor"/>
 <fullyQualifiedTypeName name="android.widget.ListView"/>
 <fullyQualifiedTypeName name="android.support.v4.widget.SimpleCursorAdapter"/>
+<fullyQualifiedTypeName name="android.content.ContentValues"/>
+<fullyQualifiedTypeName name="com.news.tool.NewsProvider"/>
+<fullyQualifiedTypeName name="android.net.Uri"/>
+<fullyQualifiedTypeName name="java.net.URLDecoder"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
 </qualifiedTypeNameHistroy>

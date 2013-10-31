@@ -50,7 +50,7 @@ public class RightFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		com.umeng.socom.Log.LOG = true;
 		View view = inflater.inflate(R.layout.right_fragment, null);
-		LayoutParams lp=new LayoutParams((int) (DensityUtil.getLogicalWidth()*0.75),LayoutParams.MATCH_PARENT);
+		LayoutParams lp=new LayoutParams((int) (DensityUtil.getLogicalWidth()*0.8),LayoutParams.MATCH_PARENT);
 		view.setLayoutParams(lp);
 		view.setBackgroundResource(R.drawable.silder_bg);
 		View share=view.findViewById(R.id.share_container);

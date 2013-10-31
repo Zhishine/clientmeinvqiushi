@@ -51,7 +51,7 @@ public class NewsProvider extends ContentProvider {
 		String description=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION);
 		String url=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_URL);
 		String sql="insert into favourite(news_id,news_title,news_description,news_url) values("+newsId+",'"+title+"','"+description+"','"+url+"');";
-		db.execSQL(sql);
+ 		db.execSQL(sql);
 		return uri;
 	}
 
