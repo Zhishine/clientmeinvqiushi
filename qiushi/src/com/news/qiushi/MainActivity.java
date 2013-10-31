@@ -42,6 +42,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -107,7 +110,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     ImagesAdapter m_imageAdapter = null;
     
     /*13/10/30 weather*/
-    AppWeatherClient m_weatherClient = null;
+    private AppWeatherClient m_weatherClient = null;
+    private AppCityClient m_cityClient = null;
+    private Handler mWeathHandler;
+    private CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
     
     private List<Drawable> m_imgList = new ArrayList<Drawable>();
     Drawable imageClick = null;
@@ -143,49 +149,62 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		createView();
 
 		/*13/10/29 */
-		InitDataBase();
+		//CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
+		//cityCode.initDataBase(this);
 	
 		/*13/10/29 start a thread do it*/
 		
-		//InitDataBase();
+		
 		m_weatherClient = new AppWeatherClient(this);
-		WeatherInit();
+		m_cityClient = new AppCityClient(this);
+		
+		new WeatherThread().start();
 	}
 
 	
-	protected void WeatherInit()
-	{
-		/*check network*/
+	
+	
+	 public class WeatherThread extends Thread{
 		
-		new Thread(new Runnable(){
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				//InitDataBase();
-				//m_weatherClient.getWeatherInfo(mContext.getString(R.string.testCity));
-				CityCodeDataBase cityCodeDb = CityCodeDataBase.getInstance();
-				cityCodeDb.initDataBase(mContext);
-				AppCityClient cityClient = new AppCityClient();
-				MAddressComponet address = cityClient.getCityInfo();
-				if(address.district!=null){
-					m_weatherClient.getWeatherInfo(address.district);
-				}else{
-					m_weatherClient.getWeatherInfo(address.city);
+		public void run()
+		{
+			Looper.prepare();
+			
+			mWeathHandler = new Handler(){
+				
+				@Override
+				public void handleMessage(Message msg) {
+					
+					
+					switch(msg.arg1)
+					{
+						case 1:
+							
+							cityCode.initDataBase(mContext);
+							
+							Bundle dataB = msg.getData();
+							String city = dataB.getString("city");
+							String district = dataB.getString("district");
+							
+							if(district!=null){
+								m_weatherClient.getWeatherInfo(district);
+							}else{
+								m_weatherClient.getWeatherInfo(city);
+							}
+							
+							break;
+						case 2:
+							
+							break;
+					}
+					
 				}
-			}
-		}).start();
-		
+			};
+			
+			Looper.loop();
+		}
 	}
 	
-	
-	
-	
-	protected void InitDataBase()
-	{
-		Log.i("cityCode", "InitDataBase");
-		CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
-		cityCode.initDataBase(this);
-	}
 	
 	void createView()
 	{
@@ -694,6 +713,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	@Override
 	protected void onDestroy() {
 		unregisterReceiver(mMessageReceiver);
+		mWeathHandler.getLooper().quit();
 		super.onDestroy();
 	}
 	
@@ -974,4 +994,22 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			Log.i("getAppWeatherResponse", weatherinfo.weather1+"/"+weatherinfo.temp1);
 		}
 
+
+		@Override
+		public void getAppCityResponse(MAddressComponet address) {
+			// TODO Auto-generated method stub
+			
+			//notify weather thread
+			Message msg = mWeathHandler.obtainMessage();
+			//msg.obj = address;
+			msg.arg1 = 1;
+			Bundle dataB = new Bundle();
+			dataB.putString("city", address.city);
+			dataB.putString("district",address.district);
+			msg.setData(dataB);
+			mWeathHandler.sendMessage(msg);
+		}
+
 }
+
+
