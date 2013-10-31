@@ -27,6 +27,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.news.modal.MAd;
+import com.news.modal.MAddressComponet;
 import com.news.modal.MAppData;
 import com.news.modal.MGallery;
 import com.news.modal.MImage;
@@ -562,6 +563,11 @@ public class AppDataManager implements AppDataObserver {
 	}
 	@Override
 	public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void getAppCityResponse(MAddressComponet address) {
 		// TODO Auto-generated method stub
 		
 	}
