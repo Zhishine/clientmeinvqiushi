@@ -647,6 +647,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	                intent.putExtra("id",news.mId);
 	                intent.putExtra("titleImageUrl",news.mTitleImageUrl);
 	                intent.putExtra("description",news.mDescription);
+	                intent.putExtra("title",news.mTitle);
 	                MainActivity.this.startActivity(intent);
 			    }
 			    
@@ -906,6 +907,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
             intent.putExtra("id",news.mId);
             intent.putExtra("titleImageUrl",news.mTitleImageUrl);
             intent.putExtra("description",news.mDescription);
+            intent.putExtra("title",news.mTitle);
             MainActivity.this.startActivity(intent);
 		}
 

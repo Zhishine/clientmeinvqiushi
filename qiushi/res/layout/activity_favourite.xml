@@ -29,7 +29,7 @@
           />
        
   </RelativeLayout>  
- <listview android:id="@+id/list"
+ <ListView android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
         android:divider="#00000000"

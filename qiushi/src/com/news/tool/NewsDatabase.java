@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class NewsDatabase {
 
-	private String rootDirectory = "/data/data/com.news.qiushi/";
+	private String rootDirectory = "/data/data/com.news.qiushi/databases";
 	private final String DATABASE_FILENAME = "meinvqiushi.db";
 	private Context m_context;
 
@@ -28,8 +28,12 @@ public class NewsDatabase {
 			// /data/data/com.kpt.serviceinfo/
 			if (!(new File(databaseFilename)).exists()) {
 				Log.v("GetDatabase", "file is not exist");
-				return null;
+				NewsDatabaseHelper news=new NewsDatabaseHelper(m_context);
+				news.getWritableDatabase();
+				news.close();
 			}
+			//NewsDatabaseHelper news=new NewsDatabaseHelper(m_context);
+			
 			// open database
 			SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(
 					databaseFilename, null);

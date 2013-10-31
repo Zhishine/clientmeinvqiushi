@@ -21,7 +21,7 @@ public class NewsProvider extends ContentProvider {
 	private static final UriMatcher sUriMatcher;
 	static{
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		sUriMatcher.addURI(NewsProviderInfo.AUTHORITY, "favourite", LOCATIONS);
+		sUriMatcher.addURI("com.news.qiushi", "favourite", LOCATIONS);
 		
 		sfavouriteProjectionMap = new HashMap<String, String>();
 		sfavouriteProjectionMap.put(Favourite.NEWS_FAVOURITE_ID,Favourite.NEWS_FAVOURITE_ID);
@@ -45,8 +45,14 @@ public class NewsProvider extends ContentProvider {
 	}
 
 	@Override
-	public Uri insert(Uri uri, ContentValues initialValues) {
-		return null;
+	public Uri insert(Uri uri, ContentValues content) {
+		String newsId=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_ID);
+		String title=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_TITLE);
+		String description=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION);
+		String url=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_URL);
+		String sql="insert into favourite(news_id,news_title,news_description,news_url) values("+newsId+",'"+title+"','"+description+"','"+url+"');";
+		db.execSQL(sql);
+		return uri;
 	}
 
 	@Override

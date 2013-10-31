@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 public class FavouriteActivity extends Activity implements OnClickListener {
 	String[] m_favProjection={
+			Favourite.NEWS_FAVOURITE_ID,
 			Favourite.NEWS_FAVOURITE_NEWS_ID,
 			Favourite.NEWS_FAVOURITE_NEWS_TITLE,
 			Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION,
@@ -33,7 +34,7 @@ public class FavouriteActivity extends Activity implements OnClickListener {
 				new String[] {Favourite.NEWS_FAVOURITE_NEWS_TITLE,Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION },
 				new int[] { R.id.list_title,R.id.list_description });
 	
-        ListView mListView = (ListView)findViewById(android.R.id.list);
+        ListView mListView = (ListView)findViewById(R.id.list);
          mListView.setAdapter(adapter);
 	}
 

@@ -10,6 +10,8 @@ import com.news.qiushi.FavouriteActivity;
 import com.news.qiushi.R;
 import com.news.tool.AppShareManager;
 import com.news.tool.DensityUtil;
+import com.news.tool.NewsProvider;
+import com.news.tool.NewsProviderInfo.Favourite;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.RequestType;
@@ -20,10 +22,12 @@ import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.TencentWBSsoHandler;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -143,7 +147,16 @@ public class RightFragment extends Fragment implements OnClickListener {
 		    getActivity().startActivityForResult(intent,1000);
 			break;
 		case R.id.collect_container:
-		    
+			ContentValues cvalues = new ContentValues();  
+			String newsId=getActivity().getIntent().getExtras().getString("id");
+	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_ID, "2");  
+	        String title=getActivity().getIntent().getExtras().getString("title");
+	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_TITLE, title); 
+	        description=getActivity().getIntent().getExtras().getString("description");
+	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION, description); 
+	        String url=getActivity().getIntent().getExtras().getString("url");
+	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_URL, url); 
+	        Uri resulturi = getActivity().getContentResolver().insert(Favourite.CONTENT_URI, cvalues);
 			break;	
 		}
 	}
