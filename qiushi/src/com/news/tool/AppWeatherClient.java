@@ -28,6 +28,7 @@ public class AppWeatherClient {
 	
 	public void getWeatherInfo(String city)
 	{
+		//city="π„÷›";
 		DatabaseUtil db = new DatabaseUtil((Context)this.m_observer);
 		String cityCode = db.getCode(city);
 		String url = "http://m.weather.com.cn/data/" + cityCode + ".html";

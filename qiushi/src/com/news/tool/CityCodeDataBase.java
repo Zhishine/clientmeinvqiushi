@@ -10,7 +10,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-
 import android.os.Environment;
 import android.util.Log;
 
@@ -36,10 +35,10 @@ public class CityCodeDataBase {
 		int j = 0;
 		String fileName = null;
 		initDir();
-		for(i=1,j=5;i<=3;++i,j+=2){
-			fileName = "code" + i + ".txt";
+		//for(i=1,j=5;i<=3;++i,j+=2){
+			fileName = "code3.txt";
 			loadCodeFile(fileName,j);
-		}
+		//}
 		return true;
 	}
 	protected void initDir()
@@ -87,7 +86,7 @@ public class CityCodeDataBase {
 			
 			reader.close();
 			DatabaseUtil database=new DatabaseUtil(this.m_context);
-			database.setDatabaseData(level, j);
+			database.setDatabaseData(level, DatabaseUtil.CODE_COUNTY);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

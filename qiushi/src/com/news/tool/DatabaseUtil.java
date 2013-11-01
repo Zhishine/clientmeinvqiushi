@@ -28,12 +28,12 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		String sql_1="create table first_level(code char(5) primary key,value varchar(40) not null)";
-		String sql_2="create table second_level(code char(7) primary key,value varchar(40) not null)";
+		//String sql_1="create table first_level(code char(5) primary key,value varchar(40) not null)";
+		//String sql_2="create table second_level(code char(7) primary key,value varchar(40) not null)";
 		String sql_3="create table third_level(code char(9) primary key,value varchar(40) not null)";
 		try{
-			db.execSQL(sql_1);
-			db.execSQL(sql_2);
+			//db.execSQL(sql_1);
+			//db.execSQL(sql_2);
 			db.execSQL(sql_3);
 		}catch(Exception e)
 		{
@@ -193,10 +193,10 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 			return null;
 		}
 		
-		if( (location_code=getCode(location, DatabaseUtil.CODE_CITY) )==null ){
+		//if( (location_code=getCode(location, DatabaseUtil.CODE_CITY) )==null ){
 			
-			location_code = getCode(location, DatabaseUtil.CODE_COUNTY);
-		}
+		location_code = getCode(location, DatabaseUtil.CODE_COUNTY);
+		//}
 		
 		return location_code;
 	}

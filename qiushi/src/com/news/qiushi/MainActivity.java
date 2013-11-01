@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.loonggg.fragment.RightFragment;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import cn.jpush.android.api.JPushInterface;
@@ -33,7 +35,6 @@ import com.news.tool.AppDataClient;
 import com.news.tool.AppDataManager;
 import com.news.tool.AppDataObserver;
 import com.news.tool.AppUtil;
-
 import com.news.tool.AppWeatherClient;
 import com.news.tool.CityCodeDataBase;
 import com.news.tool.DensityUtil;
@@ -156,9 +157,11 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		
 		
 		m_weatherClient = new AppWeatherClient(this);
-		m_cityClient = new AppCityClient(this);
 		
+		m_cityClient = new AppCityClient(this);
+		m_cityClient.getCityInfo();
 		new WeatherThread().start();
+		
 	}
 
 	
@@ -168,40 +171,9 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		
 		public void run()
 		{
-			Looper.prepare();
-			
-			mWeathHandler = new Handler(){
-				
-				@Override
-				public void handleMessage(Message msg) {
-					
-					
-					switch(msg.arg1)
-					{
-						case 1:
-							
-							cityCode.initDataBase(mContext);
-							
-							Bundle dataB = msg.getData();
-							String city = dataB.getString("city");
-							String district = dataB.getString("district");
-							
-							if(district!=null){
-								m_weatherClient.getWeatherInfo(district);
-							}else{
-								m_weatherClient.getWeatherInfo(city);
-							}
-							
-							break;
-						case 2:
-							
-							break;
-					}
-					
-				}
-			};
-			
-			Looper.loop();
+			/*create db*/
+			cityCode.initDataBase(mContext);
+		
 		}
 	}
 	
@@ -714,7 +686,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 	@Override
 	protected void onDestroy() {
 		unregisterReceiver(mMessageReceiver);
-		mWeathHandler.getLooper().quit();
+		//mWeathHandler.getLooper().quit();
 		super.onDestroy();
 	}
 	
@@ -994,6 +966,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
 			// TODO Auto-generated method stub
 			Log.i("getAppWeatherResponse", weatherinfo.weather1+"/"+weatherinfo.temp1);
+			RightFragment.mWeather=weatherinfo;
+			
 		}
 
 
@@ -1001,15 +975,16 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		public void getAppCityResponse(MAddressComponet address) {
 			// TODO Auto-generated method stub
 			
+			
 			//notify weather thread
-			Message msg = mWeathHandler.obtainMessage();
-			//msg.obj = address;
-			msg.arg1 = 1;
-			Bundle dataB = new Bundle();
-			dataB.putString("city", address.city);
-			dataB.putString("district",address.district);
-			msg.setData(dataB);
-			mWeathHandler.sendMessage(msg);
+			String city = address.city;
+			String district =  address.district;
+			if(district!=null && !district.equalsIgnoreCase("")){
+				m_weatherClient.getWeatherInfo(district);
+			}else{
+				m_weatherClient.getWeatherInfo(city);
+			}
+			//m_cityClient.getCityInfo();
 		}
 
 }

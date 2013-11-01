@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import com.lurencun.android.common.RandomUtil;
+import com.news.modal.MWeatherInfo;
+import com.news.modal.MWeatherInfo1;
 import com.news.qiushi.AdjustActivity;
 import com.news.qiushi.FavouriteActivity;
 import com.news.qiushi.R;
@@ -45,7 +47,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class RightFragment extends Fragment implements OnClickListener {
-
+   
+	public static MWeatherInfo mWeather;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		com.umeng.socom.Log.LOG = true;
@@ -93,7 +96,13 @@ public class RightFragment extends Fragment implements OnClickListener {
 	        }else if("7".equals(way)){  
 	        	way ="六";  
 	        }  
-		String otherStr=String.format("%s月%s日，星期%s，%s %s",month,day,way,"多云","16-17");
+	    String temp1="";
+	    String wea1="";
+	    if(mWeather!=null){
+	    	temp1=mWeather.temp1;
+	    	wea1=mWeather.weather1;
+	    }
+		String otherStr=String.format("%s月%s日，星期%s，%s %s",month,day,way,wea1,temp1);
 		otherTxt.setText(otherStr);
 		View lookMore=view.findViewById(R.id.look_more_container);
 		lookMore.setOnClickListener(this);
