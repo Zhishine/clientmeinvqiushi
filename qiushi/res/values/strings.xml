@@ -32,5 +32,6 @@
     <string name="larger">加大号</string>
     <string name="testCity">兴宁</string>
     <string name="title_activity_favourite">收藏夹</string>
+    <string name="city_replace_w">市</string>
 
 </resources>
