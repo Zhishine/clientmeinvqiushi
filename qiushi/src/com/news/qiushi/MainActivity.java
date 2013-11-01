@@ -135,6 +135,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		mContext=this;
 		m_imageLayout=new LinearLayout(this);
 		m_newsLayout=new LinearLayout(this);
+		
+		m_weatherClient = new AppWeatherClient(this);
+		m_cityClient = new AppCityClient(this);
+		
 		m_newsLayout.setOrientation(1);
 		m_imageLayout.setOrientation(1);
 		m_newsOtherLayout=new LinearLayout(this);
@@ -150,16 +154,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		createView();
 
 		/*13/10/29 */
-		//CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
-		//cityCode.initDataBase(this);
+	
 	
 		/*13/10/29 start a thread do it*/
+		//cityCode.initDataBase(mContext);
+		//m_cityClient.getCityInfo();
 		
-		
-		m_weatherClient = new AppWeatherClient(this);
-		
-		m_cityClient = new AppCityClient(this);
-		m_cityClient.getCityInfo();
 		new WeatherThread().start();
 		
 	}
@@ -173,7 +173,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		{
 			/*create db*/
 			cityCode.initDataBase(mContext);
-		
+			m_cityClient.getCityInfo();
 		}
 	}
 	
