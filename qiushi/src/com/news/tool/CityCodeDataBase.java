@@ -26,6 +26,8 @@ public class CityCodeDataBase {
 	{
 		Log.i("cityCode", "InitDataBase2");
 		this.m_context = context;
+		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
+		DatabaseUtil.setDatabasePath(path);
 		
 		if(checkDbfile()){
 			return true;
@@ -53,7 +55,7 @@ public class CityCodeDataBase {
 		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
 		File dirFile = new File(path);
 		if(dirFile.exists()){
-			DatabaseUtil.setDatabasePath(path);
+			//DatabaseUtil.setDatabasePath(path);
 			return true;
 		}
 		return false;
@@ -64,7 +66,7 @@ public class CityCodeDataBase {
 		AssetManager asset_manager=this.m_context.getAssets();
 		InputStream input_stream;
 		List<String> level=new ArrayList<String>();
-		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
+	
 		
 		try {
 			
@@ -88,9 +90,6 @@ public class CityCodeDataBase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		DatabaseUtil.setDatabasePath(path);
-	
 	}
 	
 }

@@ -51,7 +51,7 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
 		File dirFile = new File(path);
 		if(dirFile.exists()){
-			DatabaseUtil.setDatabasePath(path);
+			//DatabaseUtil.setDatabasePath(path);
 			return true;
 		}
 		return false;
