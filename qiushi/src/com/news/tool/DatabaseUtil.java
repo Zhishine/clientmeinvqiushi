@@ -30,10 +30,11 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		// TODO Auto-generated method stub
 		//String sql_1="create table first_level(code char(5) primary key,value varchar(40) not null)";
 		//String sql_2="create table second_level(code char(7) primary key,value varchar(40) not null)";
-		
+		/*
 		if(checkDbfile()){
 			return;
 		}
+		*/
 		
 		String sql_3="create table third_level(code char(9) primary key,value varchar(40) not null)";
 		try{
