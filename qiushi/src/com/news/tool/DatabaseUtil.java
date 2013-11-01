@@ -30,6 +30,11 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		// TODO Auto-generated method stub
 		//String sql_1="create table first_level(code char(5) primary key,value varchar(40) not null)";
 		//String sql_2="create table second_level(code char(7) primary key,value varchar(40) not null)";
+		
+		if(checkDbfile()){
+			return;
+		}
+		
 		String sql_3="create table third_level(code char(9) primary key,value varchar(40) not null)";
 		try{
 			//db.execSQL(sql_1);
@@ -41,6 +46,16 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 		}
 	}
 
+	protected boolean checkDbfile()
+	{
+		String path = CityCodeDataBase.databaseDir+DatabaseUtil.database_name;
+		File dirFile = new File(path);
+		if(dirFile.exists()){
+			DatabaseUtil.setDatabasePath(path);
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
@@ -113,7 +128,7 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 					queryStr = "insert into third_level(code,value) values('";
 					break;
 				default:
-					queryStr = "insert into second_level(code,value) values('";
+					queryStr = "insert into third_level(code,value) values('";
 					break;
 			}
 			Log.i("cityCode", "setDatabaseData"+queryStr);
@@ -142,8 +157,6 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 	protected String getCode(String location,int code)
 	{
 		String location_code=null;
-		
-		
 		String queryStr = "first_level";
 		SQLiteDatabase db=getReadableDatabase();
 		Cursor c=null;
@@ -159,7 +172,7 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 				queryStr = "third_level";
 				break;
 			default:
-				queryStr = "second_level";
+				queryStr = "third_level";
 				break;
 		}
 		
@@ -192,16 +205,9 @@ public class DatabaseUtil extends SQLiteOpenHelper{
 			
 			return null;
 		}
-		
-		//if( (location_code=getCode(location, DatabaseUtil.CODE_CITY) )==null ){
-			
 		location_code = getCode(location, DatabaseUtil.CODE_COUNTY);
-		//}
-		
 		return location_code;
 	}
-	
-	
 	
 	public String setDatabaseData(List<String> first_level,List<String> second_level,List<String> third_level)
 	{

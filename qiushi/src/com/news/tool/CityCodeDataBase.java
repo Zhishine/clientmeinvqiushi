@@ -30,19 +30,11 @@ public class CityCodeDataBase {
 		if(checkDbfile()){
 			return true;
 		}
+	
+		String fileName = "code3.txt";
 		
-		int i = 0;
-		int j = 0;
-		String fileName = null;
-		initDir();
-		//for(i=1,j=5;i<=3;++i,j+=2){
-			fileName = "code3.txt";
-			loadCodeFile(fileName,j);
-		//}
-		return true;
-	}
-	protected void initDir()
-	{
+		//initDir();
+		
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {   
     		// sd card ¿ÉÓÃ                          
     		 File dirFile = new File(CityCodeDataBase.databaseDir);  
@@ -50,6 +42,10 @@ public class CityCodeDataBase {
     	         dirFile.mkdirs();
     	     }
 		}
+		
+		loadCodeFile(fileName);
+		
+		return true;
 	}
 
 	protected boolean checkDbfile()
@@ -63,7 +59,7 @@ public class CityCodeDataBase {
 		return false;
 	}
 	
-	protected void loadCodeFile(String fielName,int j)
+	protected void loadCodeFile(String fielName)
 	{
 		AssetManager asset_manager=this.m_context.getAssets();
 		InputStream input_stream;
