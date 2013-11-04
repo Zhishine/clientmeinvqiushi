@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">qiushi</string>
+    <string name="app_name">美女糗事</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="news_title">新闻资讯</string>
@@ -32,6 +32,7 @@
     <string name="larger">加大号</string>
     <string name="testCity">兴宁</string>
     <string name="title_activity_favourite">收藏夹</string>
+    <string name="add_fav_success">收藏成功</string>
+    <string name="adjust_size_success">字体调节成功</string>
     <string name="city_replace_w">市</string>
-
 </resources>

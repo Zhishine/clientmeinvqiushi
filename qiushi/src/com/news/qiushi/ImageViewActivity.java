@@ -9,11 +9,13 @@ import java.util.TimeZone;
 
 import com.news.tool.AppDataManager;
 import com.news.tool.AppShareManager;
+import com.news.tool.AppUtil;
 import com.news.tool.DensityUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -34,14 +36,14 @@ import android.widget.Toast;
 
 public class ImageViewActivity extends Activity implements OnClickListener{
 	
-	//private final String mtitle = "鍥剧墖";
-	//private final String msgSuccess = "淇濆瓨鎴愬姛";
-	//private final String msgFail = "淇濆瓨澶辫触";
+	//private final String mtitle = "閸ュ墽澧�;
+	//private final String msgSuccess = "娣囨繂鐡ㄩ幋鎰";
+	//private final String msgFail = "娣囨繂鐡ㄦ径杈Е";
 	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
 	
 	private final int TOP_HEIGHT = 50;
 	private final int RIGHT_WIDTH = 70;
-	private final int TOP_BACKBTN_WIDTH = 70;
+	private final int TOP_BACKBTN_WIDTH = 54;
 	private final int RIGHT_BIN_PADDING = 50;
 	private final int DONW_IMG_BTN_ID = 1;
 	private final int VIEW_IMG_BTN_ID = 2;
@@ -117,7 +119,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		topContianer.addView(lbtitle);
 		
 		//backBtn
-		RelativeLayout.LayoutParams lp13=new RelativeLayout.LayoutParams( topBackBtnWidth,LayoutParams.MATCH_PARENT);
+		RelativeLayout.LayoutParams lp13=new RelativeLayout.LayoutParams( topBackBtnWidth,topBackBtnWidth);
 		//lp13.setMargins(0, 3, 3, 3);
 		lp13.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		
@@ -151,6 +153,7 @@ public class ImageViewActivity extends Activity implements OnClickListener{
 		//img.setBackgroundColor(Color.YELLOW);
 		Intent intent = getIntent();
 		imageurl  = intent.getStringExtra("imgurl");
+		imageurl=AppUtil.getOriginImage(imageurl);
 		redirectUrl = intent.getStringExtra("redirectUrl");
 		isNativePage = intent.getBooleanExtra("isNativePage", false);
 		

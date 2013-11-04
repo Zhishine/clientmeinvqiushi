@@ -1,6 +1,8 @@
 package com.news.modal;
 
-public class MNews {
+import java.io.Serializable;
+
+public class MNews  implements Serializable{
 	public int mId;
 	public String mTitle;
 	public String mRedirectUrl;

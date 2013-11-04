@@ -16,6 +16,7 @@ import com.umeng.socialize.controller.UMSocialService;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,8 +97,9 @@ public class GalleryActivity extends Activity implements OnClickListener {
 				//success
 				//Log.i("downLoadImage", "downLoadImage click"+fileName);
 				String msg = this.getString(R.string.msgSuccess) + ":" + systemImageDir;
-				Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-				
+				Toast toast=Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
 			}else{
 				//fail
 				Toast.makeText(this, this.getString(R.string.msgFail), Toast.LENGTH_SHORT).show();

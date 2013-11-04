@@ -19,4 +19,10 @@
         android:textSize="14sp"
         android:textColor="#808080"
         android:id="@+id/list_description" />
+     	<ImageView   
+    android:layout_width="match_parent"  
+    android:layout_height="1dp"  
+    android:layout_margin="5dp"
+    android:background="@drawable/line"
+    /> 
 </LinearLayout>

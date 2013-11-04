@@ -21,6 +21,7 @@ public class NewsProviderInfo {
 		public static final String NEWS_FAVOURITE_NEWS_TITLE = "news_title";
 		public static final String NEWS_FAVOURITE_NEWS_DESCRIPTION = "news_description";
 		public static final String NEWS_FAVOURITE_NEWS_URL = "news_url";
+		public static final String NEWS_FAVOURITE_NEWS_TITLE_URL = "news_title_url";
    }
 
 }

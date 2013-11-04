@@ -82,4 +82,15 @@ public class AppUtil {
 			}
 		}).start();
     }
+    
+    public static String getOriginImage(String imageUrl){
+    	if(imageUrl.lastIndexOf("x")<0)
+    		return imageUrl;
+        int extIndex=imageUrl.lastIndexOf(".");
+        String ext=imageUrl.substring(extIndex+1);
+        int thumbIndex=imageUrl.lastIndexOf("-");
+        String orginImg=imageUrl.substring(0, thumbIndex);
+        String result=orginImg+"."+ext;
+        return result;
+    }
 }

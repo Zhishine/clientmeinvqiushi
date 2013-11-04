@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,6 +47,10 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 		});
 		updateWebView();
 		 WebView web=(WebView)m_View.findViewById(R.id.webview);
+		 web.getSettings().setJavaScriptEnabled(true);
+		 web.getSettings().setAllowFileAccess(true);
+		 web.getSettings().setPluginState(PluginState.ON);
+		 web.setBackgroundColor(0);
         String url  = getActivity().getIntent().getStringExtra("url");
         m_id=getActivity().getIntent().getIntExtra("id", 0);
 		web.loadUrl(url);

@@ -5,10 +5,12 @@ import com.news.tool.AppDataManager;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class AdjustActivity extends Activity implements OnClickListener {
     View m_smallView=null;
@@ -101,6 +103,9 @@ public class AdjustActivity extends Activity implements OnClickListener {
 		}
 		AppDataManager.getInstance().setFontSizeLevel(m_currentLevel);
 		updateUI(m_currentLevel);
+		Toast toast=Toast.makeText(this, R.string.adjust_size_success, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 	}
 
 

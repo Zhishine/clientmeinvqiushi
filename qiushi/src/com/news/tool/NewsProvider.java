@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.news.tool.NewsProviderInfo.Favourite;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -16,7 +17,7 @@ import android.text.TextUtils;
 public class NewsProvider extends ContentProvider {
 	private SQLiteDatabase db;
 	private static final int LOCATIONS = 1;
-	
+	Cursor c;
 	private static HashMap<String, String> sfavouriteProjectionMap;
 	private static final UriMatcher sUriMatcher;
 	static{
@@ -29,12 +30,15 @@ public class NewsProvider extends ContentProvider {
 		sfavouriteProjectionMap.put(Favourite.NEWS_FAVOURITE_NEWS_TITLE,Favourite.NEWS_FAVOURITE_NEWS_TITLE);
 		sfavouriteProjectionMap.put(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION,Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION);
 		sfavouriteProjectionMap.put(Favourite.NEWS_FAVOURITE_NEWS_URL,Favourite.NEWS_FAVOURITE_NEWS_URL);
-		
+		sfavouriteProjectionMap.put(Favourite.NEWS_FAVOURITE_NEWS_TITLE_URL,Favourite.NEWS_FAVOURITE_NEWS_TITLE_URL);
 		
 	}
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
+	public int delete(Uri uri, String selection, String[] whereArg) {
 		// TODO Auto-generated method stub
+		long id= ContentUris.parseId(uri);
+		String sql="delete from favourite where _id="+id+";";
+ 		db.execSQL(sql);
 		return 0;
 	}
 
@@ -50,7 +54,8 @@ public class NewsProvider extends ContentProvider {
 		String title=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_TITLE);
 		String description=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION);
 		String url=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_URL);
-		String sql="insert into favourite(news_id,news_title,news_description,news_url) values("+newsId+",'"+title+"','"+description+"','"+url+"');";
+		String titleUrl=content.getAsString(Favourite.NEWS_FAVOURITE_NEWS_TITLE_URL);
+		String sql="insert into favourite(news_id,news_title,news_description,news_url,news_title_url) values("+newsId+",'"+title+"','"+description+"','"+url+"','"+titleUrl+"');";
  		db.execSQL(sql);
 		return uri;
 	}
@@ -70,7 +75,7 @@ public class NewsProvider extends ContentProvider {
 	
 			SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 			String orderBy = null;
-			Cursor c = null;
+			
 			switch (sUriMatcher.match(uri)) {
 			case LOCATIONS:
 				qb.setTables(NewsDatabaseHelper.FAVOURITE_TABLE_NAME);

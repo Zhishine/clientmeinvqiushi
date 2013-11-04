@@ -28,7 +28,7 @@ public class AppWeatherClient {
 	
 	public void getWeatherInfo(String city)
 	{
-		//city="π„÷›";
+		city=city.replace(" –","");
 		DatabaseUtil db = new DatabaseUtil((Context)this.m_observer);
 		String cityCode = db.getCode(city);
 		String url = "http://m.weather.com.cn/data/" + cityCode + ".html";
@@ -37,7 +37,7 @@ public class AppWeatherClient {
 	           @Override
 	           public void onSuccess(String response) {
 	              Gson gson = new Gson();
-	            
+//	            
 	              MWeatherInfo1 appData=gson.fromJson(response,new TypeToken<MWeatherInfo1>(){}.getType());
 	              m_observer.getAppWeatherResponse(appData.weatherinfo);
 	          }

@@ -36,6 +36,7 @@
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
+    android:background="@drawable/selector"
     >
   <ImageView
                     android:id="@+id/share"
@@ -64,6 +65,7 @@
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
+     android:background="@drawable/selector"
     >
                 <ImageView
                      android:id="@+id/comment"
@@ -94,7 +96,8 @@
      android:id="@+id/collect_container"     
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
+    android:orientation="horizontal"
+     android:background="@drawable/selector" 
     >
          <ImageView
                      android:id="@+id/collect"
@@ -125,7 +128,8 @@
       android:id="@+id/adjust_container"       
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
+    android:orientation="horizontal"
+     android:background="@drawable/selector" 
     >
                  <ImageView
                      android:id="@+id/adjust"
@@ -157,6 +161,7 @@
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
+     android:background="@drawable/selector"
     >           
                 <ImageView
                      android:id="@+id/collect_folder"
@@ -187,6 +192,7 @@
      android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
+     android:background="@drawable/selector"
     >           
                      <ImageView
                      android:id="@+id/fankui"

@@ -33,9 +33,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -45,6 +47,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RightFragment extends Fragment implements OnClickListener {
    
@@ -53,11 +56,12 @@ public class RightFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		com.umeng.socom.Log.LOG = true;
 		View view = inflater.inflate(R.layout.right_fragment, null);
-		LayoutParams lp=new LayoutParams((int) (DensityUtil.getLogicalWidth()*0.8),LayoutParams.MATCH_PARENT);
+		LayoutParams lp=new LayoutParams((int) (DensityUtil.getLogicalWidth()*0.85),LayoutParams.MATCH_PARENT);
 		view.setLayoutParams(lp);
 		view.setBackgroundResource(R.drawable.silder_bg);
 		View share=view.findViewById(R.id.share_container);
 		share.setOnClickListener(this);
+
 		View comment=view.findViewById(R.id.comment_container);
 		comment.setOnClickListener(this);
 		View fankui=view.findViewById(R.id.fankui_container);
@@ -165,7 +169,12 @@ public class RightFragment extends Fragment implements OnClickListener {
 	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_DESCRIPTION, description); 
 	        String url=getActivity().getIntent().getExtras().getString("url");
 	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_URL, url); 
+	        titleImageUrl=getActivity().getIntent().getExtras().getString("titleImageUrl");
+	        cvalues.put(Favourite.NEWS_FAVOURITE_NEWS_URL, url); 
 	        Uri resulturi = getActivity().getContentResolver().insert(Favourite.CONTENT_URI, cvalues);
+	        Toast toast=Toast.makeText( getActivity(), R.string.add_fav_success, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
 			break;	
 		}
 	}

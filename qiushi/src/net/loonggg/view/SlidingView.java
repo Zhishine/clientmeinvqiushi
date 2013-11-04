@@ -20,7 +20,7 @@ public class SlidingView extends ViewGroup {
 	private int mTouchSlop;
 	private float mLastMotionX;
 	private float mLastMotionY;
-	private static final int SNAP_VELOCITY = 1000;
+	private static final int SNAP_VELOCITY = 50;
 	private View mMenuView;
 	private View mDetailView;
 
@@ -194,23 +194,23 @@ public class SlidingView extends ViewGroup {
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000);
 				int velocityX = (int) velocityTracker.getXVelocity();
-				velocityX = 0;
+				//velocityX = 0;
 				Log.e("ad", "velocityX == " + velocityX);
 				int oldScrollX = getScrollX();
 				int dx = 0;
 				if (oldScrollX < 0) {
-					if (oldScrollX < -getMenuViewWidth() / 2
+					if (oldScrollX < -getMenuViewWidth() / 1
 							|| velocityX > SNAP_VELOCITY) {
 						dx = -getMenuViewWidth() - oldScrollX;
-					} else if (oldScrollX >= -getMenuViewWidth() / 2
+					} else if (oldScrollX >= -getMenuViewWidth() /1
 							|| velocityX < -SNAP_VELOCITY) {
 						dx = -oldScrollX;
 					}
 				} else {
-					if (oldScrollX > getDetailViewWidth() / 2
+					if (oldScrollX > getDetailViewWidth() / 1.5
 							|| velocityX < -SNAP_VELOCITY) {
 						dx = getDetailViewWidth() - oldScrollX;
-					} else if (oldScrollX <= getDetailViewWidth() / 2
+					} else if (oldScrollX <= getDetailViewWidth() / 1.5
 							|| velocityX > SNAP_VELOCITY) {
 						dx = -oldScrollX;
 					}

@@ -45,7 +45,7 @@ public class ImageAdapter extends BaseAdapter{
 			ImageView imageView = new ImageView(_context);
 		    imageView.setAdjustViewBounds(true);
 		    imageView.setBackgroundColor(Color.BLACK);
-		    imageView.setScaleType(ScaleType.FIT_CENTER );
+		    imageView.setScaleType(ScaleType.FIT_XY );
 		    int height=(int) (DensityUtil.getLogicalWidth()*m_rate+0.5);
 		    imageView.setLayoutParams(new Gallery.LayoutParams(
 		    		LayoutParams.MATCH_PARENT  ,height));

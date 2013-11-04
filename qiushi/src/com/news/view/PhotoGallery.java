@@ -32,22 +32,25 @@ public class PhotoGallery extends Gallery {
 			return true;
 		return false;
 	}
-
-	public boolean onFling(MotionEvent paramMotionEvent1,
-			MotionEvent paramMotionEvent2, float paramFloat1, float paramFloat2)
+	@Override
+	 public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+	  // TODO Auto-generated method stub
+	  return super.onScroll(e1, e2, (float) (distanceX*0.2), distanceY);
+	 }
+	public boolean onFling(MotionEvent e1,
+			MotionEvent e2, float paramFloat1, float paramFloat2)
 	{
-		if(!isShown())
-			return false;
-		onScroll(null, null, 1, 0);  
-		int keyCode;
-		if (isScrollingLeft(paramMotionEvent1, paramMotionEvent2))
-		{
-			keyCode = KeyEvent.KEYCODE_DPAD_LEFT;
-		} else
-		{
-			keyCode = KeyEvent.KEYCODE_DPAD_RIGHT;
-		}
-		onKeyDown(keyCode, null);
-		return true;
+//		if(!isShown())
+//			return false;
+		int kEvent;
+		if (isScrollingLeft(e1, e2)) {
+	          // Check if scrolling left
+	          kEvent = KeyEvent.KEYCODE_DPAD_LEFT;
+	      } else {
+	         // Otherwise scrolling right
+	         kEvent = KeyEvent.KEYCODE_DPAD_RIGHT;
+	      }
+	      onKeyDown(kEvent, null);
+	      return true;
 	}
 }

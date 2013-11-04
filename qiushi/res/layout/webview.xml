@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:id="@+id/root"
+    android:background="@drawable/bg"
     >
   <RelativeLayout android:id="@+id/top_bg"
        android:background="@drawable/top_bar_bg" 
@@ -42,6 +43,8 @@
      android:scrollbars="none"
     android:layout_marginBottom="0dp"
     android:layout_marginRight="0dp"
-    android:layout_marginTop="0dp" />
+    android:layout_marginTop="0dp"
+    android:layerType="software"
+    android:hardwareAccelerated="true" />
 
 </LinearLayout>

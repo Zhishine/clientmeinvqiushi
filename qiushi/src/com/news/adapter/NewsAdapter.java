@@ -91,6 +91,7 @@ public class NewsAdapter extends BaseAdapter {
 	    	  viewHolder = new ViewHolder();
 			  viewHolder.mTitleImg = (ImageView) convertView.findViewById(R.id.title_img);
 			  viewHolder.mTitleImg.setScaleType(ScaleType.FIT_XY);
+			  viewHolder.mTitleImg.setClickable(false);
 			  //viewHolder.mTitleImg.setBackgroundColor(Color.RED);
 			  
 			  viewHolder.mTitleTxt = (TextView) convertView.findViewById(R.id.title);

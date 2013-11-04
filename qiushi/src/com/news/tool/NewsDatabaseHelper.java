@@ -14,6 +14,7 @@ public class NewsDatabaseHelper extends SQLiteOpenHelper {
 	public static final String NEWS_FAVOURITE_NEWS_TITLE = "news_title";
 	public static final String NEWS_FAVOURITE_NEWS_DESCRIPTION = "news_description";
 	public static final String NEWS_FAVOURITE_NEWS_URL = "news_url";
+	public static final String NEWS_FAVOURITE_NEWS_TITLE_URL = "news_title_url";
 	public NewsDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
@@ -27,7 +28,8 @@ public class NewsDatabaseHelper extends SQLiteOpenHelper {
 	             + NEWS_FAVOURITE_NEWS_ID+ " INTEGER,"
 	             + NEWS_FAVOURITE_NEWS_TITLE+ " TEXT,"
 	             + NEWS_FAVOURITE_NEWS_DESCRIPTION  + " TEXT,"
-	             + NEWS_FAVOURITE_NEWS_URL+ " TEXT);";
+	             + NEWS_FAVOURITE_NEWS_URL+ " TEXT,"
+	             + NEWS_FAVOURITE_NEWS_TITLE_URL+ " TEXT);";
 		db.execSQL(sql);
 	}
 

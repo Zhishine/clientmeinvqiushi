@@ -3,7 +3,12 @@ package com.news.push;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.news.modal.MNews;
+import com.news.modal.MSystem;
 import com.news.qiushi.MainActivity;
+//import com.news.qiushi.MainActivity;
 import com.news.tool.AppUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -42,10 +47,19 @@ public class PushReceiver extends BroadcastReceiver {
 	            Log.d(TAG, "用户点击打开了通知");
 	            
 	        	//打开自定义的Activity
-	        	/*Intent i = new Intent(context, TestActivity.class);
-	        	i.putExtras(bundle);
-	        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        	context.startActivity(i);*/
+	            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+	            try {
+					JSONObject obj=new JSONObject(extras);
+	         		int id=obj.getInt("mId");
+					Intent i = new Intent(context,MainActivity.class);
+		        	i.putExtra("mId", id);
+		        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		        	context.startActivity(i);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
 	        	
 	        } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
 	            Log.d(TAG, "用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
@@ -77,13 +91,10 @@ public class PushReceiver extends BroadcastReceiver {
 				Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
 				msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
 				if (!AppUtil.isEmpty(extras)) {
-					try {
-						JSONObject extraJson = new JSONObject(extras);
-						if (null != extraJson && extraJson.length() > 0) {
-							msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-						}
-					} catch (JSONException e) {
-
+					Gson gson = new Gson();
+					  MNews news=gson.fromJson(extras,new TypeToken<MNews>(){}.getType());
+					if (null != news) {
+						msgIntent.putExtra("news", news);
 					}
 
 				}

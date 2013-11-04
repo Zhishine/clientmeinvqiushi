@@ -160,8 +160,13 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		//cityCode.initDataBase(mContext);
 		//m_cityClient.getCityInfo();
 		
-		new WeatherThread().start();
-		
+ 		new WeatherThread().start();
+		Intent intent=getIntent();
+		if(intent!=null){
+			int id=intent.getIntExtra("mId", 0);
+			if(id>0)
+			m_client.getNews(id);
+		}
 	}
 
 	
@@ -790,12 +795,12 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 				if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
 	              String messge = intent.getStringExtra(KEY_MESSAGE);
 	              String extras = intent.getStringExtra(KEY_EXTRAS);
-	              StringBuilder showMsg = new StringBuilder();
-	              showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
-	              if (!AppUtil.isEmpty(extras)) {
-	            	  showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
-	              }
-	              setCostomMsg(showMsg.toString());
+//	              StringBuilder showMsg = new StringBuilder();
+//	              showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+//	              if (!AppUtil.isEmpty(extras)) {
+//	            	  showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+//	              }
+//	              setCostomMsg(showMsg.toString());
 				}
 			}
 		}
@@ -850,7 +855,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		public void getImageResponse(MImage image) {
 			// TODO Auto-generated method stub
 			float scale =  (float)image.mHeight/(float)image.mWidth;
-			
+			if(image.mIsGallery){
+				m_client.getImageGallery(image.mId);
+			}
+			else{
 			Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
 			intent.putExtra("imgurl",image.mImageUrl);
 			intent.putExtra("redirectUrl", image.mRedirectUrl);
@@ -858,6 +866,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			intent.putExtra("scale", scale);
 			//intent.putExtra("height", data.mHeight);
 		    MainActivity.this.startActivity(intent);
+			}
 		}
         boolean m_refreshViewHasAdd=false;
 		@Override
@@ -902,6 +911,10 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		@Override
 		public void getNewsResponse(MNews news) {
 			// TODO Auto-generated method stub
+			if(news.mIsGallery){
+				m_client.getImageGallery(news.mId);
+			}
+			else{
 			Intent intent = new Intent(MainActivity.this,WebViewActivity.class);
             intent.putExtra("url",news.mRedirectUrl);
             intent.putExtra("id",news.mId);
@@ -909,6 +922,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
             intent.putExtra("description",news.mDescription);
             intent.putExtra("title",news.mTitle);
             MainActivity.this.startActivity(intent);
+			}
 		}
 
 		

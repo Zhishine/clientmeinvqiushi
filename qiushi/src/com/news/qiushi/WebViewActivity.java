@@ -62,7 +62,7 @@ public class WebViewActivity extends FragmentActivity {
 	    super.onActivityResult(requestCode, resultCode, data);
 	    if(requestCode==1000){
 	    	centerFragment.updateWebView();
-	    	showRight();
+	    	//showRight();
 	    }
 	    else
 	    {
