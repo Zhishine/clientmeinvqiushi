@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.loonggg.fragment.RightFragment;
+import net.youmi.android.AdManager;
+import net.youmi.android.diy.DiyManager;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -76,7 +78,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends Activity implements OnClickListener,AppDataObserver  {
+public class MainActivity extends BaseActivity implements OnClickListener,AppDataObserver  {
 	private Context mContext;
 	private final  String mPageName = "Home";
 	public static boolean isForeground = false;
@@ -111,8 +113,8 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
     ImagesAdapter m_imageAdapter = null;
     
     /*13/10/30 weather*/
-    private AppWeatherClient m_weatherClient = null;
-    private AppCityClient m_cityClient = null;
+
+    
     private Handler mWeathHandler;
     private CityCodeDataBase cityCode = CityCodeDataBase.getInstance();
     
@@ -135,10 +137,6 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		mContext=this;
 		m_imageLayout=new LinearLayout(this);
 		m_newsLayout=new LinearLayout(this);
-		
-		m_weatherClient = new AppWeatherClient(this);
-		m_cityClient = new AppCityClient(this);
-		
 		m_newsLayout.setOrientation(1);
 		m_imageLayout.setOrientation(1);
 		m_newsOtherLayout=new LinearLayout(this);
@@ -160,28 +158,24 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 		//cityCode.initDataBase(mContext);
 		//m_cityClient.getCityInfo();
 		
- 		new WeatherThread().start();
+		
 		Intent intent=getIntent();
 		if(intent!=null){
 			int id=intent.getIntExtra("mId", 0);
 			if(id>0)
 			m_client.getNews(id);
 		}
+		AdManager.getInstance(this).init("be8dd0ef85482cdd",
+				"b78fdac6d9ce47d8", false);
 	}
-
-	
-	
-	
-	 public class WeatherThread extends Thread{
-		
-		public void run()
-		{
-			/*create db*/
-			cityCode.initDataBase(mContext);
-			m_cityClient.getCityInfo();
-		}
-	}
-	
+	@Override
+	 protected void onStart(){
+		 super.onStart();
+	 }
+	@Override
+	 protected void onRestart(){
+		 super.onRestart();
+	 }
 	
 	void createView()
 	{
@@ -735,9 +729,7 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			m_oldSelectIndex=m_newSelectIndex;
 		}
 		else if(v==gameBtn){
-			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
-             intent.putExtra("url",AppDataManager.getInstance().getLeftUpRedirectUrl());
-             MainActivity.this.startActivity(intent);
+			 DiyManager.showRecommendGameWall(this);
 		}
 		else if(v==navBtn){
 			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
@@ -974,31 +966,6 @@ public class MainActivity extends Activity implements OnClickListener,AppDataObs
 			Intent intent = new Intent(MainActivity.this,GalleryActivity.class);
             intent.putExtra("galleryList",(Serializable)galleryList);
             MainActivity.this.startActivity(intent);
-		}
-
-		@Override
-		public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
-			// TODO Auto-generated method stub
-			Log.i("getAppWeatherResponse", weatherinfo.weather1+"/"+weatherinfo.temp1);
-			RightFragment.mWeather=weatherinfo;
-			
-		}
-
-
-		@Override
-		public void getAppCityResponse(MAddressComponet address) {
-			// TODO Auto-generated method stub
-			
-			
-			//notify weather thread
-			String city = address.city;
-			String district =  address.district;
-			if(district!=null && !district.equalsIgnoreCase("")){
-				m_weatherClient.getWeatherInfo(district);
-			}else{
-				m_weatherClient.getWeatherInfo(city);
-			}
-			//m_cityClient.getCityInfo();
 		}
 
 }

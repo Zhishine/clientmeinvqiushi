@@ -35,4 +35,6 @@
     <string name="add_fav_success">收藏成功</string>
     <string name="adjust_size_success">字体调节成功</string>
     <string name="city_replace_w">市</string>
+    <string name="title_activity_base">BaseActivity</string>
+
 </resources>

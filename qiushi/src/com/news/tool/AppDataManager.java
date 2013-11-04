@@ -561,14 +561,4 @@ public class AppDataManager implements AppDataObserver {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void getAppWeatherResponse(MWeatherInfo weatherinfo) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void getAppCityResponse(MAddressComponet address) {
-		// TODO Auto-generated method stub
-		
-	}
 }

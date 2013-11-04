@@ -17,30 +17,21 @@ import com.news.modal.MWeatherInfo1;
 public class AppWeatherClient {
 	
 	private  AsyncHttpClient m_client = new AsyncHttpClient();
-	//private Context m_context = null;
-	private AppDataObserver m_observer = null;
-	
+	private Context m_context = null;
+	//private AppDataObserver m_observer = null;
+	public AppWeatherClient(Context context){
+		m_context=context;
+	}
 	public AppWeatherClient(AppDataObserver observer)
 	{
-		this.m_observer = observer;
+		//this.m_observer = observer;
 		//this.m_context = context;
 	}
-	
-	public void getWeatherInfo(String city)
-	{
+	public void getWeatherInfo(String city,AsyncHttpResponseHandler handler){
 		city=city.replace("ÊÐ","");
-		DatabaseUtil db = new DatabaseUtil((Context)this.m_observer);
+		DatabaseUtil db = new DatabaseUtil(m_context);
 		String cityCode = db.getCode(city);
 		String url = "http://m.weather.com.cn/data/" + cityCode + ".html";
-		
-		m_client.get(url, new AsyncHttpResponseHandler() {
-	           @Override
-	           public void onSuccess(String response) {
-	              Gson gson = new Gson();
-//	            
-	              MWeatherInfo1 appData=gson.fromJson(response,new TypeToken<MWeatherInfo1>(){}.getType());
-	              m_observer.getAppWeatherResponse(appData.weatherinfo);
-	          }
-	    });
+		m_client.get(url,handler);
 	}
 }

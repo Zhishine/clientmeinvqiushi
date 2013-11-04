@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import net.youmi.android.diy.DiyManager;
+
 import com.lurencun.android.common.RandomUtil;
 import com.news.modal.MWeatherInfo;
 import com.news.modal.MWeatherInfo1;
@@ -23,7 +25,6 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.TencentWBSsoHandler;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -175,7 +176,10 @@ public class RightFragment extends Fragment implements OnClickListener {
 	        Toast toast=Toast.makeText( getActivity(), R.string.add_fav_success, Toast.LENGTH_SHORT);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();
-			break;	
+			break;
+		case R.id.look_more_container:
+			  DiyManager.showRecommendWall(getActivity());
+			break;
 		}
 	}
 	

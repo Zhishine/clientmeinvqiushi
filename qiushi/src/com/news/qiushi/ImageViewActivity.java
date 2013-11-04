@@ -34,11 +34,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ImageViewActivity extends Activity implements OnClickListener{
+public class ImageViewActivity extends BaseActivity implements OnClickListener{
 	
-	//private final String mtitle = "閸ュ墽澧�;
-	//private final String msgSuccess = "娣囨繂鐡ㄩ幋鎰";
-	//private final String msgFail = "娣囨繂鐡ㄦ径杈Е";
+	//private final String mtitle = "闁搞儱澧芥晶锟�
+	//private final String msgSuccess = "濞ｅ洦绻傞悺銊╁箣閹邦剙顫�;
+	//private final String msgFail = "濞ｅ洦绻傞悺銊﹀緞鏉堫偉袝";
 	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
 	
 	private final int TOP_HEIGHT = 50;
