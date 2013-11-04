@@ -4,6 +4,10 @@ import net.loonggg.fragment.RightFragment;
 import net.loonggg.fragment.WebViewFragment;
 import net.loonggg.view.SlidingMenu;
 
+import com.adsmogo.adapters.AdsMogoCustomEventPlatformEnum;
+import com.adsmogo.adview.AdsMogoLayout;
+import com.adsmogo.controller.listener.AdsMogoListener;
+import com.news.tool.AppDataManager;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -16,11 +20,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 
-public class WebViewActivity extends FragmentActivity {
+public class WebViewActivity extends FragmentActivity implements AdsMogoListener {
     int m_id=0;
     private SlidingMenu mSlidingMenu;// 侧边栏的view
 	//private LeftFragment leftFragment; // 左侧边栏的碎片化view
@@ -56,7 +63,17 @@ public class WebViewActivity extends FragmentActivity {
 		
 		
 		com.umeng.socom.Log.LOG = true;
- 
+		if(AppDataManager.getInstance().getAdIsShow()){
+		  AdsMogoLayout adsMogoLayoutCode = new AdsMogoLayout(this,"84bdb23a08b9421f9057e50432d84b2a"); 
+		  FrameLayout.LayoutParams params = new FrameLayout.LayoutParams( 
+		  FrameLayout.LayoutParams.WRAP_CONTENT, 
+		  FrameLayout.LayoutParams.WRAP_CONTENT); 
+		  // 设置广告出现的位置(悬浮于底部) 
+		  params.bottomMargin = 0; 
+		  adsMogoLayoutCode.setAdsMogoListener(this); 
+		  params.gravity = Gravity.BOTTOM; 
+		  addContentView(adsMogoLayoutCode, params); 
+		}
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
@@ -82,6 +99,47 @@ public class WebViewActivity extends FragmentActivity {
 
 	public void showRight() {
 		mSlidingMenu.showRightView();
+	}
+	@Override
+	public Class getCustomEvemtPlatformAdapterClass(
+			AdsMogoCustomEventPlatformEnum arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void onClickAd(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean onCloseAd() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void onCloseMogoDialog() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onFailedReceiveAd() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onRealClickAd() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onReceiveAd(ViewGroup arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onRequestAd(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
