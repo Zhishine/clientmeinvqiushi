@@ -16,23 +16,32 @@
 		    android:id="@+id/umeng_socialize_line_edit"
 		    android:layout_alignParentBottom="true"
 		    android:background="#C4C4C4">
+		     <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 	     <EditText
             android:id="@+id/umeng_socialize_comment_write"
             style="@style/umeng_socialize_edit_padding"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:paddingLeft="12dp"
             android:hint="@string/umeng_socialize_text_comment_hint"
             android:textColor="@color/umeng_socialize_text_time"
             android:editable="false"
             android:focusable="false"
          />	    
+          <ImageView android:layout_width="23dp"
+              android:layout_height="22dp"
+              android:background="@drawable/pen"
+              android:layout_gravity="right|center"
+              android:layout_marginRight="12dp"/>
+         </FrameLayout>
 		</RelativeLayout>
         <com.umeng.socialize.view.wigets.PullToRefreshListView
             android:id="@+id/umeng_socialize_comment_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_above="@id/umeng_socialize_line_edit"
-            android:divider="#EEEEEE"
+            android:divider="#dedede"
             android:dividerHeight="1dip"
             android:fadingEdgeLength="0.0sp"
             android:fastScrollEnabled="true"

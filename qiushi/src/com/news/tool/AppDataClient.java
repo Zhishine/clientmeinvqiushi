@@ -92,8 +92,19 @@ public class AppDataClient {
 	            @Override
 	            public void onSuccess(String response) {
 	               Log.i(TAG, response);
+	               URLDecoder ud = new URLDecoder();
 	               Gson gson = new Gson();
 	               List<MImage> list=gson.fromJson(response,new TypeToken<List<MImage>>(){}.getType());
+	                 if(list!=null){
+					for(MImage image:list){
+						try {
+							image.mDescription=ud.decode(image.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+	               }
 					if(m_observer!=null)
 					{
 						m_observer.getImageResponse(list,pageNO);

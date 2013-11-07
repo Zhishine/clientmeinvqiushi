@@ -36,5 +36,6 @@
     <string name="adjust_size_success">字体调节成功</string>
     <string name="city_replace_w">市</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="download">下载</string>
 
 </resources>

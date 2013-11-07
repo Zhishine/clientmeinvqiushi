@@ -40,9 +40,10 @@
   <ImageView
                     android:id="@+id/select1"
                     android:layout_width="5dp"
-                    android:layout_height="55dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="20dp"
-               
+                    android:scaleType="fitXY"
                     android:layout_marginRight="8dp"
                     android:src="@drawable/select" />
   <TextView 
@@ -85,9 +86,10 @@
   <ImageView
                     android:id="@+id/select2"
                     android:layout_width="5dp"
-                    android:layout_height="66dp"
+                        android:layout_height="46dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="20dp"
-               
+                android:scaleType="fitXY"
                     android:layout_marginRight="8dp"
                     android:src="@drawable/select" />
   <TextView 
@@ -130,9 +132,10 @@
   <ImageView
                     android:id="@+id/select3"
                     android:layout_width="5dp"
-                    android:layout_height="71dp"
+                     android:layout_height="58dp"
+                    android:layout_marginTop="7dp"
                     android:layout_marginLeft="20dp"
-               
+                android:scaleType="fitXY"
                     android:layout_marginRight="8dp"
                     android:src="@drawable/select" />
   <TextView 
@@ -175,9 +178,10 @@
   <ImageView
                     android:id="@+id/select4"
                     android:layout_width="5dp"
-                    android:layout_height="81dp"
+                     android:layout_height="61dp"
+                    android:layout_marginTop="11dp"
                     android:layout_marginLeft="20dp"
-               
+                android:scaleType="fitXY"
                     android:layout_marginRight="8dp"
                     android:src="@drawable/select" />
   <TextView 

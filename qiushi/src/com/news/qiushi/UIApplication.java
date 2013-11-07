@@ -10,6 +10,7 @@ import android.os.StrictMode;
 
 import com.news.tool.AppDataManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -24,12 +25,7 @@ public class UIApplication extends Application {
 		super.onCreate();
         
 		initImageLoader(getApplicationContext());
-		try {
-			AppDataManager.getInstance().init(this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 
 	public static void initImageLoader(Context context) {
@@ -40,6 +36,7 @@ public class UIApplication extends Application {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
 				.threadPriority(Thread.NORM_PRIORITY - 2)
 				.denyCacheImageMultipleSizesInMemory()
+				.memoryCacheSize(15*1024*1024)
 				.discCacheFileNameGenerator(new Md5FileNameGenerator())
 				.tasksProcessingOrder(QueueProcessingType.LIFO)
 				.writeDebugLogs() // Remove for release app

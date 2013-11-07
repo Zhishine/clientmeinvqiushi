@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/umeng_socialize_comment_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/umeng_socialize_default_avatar"
             android:scaleType="fitXY" />
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:layout_toRightOf="@id/umeng_socialize_comment_item_profile_gp"
         android:ellipsize="end"
         android:ems="10"
@@ -63,7 +63,7 @@
         android:layout_below="@id/umeng_socialize_comment_item_content"
         android:layout_toRightOf="@id/umeng_socialize_comment_item_profile_gp"
         android:textColor="@color/umeng_socialize_text_time"
-        android:textSize="10sp" />
+        android:textSize="11sp" />
     <ImageView 
        android:id="@+id/umeng_socialize_comment_item_has_location"
         android:layout_alignParentRight="true"

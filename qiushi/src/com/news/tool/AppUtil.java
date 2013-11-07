@@ -8,8 +8,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Paint.FontMetrics;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextPaint;
 import android.widget.Toast;
 
 public class AppUtil {
@@ -92,5 +94,23 @@ public class AppUtil {
         String orginImg=imageUrl.substring(0, thumbIndex);
         String result=orginImg+"."+ext;
         return result;
+    }
+    
+    public static float getWidth(float fontSize,String text){
+    	TextPaint FontPaint = new TextPaint();  
+    	// 设置FontPaint属性，需要和被计算的对象属性一致  
+    	FontPaint.setTextSize(fontSize);  
+    	float textLength = FontPaint.measureText(text);
+    	return textLength;
+    }
+    
+    public static float getStringHeight(float fontSize,float totalWidth,float lineWidth){
+    	TextPaint FontPaint = new TextPaint();  
+    	FontPaint.setTextSize(fontSize);  
+    	FontMetrics fm = FontPaint.getFontMetrics();  
+    	float fontHeight = (float)Math.ceil(fm.descent - fm.ascent);  
+    	int row=(int) (totalWidth/lineWidth)+1;
+    	float totalHeight=(fontHeight+2)*row;
+    	return totalHeight;
     }
 }

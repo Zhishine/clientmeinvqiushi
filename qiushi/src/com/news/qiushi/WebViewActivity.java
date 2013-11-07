@@ -7,6 +7,7 @@ import net.loonggg.view.SlidingMenu;
 import com.adsmogo.adapters.AdsMogoCustomEventPlatformEnum;
 import com.adsmogo.adview.AdsMogoLayout;
 import com.adsmogo.controller.listener.AdsMogoListener;
+import com.adwo.adsdk.AdwoAdView;
 import com.news.tool.AppDataManager;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
@@ -64,9 +65,10 @@ public class WebViewActivity extends FragmentActivity implements AdsMogoListener
 		
 		com.umeng.socom.Log.LOG = true;
 		if(AppDataManager.getInstance().getAdIsShow()){
+	      AdwoAdView.setBannerMatchScreenWidth(true);
 		  AdsMogoLayout adsMogoLayoutCode = new AdsMogoLayout(this,"84bdb23a08b9421f9057e50432d84b2a"); 
 		  FrameLayout.LayoutParams params = new FrameLayout.LayoutParams( 
-		  FrameLayout.LayoutParams.WRAP_CONTENT, 
+		  FrameLayout.LayoutParams.MATCH_PARENT, 
 		  FrameLayout.LayoutParams.WRAP_CONTENT); 
 		  // 设置广告出现的位置(悬浮于底部) 
 		  params.bottomMargin = 0; 

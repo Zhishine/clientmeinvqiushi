@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="48dp"
+    android:layout_height="54dp"
     android:background="#EEEEEE"
      >
 
     <Button
         android:id="@+id/umeng_socialize_title_bar_leftBt"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/umeng_socialize_title_back_bt"
+        android:background="@drawable/back_select"
         android:layout_centerVertical="true"
         android:textColor="#ffffff"
-        android:layout_marginLeft="8dp"
         android:textSize="12sp" />
 
     <TextView
@@ -56,17 +55,18 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="48dp"
+        android:layout_width="60dp"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:gravity="center_horizontal" >
 
         <Button
             android:id="@+id/umeng_socialize_title_bar_rightBt"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/umeng_socialize_title_right_bt"
+            android:layout_width="60dp"
+            android:layout_height="54dp"
+            android:background="@drawable/right_select"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 

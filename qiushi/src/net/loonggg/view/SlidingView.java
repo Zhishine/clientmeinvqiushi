@@ -20,7 +20,7 @@ public class SlidingView extends ViewGroup {
 	private int mTouchSlop;
 	private float mLastMotionX;
 	private float mLastMotionY;
-	private static final int SNAP_VELOCITY = 50;
+	private static final int SNAP_VELOCITY = 100;
 	private View mMenuView;
 	private View mDetailView;
 
@@ -123,7 +123,7 @@ public class SlidingView extends ViewGroup {
 		}
 		return mIsBeingDragged;
 	}
-
+	int m_lastVelocityX=0;
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 
@@ -183,7 +183,11 @@ public class SlidingView extends ViewGroup {
 					// mDetailView.setVisibility(View.VISIBLE);
 					// mMenuView.setVisibility(View.INVISIBLE);
 				}
-
+				final VelocityTracker velocityTracker = mVelocityTracker;
+				velocityTracker.computeCurrentVelocity(1000,10000);
+				m_lastVelocityX =(int) velocityTracker.getXVelocity();
+				//velocityX = 0;
+				Log.e("ad", "velocityX == " + m_lastVelocityX);
 				scrollTo((int) scrollX, getScrollY());
 
 			}
@@ -191,28 +195,40 @@ public class SlidingView extends ViewGroup {
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
 			if (mIsBeingDragged) {
-				final VelocityTracker velocityTracker = mVelocityTracker;
-				velocityTracker.computeCurrentVelocity(1000);
-				int velocityX = (int) velocityTracker.getXVelocity();
+//				final VelocityTracker velocityTracker = mVelocityTracker;
+//				velocityTracker.computeCurrentVelocity(1000,1000);
+//				float velocityX = velocityTracker.getXVelocity();
 				//velocityX = 0;
-				Log.e("ad", "velocityX == " + velocityX);
+				Log.e("ad", "velocityX == " + m_lastVelocityX);
 				int oldScrollX = getScrollX();
 				int dx = 0;
 				if (oldScrollX < 0) {
 					if (oldScrollX < -getMenuViewWidth() / 1
-							|| velocityX > SNAP_VELOCITY) {
+							|| m_lastVelocityX > SNAP_VELOCITY) {
 						dx = -getMenuViewWidth() - oldScrollX;
 					} else if (oldScrollX >= -getMenuViewWidth() /1
-							|| velocityX < -SNAP_VELOCITY) {
+							|| m_lastVelocityX < -SNAP_VELOCITY) {
 						dx = -oldScrollX;
 					}
 				} else {
-					if (oldScrollX > getDetailViewWidth() / 1.5
-							|| velocityX < -SNAP_VELOCITY) {
-						dx = getDetailViewWidth() - oldScrollX;
-					} else if (oldScrollX <= getDetailViewWidth() / 1.5
-							|| velocityX > SNAP_VELOCITY) {
+					int width=(int) (getDetailViewWidth() / 1.5);
+					if(m_lastVelocityX>=0){
+//					if (oldScrollX <=getDetailViewWidth() / 1.5
+//							|| m_lastVelocityX> SNAP_VELOCITY) {
 						dx = -oldScrollX;
+//					} else if (oldScrollX > getDetailViewWidth() / 1.5
+//							|| m_lastVelocityX <SNAP_VELOCITY) {
+//						dx = getDetailViewWidth() - oldScrollX;
+//					}
+					}
+					else{
+						if (oldScrollX > getDetailViewWidth() / 1.5
+								|| m_lastVelocityX <SNAP_VELOCITY) {
+							dx = getDetailViewWidth() - oldScrollX;
+						} else if (oldScrollX <=getDetailViewWidth() / 1.5
+								|| m_lastVelocityX> SNAP_VELOCITY) {
+							dx = -oldScrollX;
+						}
 					}
 				}
 

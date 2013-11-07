@@ -18,11 +18,10 @@ import com.news.modal.MCity;
 public class AppCityClient {
 	
 	private  AsyncHttpClient m_client = new AsyncHttpClient();
-	private AppDataObserver m_observer = null;
-	
-	public AppCityClient(Context observer)
+	Context m_context;
+	public AppCityClient(Context context)
 	{
-		this.m_observer = (AppDataObserver)observer;
+		this.m_context = context;
 		
 	}
 	

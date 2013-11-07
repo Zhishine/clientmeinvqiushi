@@ -1,5 +1,6 @@
 package com.news.qiushi;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends BaseActivity implements OnClickListener,AppDataObserver  {
 	private Context mContext;
@@ -134,11 +136,18 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		try {
+			AppDataManager.getInstance().init(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		mContext=this;
 		m_imageLayout=new LinearLayout(this);
 		m_newsLayout=new LinearLayout(this);
 		m_newsLayout.setOrientation(1);
 		m_imageLayout.setOrientation(1);
+		m_imageLayout.setBackgroundColor(Color.rgb(233, 233, 233));
 		m_newsOtherLayout=new LinearLayout(this);
 		m_newsOtherLayout.setOrientation(1);
 		//setContentView(R.layout.activity_main);
@@ -167,6 +176,8 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		}
 		AdManager.getInstance(this).init("be8dd0ef85482cdd",
 				"b78fdac6d9ce47d8", false);
+		
+		
 	}
 	@Override
 	 protected void onStart(){
@@ -376,25 +387,29 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		//com.huewu.pla.sample:plaColumnNumber
 		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
 		//m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
-		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,m_actualContentHeight);
+		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 	    //lp1.addRule(RelativeLayout., 3);
-	    lp1.setMargins(0 , 0, 0, DensityUtil.dip2px(1));
+	    //lp1.setMargins(0 , 0, 0, DensityUtil.dip2px(1));
 		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
 		m_multiColumnPullToRefreshListView.setTextPullToRefresh(this.getString(R.string.mrefresh));
 		m_multiColumnPullToRefreshListView.setTextReleaseToRefresh(this.getString(R.string.mrelease_refresh));
 		m_multiColumnPullToRefreshListView.setTextRefreshing(this.getString(R.string.mrefreshing));
-		
-		
-		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
 		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
 
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub	
+				Log.i("onRefresh", m_multiColumnPullToRefreshListView.getFirstVisiblePosition()+"");
+				if(m_multiColumnPullToRefreshListView.getFirstVisiblePosition()==0&&m_multiColumnPullToRefreshListView.mFirstPosition==0){
 				m_ImagePageNO=1;
 				m_client.getImage(m_ImagePageNO, m_ImagePageSize);
 				m_ImageRequest=true;
+				}
+				else
+				{
+					m_multiColumnPullToRefreshListView.onRefreshComplete();
+				}
 			}
 			
 		});
@@ -457,7 +472,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		if(AppDataManager.getInstance().getBannerIsShow()==false)
 			return;
 		InitImgList();
-		final LinearLayout focusContainer=new LinearLayout(this);
+		//final LinearLayout focusContainer=new LinearLayout(this);
 		FrameLayout adFrameLayout=new FrameLayout(this);
 		FrameLayout.LayoutParams lp1=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		adFrameLayout.setLayoutParams(lp1);
@@ -475,22 +490,19 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		adFrameLayout.addView(gallery);
 		gallery.setAdapter(new ImageAdapter(this,this.m_imgList));
 		gallery.setFocusable(true);
+		final TextView desTxt=new TextView(this);
 		gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 		    public void onItemSelected(AdapterView<?> arg0, View arg1,
 			    int selIndex, long arg3) {
 			//修改上一次选中项的背景
 		    	selIndex = selIndex % m_imgList.size();
-		    	
-			ImageView preSelImg = (ImageView) focusContainer.findViewById(preSelImgIndex);
-		preSelImg.setImageDrawable(MainActivity.this.getResources().getDrawable(R.drawable.ic_focus));
+		    	desTxt.setText(AppDataManager.getInstance().getAd(selIndex).mDescription);
+			//ImageView preSelImg = (ImageView) focusContainer.findViewById(preSelImgIndex);
+		//preSelImg.setImageDrawable(MainActivity.this.getResources().getDrawable(R.drawable.ic_focus));
 			//修改当前选中项的背景
-			ImageView curSelImg = (ImageView) focusContainer
-				.findViewById(selIndex);
-			curSelImg
-				.setImageDrawable(MainActivity.this
-					.getResources().getDrawable(
-						R.drawable.ic_focus_select));
+			//ImageView curSelImg = (ImageView) focusContainer.findViewById(selIndex);
+			//curSelImg.setImageDrawable(MainActivity.this.getResources().getDrawable(R.drawable.ic_focus_select));
 			preSelImgIndex = selIndex;
 		    }
 
@@ -526,19 +538,25 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		});
 		
 		RelativeLayout bottomNavPoint=new RelativeLayout(this);
+		bottomNavPoint.setBackgroundResource(R.drawable.banner_bottom_bg);
 		bottomNavPoint.setId(1000);
-		FrameLayout.LayoutParams lp3=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
+		FrameLayout.LayoutParams lp3=new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(20));
 		
 		//lp3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		//lp3.setMargins(0, 50, 0, 10);
 	   // lp3.topMargin=100;
 		lp3.gravity=Gravity.BOTTOM;
-		lp3.bottomMargin= DensityUtil.dip2px(5);
+		//lp3.bottomMargin= DensityUtil.dip2px(5);
 		//bottomNavPoint.setOrientation(LinearLayout.VERTICAL);
 		//bottomNavPoint.setBackgroundColor(Color.RED);
 		bottomNavPoint.setLayoutParams(lp3);
 		adFrameLayout.addView(bottomNavPoint);
-		
+	    desTxt.setPadding(DensityUtil.dip2px(20), 0, 0, 0);
+		desTxt.setTextSize(13);
+		desTxt.setTextColor(Color.WHITE);
+		RelativeLayout.LayoutParams lp6=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(20));
+		desTxt.setLayoutParams(lp6);
+		bottomNavPoint.addView(desTxt);
 		View view=new View(this);
         RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(0,0 );
         lp5.addRule(RelativeLayout.BELOW,1000);
@@ -548,28 +566,28 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		
 		LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT );
 		lp2.gravity=Gravity.CENTER;
-		//lp2.bottomMargin= DensityUtil.dip2px(15);
-		focusContainer.setOrientation(LinearLayout.HORIZONTAL);
-		focusContainer.setLayoutParams(lp2);
-		focusContainer.setGravity(Gravity.CENTER_HORIZONTAL);
-		
+	
+		//focusContainer.setOrientation(LinearLayout.HORIZONTAL);
+		//focusContainer.setLayoutParams(lp2);
+		//focusContainer.setGravity(Gravity.CENTER_HORIZONTAL);
+		//focusContainer.setBackgroundResource(R.drawable.banner_bg2);
 	
 		//focusContainer.setPadding(0, DensityUtil.dip2px(m_adHeight-15), 0, 0);
-		for (int i = 0; i < m_imgList.size(); i++) {
-		    ImageView localImageView = new ImageView(this);
-		    localImageView.setId(i);
-		    ImageView.ScaleType localScaleType = ImageView.ScaleType.FIT_XY;
-		    localImageView.setScaleType(localScaleType);
-		    LinearLayout.LayoutParams localLayoutParams = new LinearLayout.LayoutParams(
-		    		DensityUtil.dip2px(12), DensityUtil.dip2px(12));
-		    localImageView.setLayoutParams(localLayoutParams);
-		    localImageView.setPadding(DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3));
-		    localImageView.setImageResource(R.drawable.ic_focus);
-		    focusContainer.addView(localImageView);
-		}
+//		for (int i = 0; i < m_imgList.size(); i++) {
+//		    ImageView localImageView = new ImageView(this);
+//		    localImageView.setId(i);
+//		    ImageView.ScaleType localScaleType = ImageView.ScaleType.FIT_XY;
+//		    localImageView.setScaleType(localScaleType);
+//		    LinearLayout.LayoutParams localLayoutParams = new LinearLayout.LayoutParams(
+//		    		DensityUtil.dip2px(12), DensityUtil.dip2px(12));
+//		    localImageView.setLayoutParams(localLayoutParams);
+//		    localImageView.setPadding(DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3),DensityUtil.dip2px(3));
+//		    localImageView.setImageResource(R.drawable.ic_focus);
+//		    focusContainer.addView(localImageView);
+//		}
 		
 		
-		bottomNavPoint.addView(focusContainer);
+		//bottomNavPoint.addView(focusContainer);
 	
 		this.m_newsOtherLayout.addView(adFrameLayout);
 	}
@@ -872,6 +890,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 				    actualListView.setCacheColorHint(Color.WHITE);
 				    actualListView.setDividerHeight(0);
 				    actualListView.setFadingEdgeLength(0);
+				    actualListView.setSelector(R.drawable.list_click_bg);
 				if(!m_refreshViewHasAdd){
 				   this.m_newsLayout.addView(m_pullToRefreshListView);
 				   actualListView.addHeaderView(this.m_newsOtherLayout);

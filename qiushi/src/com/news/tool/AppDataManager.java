@@ -47,7 +47,7 @@ public class AppDataManager implements AppDataObserver {
     private Drawable m_leftUpIcon=null;
     private String m_leftUpRedirectUrl=null;
     private Drawable m_rightUpIcon=null;
-    private String m_rightUpRedirectUrl=null;
+    private String m_rightUpRedirectUrl="http://m.hao123.com/?vit=h123&from=381e";
     private Drawable m_leftDowmIcon=null;
     private String m_leftDownRedirectUrl=null;
     private Drawable m_rightDownIcon=null;
@@ -144,7 +144,7 @@ public class AppDataManager implements AppDataObserver {
     	}
 
     	this.m_leftUpRedirectUrl=m_setting.getString("leftUpRedirectUrl","");
-    	this.m_rightUpRedirectUrl=m_setting.getString("rightUpRedirectUrl","");
+    	this.m_rightUpRedirectUrl=m_setting.getString("rightUpRedirectUrl",m_rightUpRedirectUrl);
     	this.m_leftDownRedirectUrl=m_setting.getString("leftDownRedirectUrl","");
     	this.m_rightDownRedirectUrl=m_setting.getString("rightDownRedirectUrl","");
 

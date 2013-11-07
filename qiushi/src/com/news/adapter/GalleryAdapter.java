@@ -3,6 +3,7 @@ package com.news.adapter;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import com.news.modal.MGallery;
 import com.news.qiushi.R;
 import com.news.tool.DensityUtil;
@@ -15,12 +16,15 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -72,15 +76,22 @@ public class GalleryAdapter extends BaseAdapter {
 			ImageView imageView = new ImageView(m_context);
 		
 		    imageView.setAdjustViewBounds(true);
-		    imageView.setBackgroundColor(Color.BLACK);
+		   // imageView.setBackgroundColor(Color.BLACK);
 		    imageView.setScaleType(ScaleType.FIT_XY );
 		    int height=(int) (DensityUtil.getLogicalWidth()*m_rate+0.5);
 		    Gallery.LayoutParams lp=new Gallery.LayoutParams(
-		    		LayoutParams.MATCH_PARENT  ,height);
+		    		LayoutParams.MATCH_PARENT ,LayoutParams.MATCH_PARENT);
 		    
-		    imageView.setLayoutParams(lp);
-		    convertView = imageView;
-		    viewHolder.imageView = (ImageView)convertView; 
+		  
+		    LinearLayout container=new LinearLayout(m_context);
+		    container.setGravity(Gravity.CENTER);
+		    LinearLayout.LayoutParams containerParams=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		    containerParams.gravity=Gravity.CENTER;
+		    container.setLayoutParams(lp);
+		    container.addView(imageView);
+		    imageView.setLayoutParams(containerParams);
+		    convertView = container;
+		    viewHolder.imageView = (ImageView)imageView; 
 		    convertView.setTag(viewHolder);
 			
 		}
@@ -93,6 +104,7 @@ public class GalleryAdapter extends BaseAdapter {
 	}
 	private static class ViewHolder
 	{
+		LinearLayout linear;
 		ImageView imageView;
 	}
 	
@@ -104,6 +116,16 @@ public class GalleryAdapter extends BaseAdapter {
 		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 			if (loadedImage != null) {
 				ImageView imageView = (ImageView) view;
+				imageView.setScaleType(ScaleType.FIT_XY);
+				int height=loadedImage.getHeight();
+				int width=loadedImage.getWidth();
+				float rate=(float)height/(float)width;
+				width=DensityUtil.getLogicalWidth();
+				height=(int) (rate*width);
+				LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(width, height);
+				lp.gravity=Gravity.CENTER;
+				imageView.setLayoutParams(lp);
+				imageView.invalidate();
 				boolean firstDisplay = !displayedImages.contains(imageUri);
 				if (firstDisplay) {
 					FadeInBitmapDisplayer.animate(imageView, 500);

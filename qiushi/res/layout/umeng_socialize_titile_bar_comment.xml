@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="48dp"
-    android:background="#EEEEEE"
+    android:layout_height="54dp"
+    android:background="@drawable/top_bar_bg"
     >
 
     <Button
         android:id="@+id/umeng_socialize_title_bar_leftBt"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/umeng_socialize_action_back"
+        android:background="@drawable/back_select"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:layout_marginLeft="8dp"
         android:layout_centerVertical="true"
         android:textSize="12sp" />
 

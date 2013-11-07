@@ -16,7 +16,7 @@
            android:layout_height="54dp"
            android:layout_alignParentTop="true"
            android:layout_alignParentLeft="true"
-           android:background="@drawable/back"/>
+           android:background="@drawable/back_select"/>
       <TextView android:id="@+id/titile_txt"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
           
            android:layout_alignParentTop="true"
            android:layout_alignParentRight="true"
-           android:background="@drawable/expand"/>
+           android:background="@drawable/expand_select"/>
   </RelativeLayout>  
 
 <WebView

@@ -3,7 +3,7 @@
     android:id="@+id/umeng_socialize_comment_item"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="#f0f0f0"
     android:padding="5dp" >
     <!-- 头像 -->
 
@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/umeng_socialize_comment_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:layout_centerVertical="true"
             android:src="@drawable/umeng_socialize_default_avatar"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:layout_toRightOf="@id/umeng_socialize_comment_item_profile_gp"
         android:ellipsize="end"
         android:ems="10"
@@ -55,23 +55,24 @@
         android:layout_marginRight="18dp"
         android:scrollHorizontally="false"
         android:ellipsize="end"
-        android:textColor="#646464"
+        android:textColor="#757b83"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/umeng_socialize_comment_item_time"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/umeng_socialize_comment_item_content"
-        android:layout_toRightOf="@id/umeng_socialize_comment_item_profile_gp"
-        android:textColor="@color/umeng_socialize_text_time"
-        android:textSize="10sp" />
+        android:textColor="#6f93c4"
+        android:textSize="10sp" 
+       />
     <ImageView 
        android:id="@+id/umeng_socialize_comment_item_has_location"
-       android:layout_marginTop="0dp"
+       android:layout_marginTop="4dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/umeng_socialize_comment_item_time"
         android:layout_height="18dp"
         android:layout_width="18dp"
         android:scaleType="fitXY"

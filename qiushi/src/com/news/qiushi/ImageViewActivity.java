@@ -11,6 +11,7 @@ import com.news.tool.AppDataManager;
 import com.news.tool.AppShareManager;
 import com.news.tool.AppUtil;
 import com.news.tool.DensityUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
@@ -29,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
 	
 	private final int TOP_HEIGHT = 50;
-	private final int RIGHT_WIDTH = 70;
+	private final int RIGHT_WIDTH = 60;
 	private final int TOP_BACKBTN_WIDTH = 54;
 	private final int RIGHT_BIN_PADDING = 50;
 	private final int DONW_IMG_BTN_ID = 1;
@@ -73,7 +75,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		int screenWidth=DensityUtil.getActualWidth();
 		int screenHeight = DensityUtil.getActualHeight();
 		
-		int width=DensityUtil.dip2px(screenWidth);
+		int width=DensityUtil.getLogicalWidth();
 		int height = DensityUtil.dip2px(screenHeight);
 		int topHeight=DensityUtil.dip2px(TOP_HEIGHT);
 		int rightWidth = DensityUtil.dip2px(RIGHT_WIDTH);
@@ -125,7 +127,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		
 		ImageView topBackBtn = new ImageView(this);
 		topBackBtn.setOnClickListener(this);
-		topBackBtn.setBackgroundResource(R.drawable.back);
+		topBackBtn.setBackgroundResource(R.drawable.back_select);
 		topBackBtn.setId(TOP_BACK_BTN_ID);
 		//topBackBtn.setBackgroundColor(Color.GRAY);
 		topBackBtn.setLayoutParams(lp13);
@@ -135,7 +137,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		/*left */
 		RelativeLayout leftContianer = new RelativeLayout(this);
 		RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(leftWidth,height-topHeight);
-		
+		//leftContianer.setBackgroundColor(Color.BLUE);
 	
 		lp2.setMargins(0, topHeight, 0, 0);
 		leftContianer.setLayoutParams(lp2);
@@ -157,16 +159,36 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		redirectUrl = intent.getStringExtra("redirectUrl");
 		isNativePage = intent.getBooleanExtra("isNativePage", false);
 		
-		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*leftWidth);
-		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth,imgHeight);
-		
+		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*(leftWidth-DensityUtil.dip2px(20)));
+		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth-DensityUtil.dip2px(20),imgHeight);
+	
 		//img.setMaxHeight(3000);
-		imgData.setScaleType(ScaleType.FIT_CENTER);   
+		imgData.setScaleType(ScaleType.FIT_XY);   
 		imgData.setAdjustViewBounds(true);
 		imgData.setLayoutParams(lp22);
-		imageLoader.displayImage(imageurl, imgData , null,animateFirstListener);
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+	      
+		.showImageForEmptyUri(R.drawable.image_click)
+		.showImageOnFail(R.drawable.image_click)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.build();
+		imageLoader.displayImage(imageurl, imgData , options,animateFirstListener);
+		LinearLayout scrollViewContainer=new LinearLayout(this);
+		LinearLayout.LayoutParams scrollViewParams=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		scrollViewContainer.setLayoutParams(scrollViewParams);
 		
-		scrollview.addView(imgData);
+		LinearLayout imgBg=new LinearLayout(this);
+		LinearLayout.LayoutParams imgBgParams=new LinearLayout.LayoutParams(leftWidth-DensityUtil.dip2px(10),imgHeight+DensityUtil.dip2px(10));
+		imgBg.setGravity(Gravity.CENTER);
+		imgBgParams.gravity=Gravity.CENTER;
+		imgBgParams.setMargins(DensityUtil.dip2px(5), 0, DensityUtil.dip2px(5), 0);
+		imgBg.setLayoutParams(imgBgParams);
+		imgBg.setBackgroundResource(R.drawable.image_bg);
+		//imgBg.setBackgroundColor(Color.RED);
+		scrollViewContainer.addView(imgBg);
+		imgBg.addView(imgData);
+		scrollview.addView(scrollViewContainer);
 		//img.setImageResource(R.drawable.download);
 		container.addView(leftContianer);
 		

@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -47,6 +48,7 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 		});
 		updateWebView();
 		 WebView web=(WebView)m_View.findViewById(R.id.webview);
+		 web.setWebViewClient(new NewsWebViewClient());
 		 web.getSettings().setJavaScriptEnabled(true);
 		 web.getSettings().setAllowFileAccess(true);
 		 web.getSettings().setPluginState(PluginState.ON);
@@ -120,5 +122,23 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 		}
 	}
 
+	 class NewsWebViewClient extends WebViewClient{ 
 
+	       //重写shouldOverrideUrlLoading方法，使点击链接后不使用其他的浏览器打开。 
+
+	    @Override 
+
+	    public boolean shouldOverrideUrlLoading(WebView view, String url) { 
+
+	        view.loadUrl(url); 
+
+	        //如果不需要其他对点击链接事件的处理返回true，否则返回false 
+
+	        return true; 
+
+	    } 
+
+	        
+
+	   } 
 }

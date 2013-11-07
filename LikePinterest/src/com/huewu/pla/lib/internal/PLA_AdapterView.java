@@ -56,8 +56,7 @@ public abstract class PLA_AdapterView<T extends Adapter> extends ViewGroup {
 	/**
 	 * The position of the first child displayed
 	 */
-	@ViewDebug.ExportedProperty
-	int mFirstPosition = 0;
+	public int mFirstPosition = 0;
 
 	/**
 	 * The offset in pixels from the top of the AdapterView to the top

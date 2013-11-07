@@ -10,6 +10,7 @@ import java.util.List;
 
 
 
+
 import com.news.modal.MImage;
 import com.news.modal.MNews;
 import com.news.qiushi.R;
@@ -32,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ImagesAdapter extends BaseAdapter{
 	
@@ -47,7 +49,6 @@ public class ImagesAdapter extends BaseAdapter{
     	this.m_imgsList=imgsList;
     	this.m_layoutInflater=LayoutInflater.from(m_context);
     	options = new DisplayImageOptions.Builder()
-      
 		.showImageForEmptyUri(R.drawable.image_click)
 		.showImageOnFail(R.drawable.image_click)
 		.cacheInMemory(true)
@@ -102,6 +103,9 @@ public class ImagesAdapter extends BaseAdapter{
 			 viewHold = new ImageViewHold();
 			 //(ImageView) convertView.findViewById(R.id.title_img);
 			 viewHold.img = (ImageView)convertView.findViewById(R.id.image_img);
+			 viewHold.txt=(TextView) convertView.findViewById(R.id.description);
+			 viewHold.txt.setTextSize(12);
+			 viewHold.txt.setTextColor(Color.rgb(102, 102, 125));
 			 viewHold.img.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -130,19 +134,27 @@ public class ImagesAdapter extends BaseAdapter{
 		 viewHold.img.setLayoutParams(lp1);
 		 //lp1.setMargins(left, top, right, bottom);
 		 int pading=DensityUtil.dip2px(5);
-		 lp1.setMargins(DensityUtil.dip2px(5),pading,DensityUtil.dip2px(0),pading);
+		// lp1.setMargins(DensityUtil.dip2px(5),pading,DensityUtil.dip2px(0),pading);
 		 viewHold.img.setScaleType(ScaleType.FIT_CENTER);
 		 viewHold.img.setImageDrawable(null);
 		 //viewHold.img.setBackgroundColor(Color.BLUE);
 		//imageLoader.displayImage(entity.mTitleImageUrl,viewHolder.mTitleImg, options, animateFirstListener);
 		imageLoader.displayImage(Item.mImageUrl, viewHold.img,options,animateFirstListener);
-		
+		if(!Item.mDescription.equalsIgnoreCase("")){
+		viewHold.txt.setText(Item.mDescription);
+		viewHold.txt.setTextSize(14);
+		}
+		else{
+			viewHold.txt.setText(null);
+		viewHold.txt.setTextSize(0);
+		}
 		return convertView;
 	}
 	
 	private static class ImageViewHold
 	{
 		public ImageView img;
+		public TextView txt;
 	}
 	
 	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {

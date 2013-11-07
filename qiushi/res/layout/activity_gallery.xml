@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
+ 
     android:id="@+id/root"
    
     >
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+   
+    >
   <RelativeLayout android:id="@+id/top_bg"
-       android:layout_weight="1"
        android:layout_width="match_parent"
        android:layout_height="54dp"
        >
@@ -18,82 +23,170 @@
            android:layout_alignParentLeft="true"
            android:background="@drawable/back1"/>
 
-
+  <ImageView android:id="@+id/expand" 
+           android:layout_width="54dp" 
+           android:layout_height="54dp"
+          
+           android:layout_alignParentTop="true"
+           android:layout_alignParentRight="true"
+           android:background="@drawable/expand2"/>
   </RelativeLayout>  
  <LinearLayout
-        android:layout_weight="10" 
       android:id="@+id/gallery_container"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
+       android:layout_height="match_parent"
        android:orientation="vertical"
        >
        <com.news.view.PhotoGallery
             android:id="@+id/banner_gallery"
             android:layout_gravity="center|center"
+             android:gravity="center|center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:soundEffectsEnabled="false"
             android:keepScreenOn="true"
             android:background="#000"
             android:fadingEdgeLength="0.0dp"
+            android:spacing="2dp"
              />
 
-        <LinearLayout
+       
+     
+ </LinearLayout>
+ 
+  
+</LinearLayout>
+<LinearLayout android:id="@+id/popup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<LinearLayout 
+   
+    android:layout_width="142dp"
+    android:layout_height="161dp"
+    android:orientation="vertical" 
+    android:background="@drawable/popup_bg"
+    android:layout_marginTop="57dp"
+    android:layout_marginRight="2dp"
+    android:layout_gravity="right"
+    >
+ <LinearLayout   
+    android:id="@+id/share_container" 
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/gallery_select"
+      android:layout_weight="1"
+    >
+  <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/gallery_share" />
+  <TextView 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@android:color/white"
+      android:textSize="17sp"
+      android:layout_gravity="center" 
+      android:text="@string/share"/>
+</LinearLayout>
+
+   <ImageView
+                 
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gallery_line" /> 
+ 
+ <LinearLayout   
+    android:id="@+id/comment_container" 
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/gallery_select"
+      android:layout_weight="1"
+    >
+  <ImageView
+                    android:id="@+id/comment"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/gallery_comment" />
+  <TextView 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@android:color/white"
+      android:textSize="17sp"
+      android:layout_gravity="center" 
+      android:text="@string/comment"/>
+</LinearLayout>
+
+  <ImageView
+                 
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gallery_line" /> 
+ 
+ <LinearLayout   
+    android:id="@+id/download_container" 
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/gallery_select"
+    android:layout_weight="1"
+    >
+  <ImageView
+                    android:id="@+id/download"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/gallery_download" />
+  <TextView 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@android:color/white"
+      android:textSize="17sp"
+      android:layout_gravity="center" 
+      android:text="@string/download"/>
+</LinearLayout>
+
+</LinearLayout>
+
+</LinearLayout>
+
+ <LinearLayout
             android:id="@+id/bottom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-              android:layout_marginTop="5dp"
-            android:background="#00000000"
+            android:background="@drawable/gallery_des_bg"
             android:gravity="bottom"
+           
             android:orientation="vertical"
              >
-        <ScrollView  android:layout_width="fill_parent"
-            android:fadingEdge="none" 
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            
-            >
+
             <TextView android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                 android:layout_marginRight="5dp"
+                  android:layout_marginLeft="5dp"
+                   android:layout_marginBottom="8dp"
                 />
-            </ScrollView>
-     
+
         </LinearLayout>
-     
- </LinearLayout>
- <LinearLayout 
-       android:orientation="horizontal"
-       android:layout_width="match_parent"
-       android:layout_height="54dp"
-       android:layout_gravity="bottom"
-       android:gravity="right"
-        android:layout_weight="1"
-       >
-       <ImageView android:id="@+id/download" 
-           android:layout_width="54dp" 
-           android:layout_height="54dp"
-             android:layout_marginRight="20dp"
-             android:layout_gravity="center"
-           android:background="@drawable/download1"/>
-
-       <ImageView android:id="@+id/share" 
-           android:layout_width="54dp" 
-           android:layout_marginRight="20dp"
-           android:layout_height="54dp"
-           android:layout_gravity="center"
-           android:background="@drawable/share2"/>
-       
-        <ImageView android:id="@+id/comment" 
-           android:layout_width="54dp" 
-           android:layout_marginRight="20dp"
-           android:layout_height="54dp"
-           android:layout_gravity="center"
-           android:background="@drawable/comment1"/>
-  </LinearLayout>  
-
-</LinearLayout>
+</FrameLayout>
