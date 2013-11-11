@@ -1,12 +1,16 @@
 package com.news.tool;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -30,6 +34,63 @@ public class AppDataClient {
 	 final String TAG="AppDataClient";
 	 final String APPID="7";
 	 final String CATEGORYID="1";
+	 
+	 
+	    private class ImageTask extends AsyncTask<String, Integer, List<MImage>> {
+
+	        private Context mContext;
+	        private int mPageNO = 1;
+
+	        public ImageTask() {
+	            super();
+	        }
+
+	        @Override
+	        protected List<MImage> doInBackground(String... params) {
+	            try {
+	            	mPageNO=Integer.valueOf(params[1]);
+	                return parseNewsJSON(params[0]);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	            return null;
+	        }
+
+	        @Override
+	        protected void onPostExecute(List<MImage> result) {
+	           //·µ»Ø½á¹û
+	        	if(m_observer!=null)
+				{
+					m_observer.getImageResponse(result,mPageNO);
+				}
+	        }
+
+	        @Override
+	        protected void onPreExecute() {
+	        }
+
+	        public List<MImage> parseNewsJSON(String jsonString) throws IOException {
+	          
+	            URLDecoder ud = new URLDecoder();
+	               Gson gson = new Gson();
+	               List<MImage> list=gson.fromJson(jsonString,new TypeToken<List<MImage>>(){}.getType());
+	                 if(list!=null){
+					for(MImage image:list){
+						try {
+							image.mDescription=ud.decode(image.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+	               }
+					
+	            
+	            return list;
+	        }
+	    }
+
+	 
 	 public AppDataClient(AppDataObserver observer)
 	 {
 		 this.m_observer=observer;
@@ -92,23 +153,28 @@ public class AppDataClient {
 	            @Override
 	            public void onSuccess(String response) {
 	               Log.i(TAG, response);
-	               URLDecoder ud = new URLDecoder();
-	               Gson gson = new Gson();
-	               List<MImage> list=gson.fromJson(response,new TypeToken<List<MImage>>(){}.getType());
-	                 if(list!=null){
-					for(MImage image:list){
-						try {
-							image.mDescription=ud.decode(image.mDescription, "utf-8");
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-	               }
-					if(m_observer!=null)
-					{
-						m_observer.getImageResponse(list,pageNO);
-					}
+//				URLDecoder ud = new URLDecoder();
+//				Gson gson = new Gson();
+//				List<MImage> list = gson.fromJson(response,
+//						new TypeToken<List<MImage>>() {
+//						}.getType());
+//				if (list != null) {
+//					for (MImage image : list) {
+//						try {
+//							image.mDescription = ud.decode(image.mDescription,
+//									"utf-8");
+//						} catch (UnsupportedEncodingException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//				if (m_observer != null) {
+//					m_observer.getImageResponse(list, pageNO);
+//				}
+	              ImageTask task=new ImageTask();
+	              task.execute(response,String.valueOf(pageNO));
+	              
 	            }
 	        }); 
 	 }
@@ -151,7 +217,7 @@ public class AppDataClient {
 		 m_client.get(fullUrl, new AsyncHttpResponseHandler() {
 	            @Override
 	            public void onSuccess(String response) {
-	               Log.i(TAG, response);
+	              // Log.i(TAG, response);
 	               URLDecoder ud = new URLDecoder();
 	               Gson gson = new Gson();
 	               List<MNews> list=gson.fromJson(response,new TypeToken<List<MNews>>(){}.getType());
@@ -297,6 +363,16 @@ public class AppDataClient {
 	               Log.i(TAG, response);
 	               Gson gson = new Gson();
 	               List<MAd> adList=gson.fromJson(response,new TypeToken<List<MAd>>(){}.getType());
+	               URLDecoder ud = new URLDecoder();
+	               for(MAd ad:adList){
+						try {
+							
+							ad.mDescription=ud.decode(ad.mDescription, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					if(m_observer!=null)
 					{
 						m_observer.getAdResponse(adList);

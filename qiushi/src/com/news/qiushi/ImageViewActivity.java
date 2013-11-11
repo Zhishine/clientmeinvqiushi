@@ -43,7 +43,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 	//private final String msgFail = "濞ｅ洦绻傞悺銊﹀緞鏉堫偉袝";
 	private final String systemImageDir = "/sdcard/meinvqiushi/image/";
 	
-	private final int TOP_HEIGHT = 50;
+	private final int TOP_HEIGHT = 54;
 	private final int RIGHT_WIDTH = 60;
 	private final int TOP_BACKBTN_WIDTH = 54;
 	private final int RIGHT_BIN_PADDING = 50;
@@ -79,7 +79,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		int height = DensityUtil.dip2px(screenHeight);
 		int topHeight=DensityUtil.dip2px(TOP_HEIGHT);
 		int rightWidth = DensityUtil.dip2px(RIGHT_WIDTH);
-		int rightBtnPadding =  DensityUtil.dip2px(RIGHT_BIN_PADDING);
+		int rightBtnPadding =  DensityUtil.dip2px(30);
 		int leftWidth = width - rightWidth;
 		
 		int topBackBtnWidth = DensityUtil.dip2px(TOP_BACKBTN_WIDTH);
@@ -151,7 +151,16 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		
 		//ImageView img = new ImageView(this);
 		imgData = new ImageView(this);
-		
+		imgData.setClickable(true);
+		imgData.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				viewImage();
+			}
+			
+		});
 		//img.setBackgroundColor(Color.YELLOW);
 		Intent intent = getIntent();
 		imageurl  = intent.getStringExtra("imgurl");
@@ -161,7 +170,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		
 		int imgHeight = (int)(intent.getFloatExtra("scale",1.2f)*(leftWidth-DensityUtil.dip2px(20)));
 		RelativeLayout.LayoutParams lp22 = new RelativeLayout.LayoutParams(leftWidth-DensityUtil.dip2px(20),imgHeight);
-	
+	    
 		//img.setMaxHeight(3000);
 		imgData.setScaleType(ScaleType.FIT_XY);   
 		imgData.setAdjustViewBounds(true);
@@ -180,10 +189,12 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		
 		LinearLayout imgBg=new LinearLayout(this);
 		LinearLayout.LayoutParams imgBgParams=new LinearLayout.LayoutParams(leftWidth-DensityUtil.dip2px(10),imgHeight+DensityUtil.dip2px(10));
+	
 		imgBg.setGravity(Gravity.CENTER);
-		imgBgParams.gravity=Gravity.CENTER;
+		//imgBgParams.gravity=Gravity.CENTER;
 		imgBgParams.setMargins(DensityUtil.dip2px(5), 0, DensityUtil.dip2px(5), 0);
 		imgBg.setLayoutParams(imgBgParams);
+		imgBgParams.topMargin=DensityUtil.dip2px(30);
 		imgBg.setBackgroundResource(R.drawable.image_bg);
 		//imgBg.setBackgroundColor(Color.RED);
 		scrollViewContainer.addView(imgBg);
@@ -198,18 +209,20 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(rightWidth,height-topHeight);
 		lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		rightContianer.setLayoutParams(lp3);
-		
+
+		lp3.topMargin=topHeight;
 		//downLoad btn
 		ImageView dlimgBtn = new ImageView(this);
 		dlimgBtn.setOnClickListener(this);
 		dlimgBtn.setBackgroundResource(R.drawable.download);
 		dlimgBtn.setId(DONW_IMG_BTN_ID);
-		RelativeLayout.LayoutParams lp31=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,rightWidth);
+		RelativeLayout.LayoutParams lp31=new RelativeLayout.LayoutParams(rightWidth,rightWidth);
 		
-		int pp = topHeight+rightBtnPadding;
+		int pp = rightBtnPadding;
 		int pt = DensityUtil.dip2px(20);
-		lp31.setMargins(pad3, pp, pad3, 0);
+		
 		dlimgBtn.setLayoutParams(lp31);
+		lp31.topMargin=pp;
 		rightContianer.addView(dlimgBtn);
 		
 		//view btn
@@ -217,9 +230,10 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		viewimgBtn.setOnClickListener(this);
 		viewimgBtn.setBackgroundResource(R.drawable.preview);
 		viewimgBtn.setId(VIEW_IMG_BTN_ID);
-		RelativeLayout.LayoutParams lp32=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,rightWidth);
-		lp32.setMargins(pad3,pp+pt+topHeight,pad3,0);
+		RelativeLayout.LayoutParams lp32=new RelativeLayout.LayoutParams(rightWidth,rightWidth);
+		
 		viewimgBtn.setLayoutParams(lp32);
+		lp32.topMargin=pp+pt+topHeight;
 		rightContianer.addView(viewimgBtn);
 		
 		//share btn
@@ -228,7 +242,7 @@ public class ImageViewActivity extends BaseActivity implements OnClickListener{
 		shareimgBtn.setBackgroundResource(R.drawable.share);
 		shareimgBtn.setId(SHARE_IMG_BTN_ID);
 		RelativeLayout.LayoutParams lp33=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,rightWidth);
-		lp33.setMargins(pad3,pp+2*(pt+topHeight),pad3,0);
+		lp33.topMargin=pp+2*(pt+topHeight);
 		shareimgBtn.setLayoutParams(lp33);
 		rightContianer.addView(shareimgBtn);
 		container.addView(rightContianer);

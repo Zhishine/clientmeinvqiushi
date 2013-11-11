@@ -45,6 +45,9 @@ public class NewsAdapter extends BaseAdapter {
 		.build();
 
     }
+    public void replace(List<MNews> news){
+    	m_newsList=news;
+    }
     public void setTopView(LinearLayout view){
     	m_otherView=view;
     }

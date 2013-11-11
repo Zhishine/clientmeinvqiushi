@@ -6,7 +6,6 @@ import java.util.TimeZone;
 
 import net.youmi.android.diy.DiyManager;
 
-import com.lurencun.android.common.RandomUtil;
 import com.news.modal.MWeatherInfo;
 import com.news.modal.MWeatherInfo1;
 import com.news.qiushi.AdjustActivity;

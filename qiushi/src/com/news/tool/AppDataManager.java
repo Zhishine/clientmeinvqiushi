@@ -10,6 +10,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +22,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Base64;
 import android.view.View.OnClickListener;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.BinaryHttpResponseHandler;
@@ -65,6 +71,74 @@ public class AppDataManager implements AppDataObserver {
     private long m_lastAdDateTimeTemp=0;
     List<Drawable> m_adDrawable=null;
     List<MAd> m_adList=null; 
+    private class SaveTask extends AsyncTask<Object, Integer,Boolean> {
+    	int m_type=0;
+        public SaveTask(int type) {
+            super();
+            this.m_type=type;
+        }
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+        	if(m_type==1){
+        		return saveNews((List<MNews>) params[0]);
+        	}
+        	else if(m_type==2){
+        		return saveImage((List<MImage>) params[0]);
+        	}
+           return false;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+           //·µ»Ø½á¹û
+   
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        boolean saveNews(List<MNews> news){
+        	SharedPreferences adSetting=m_context.getSharedPreferences("news", 0);
+    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    		ObjectOutputStream oos;
+    		try {
+    			oos = new ObjectOutputStream(baos);
+    			oos.writeObject(news);
+    			String adListBase64 = new String(Base64.encode(baos.toByteArray(),0));
+    			SharedPreferences.Editor editor = adSetting.edit();
+    			editor.putString("newsList", adListBase64);
+    			editor.commit();
+    			return true;
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+        }
+        
+        boolean saveImage(List<MImage> images){
+        	SharedPreferences adSetting=m_context.getSharedPreferences("image", 0);
+    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    		ObjectOutputStream oos;
+    		try {
+    			oos = new ObjectOutputStream(baos);
+    			oos.writeObject(images);
+    			String adListBase64 = new String(Base64.encode(baos.toByteArray(),0));
+    			SharedPreferences.Editor editor = adSetting.edit();
+    			editor.putString("imageList", adListBase64);
+    			editor.commit();
+    			return true;
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+        }
+    }
+
     private AppDataManager(){
     	
     }
@@ -360,6 +434,43 @@ public class AppDataManager implements AppDataObserver {
     			return false;
     		} 
     }   
+    
+    
+    public List<MNews> getNews() throws StreamCorruptedException, IOException, ClassNotFoundException{
+    	SharedPreferences newsSetting=m_context.getSharedPreferences("news", 0);
+    	String newsContent=newsSetting.getString("newsList", "");
+    	if(newsContent.equalsIgnoreCase(""))
+    		return null;
+    	byte[] base64Bytes = Base64.decode(newsContent,0);
+ 		ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
+ 		if(bais==null)
+ 			return null;
+ 		ObjectInputStream ois = new ObjectInputStream(bais);
+		return (List<MNews>) ois.readObject();
+    }
+    
+    public List<MImage> getImage() throws StreamCorruptedException, IOException, ClassNotFoundException{
+    	SharedPreferences newsSetting=m_context.getSharedPreferences("image", 0);
+    	String imageContent=newsSetting.getString("imageList", "");
+    	if(imageContent.equalsIgnoreCase(""))
+    		return null;
+    	byte[] base64Bytes = Base64.decode(imageContent,0);
+ 		ByteArrayInputStream bais = new ByteArrayInputStream(base64Bytes);
+ 		if(bais==null)
+ 			return null;
+ 		ObjectInputStream ois = new ObjectInputStream(bais);
+		return (List<MImage>) ois.readObject();
+    }
+    
+    public void saveNews(List<MNews> news){
+    	SaveTask saveNewsTask=new SaveTask(1);
+    	saveNewsTask.execute(news);
+    }
+    
+    public void saveImage(List<MImage> image){
+    	SaveTask saveImageTask=new SaveTask(2);
+    	saveImageTask.execute(image);
+    }
 	@Override
 	public void getSystemResponse(MSystem system) {
 		boolean appIsUpdate=false;

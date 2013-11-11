@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.news.qiushi.MainActivity;
+import com.news.qiushi.NormalWebViewActivity;
 import com.news.qiushi.R;
+import com.news.qiushi.VideoActivity;
+import com.news.qiushi.ViewImageActivity;
 import com.news.qiushi.WebViewActivity;
 import com.news.tool.AppDataManager;
 import com.umeng.socialize.controller.RequestType;
@@ -69,6 +73,22 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 		return m_View;
 	}
 
+	public void removeAllView(){
+		WebView web=(WebView)m_View.findViewById(R.id.webview);
+		if(web!=null){
+			web.removeAllViews();
+			web.destroy();
+		}
+	}
+	
+	public boolean back(){
+		WebView web=(WebView)m_View.findViewById(R.id.webview);
+		if(web!=null&&web.canGoBack()){
+			web.goBack();
+			return true;
+		}
+		return false;
+	}
 	public void updateWebView(){
 	   WebView web=(WebView)m_View.findViewById(R.id.webview);
 		WebSettings settings = web.getSettings();
@@ -129,9 +149,25 @@ public class WebViewFragment extends android.support.v4.app.Fragment  implements
 	    @Override 
 
 	    public boolean shouldOverrideUrlLoading(WebView view, String url) { 
+  
+	    	if(url.toLowerCase().lastIndexOf("videoext=true")>0){
+	    		Intent intent = new Intent(WebViewActivity.getInstance(),VideoActivity.class);
 
-	        view.loadUrl(url); 
-
+	            intent.putExtra("videoUrl",url);
+	            WebViewActivity.getInstance().startActivity(intent);
+	    	}
+	    	else if(url.toLowerCase().lastIndexOf(".png")>0||url.toLowerCase().lastIndexOf(".jpg")>0){
+	    		Intent intent = new Intent(getActivity(),ViewImageActivity.class);
+	    		intent.putExtra("imgurl",url);
+	    		//Log.i("viewImage", "viewImage click");
+	    		getActivity().startActivity(intent);
+	    	}
+	    	else{
+	        //view.loadUrl(url); 
+	    		  Intent intent = new Intent(getActivity(),NormalWebViewActivity.class);
+	              intent.putExtra("url",url);
+	              getActivity().startActivity(intent);
+	    	}
 	        //如果不需要其他对点击链接事件的处理返回true，否则返回false 
 
 	        return true; 

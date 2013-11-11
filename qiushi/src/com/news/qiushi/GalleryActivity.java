@@ -100,7 +100,7 @@ public class GalleryActivity extends Activity implements OnClickListener {
     	  }
 		    else {
 		    	//m_popupView.setVisibility(View.INVISIBLE);
-		    	fadeOut(m_popupView, 500);
+		    	m_popupView.setVisibility(View.INVISIBLE);
 		    }
     }
 	@Override
@@ -147,7 +147,7 @@ public class GalleryActivity extends Activity implements OnClickListener {
 			AppShareManager.getInstance().share(this, description, titleImageUrl, titleImageUrl);
 			break;	
          case R.id.popup:
-        	 fadeOut(m_popupView, 500);
+        		m_popupView.setVisibility(View.INVISIBLE);
 			break;
 		}
 		
@@ -159,31 +159,31 @@ public class GalleryActivity extends Activity implements OnClickListener {
 		fadeImage.setInterpolator(new DecelerateInterpolator());
 		view.startAnimation(fadeImage);
 	}
-	public static void fadeOut(final View view, int durationMillis) {
-		AlphaAnimation fadeImage = new AlphaAnimation(1, 0);
-		fadeImage.setAnimationListener(new AnimationListener(){
-
-			@Override
-			public void onAnimationEnd(Animation arg0) {
-				// TODO Auto-generated method stub
-				view.setVisibility(View.INVISIBLE);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onAnimationStart(Animation arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		fadeImage.setDuration(durationMillis);
-		fadeImage.setInterpolator(new DecelerateInterpolator());
-		view.startAnimation(fadeImage);
-	}
+//	public static void fadeOut(final View view, int durationMillis) {
+//		AlphaAnimation fadeImage = new AlphaAnimation(1, 0);
+//		fadeImage.setAnimationListener(new AnimationListener(){
+//
+//			@Override
+//			public void onAnimationEnd(Animation arg0) {
+//				// TODO Auto-generated method stub
+//				view.setVisibility(View.INVISIBLE);
+//			}
+//
+//			@Override
+//			public void onAnimationRepeat(Animation arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onAnimationStart(Animation arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//		});
+//		fadeImage.setDuration(durationMillis);
+//		fadeImage.setInterpolator(new DecelerateInterpolator());
+//		view.startAnimation(fadeImage);
+//	}
 }

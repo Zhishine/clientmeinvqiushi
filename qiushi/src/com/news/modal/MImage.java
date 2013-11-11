@@ -1,6 +1,8 @@
 package com.news.modal;
 
-public class MImage {
+import java.io.Serializable;
+
+public class MImage  implements Serializable{
 	  public int mId;
       public String mDescription;
       public String mImageUrl;

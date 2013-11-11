@@ -22,7 +22,6 @@
 	<classpathentry kind="lib" path="libs/SocialSDK_tencentWB_1.jar"/>
 	<classpathentry kind="lib" path="libs/SocialSDK_QQZone_1.jar"/>
 	<classpathentry kind="src" path="/library"/>
-	<classpathentry kind="src" path="/LikePinterest"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>

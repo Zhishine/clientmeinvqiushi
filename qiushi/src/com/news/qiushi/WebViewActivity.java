@@ -3,6 +3,13 @@ package com.news.qiushi;
 import net.loonggg.fragment.RightFragment;
 import net.loonggg.fragment.WebViewFragment;
 import net.loonggg.view.SlidingMenu;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.adsmogo.adapters.AdsMogoCustomEventPlatformEnum;
 import com.adsmogo.adview.AdsMogoLayout;
@@ -13,34 +20,30 @@ import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.UMSsoHandler;
-import com.umeng.socialize.view.ActionBarView;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 
 public class WebViewActivity extends FragmentActivity implements AdsMogoListener {
-    int m_id=0;
+    @Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+	    if(!this.centerFragment.back()){
+	    	super.onBackPressed();
+	    	this.centerFragment.removeAllView();
+	    }
+	}
+	int m_id=0;
     private SlidingMenu mSlidingMenu;// 侧边栏的view
 	//private LeftFragment leftFragment; // 左侧边栏的碎片化view
 	private RightFragment rightFragment; // 右侧边栏的碎片化view
 	private WebViewFragment centerFragment;// 中间内容碎片化的view
 	private FragmentTransaction ft; // 碎片化管理的事务
+	static WebViewActivity m_activity=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		
+		m_activity=this;
 		setContentView(R.layout.webview_frame);
 		mSlidingMenu = (SlidingMenu) findViewById(R.id.slidingMenu);
 		/*mSlidingMenu.setLeftView(getLayoutInflater().inflate(
@@ -64,7 +67,7 @@ public class WebViewActivity extends FragmentActivity implements AdsMogoListener
 		
 		
 		com.umeng.socom.Log.LOG = true;
-		if(AppDataManager.getInstance().getAdIsShow()){
+		if(false){
 	      AdwoAdView.setBannerMatchScreenWidth(true);
 		  AdsMogoLayout adsMogoLayoutCode = new AdsMogoLayout(this,"84bdb23a08b9421f9057e50432d84b2a"); 
 		  FrameLayout.LayoutParams params = new FrameLayout.LayoutParams( 
@@ -77,6 +80,13 @@ public class WebViewActivity extends FragmentActivity implements AdsMogoListener
 		  addContentView(adsMogoLayoutCode, params); 
 		}
 	}
+	protected void onDestroy() {
+	      super.onDestroy();
+	      if(centerFragment!=null)
+	    	  centerFragment.removeAllView();
+	}
+
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 	    if(requestCode==1000){
@@ -94,6 +104,9 @@ public class WebViewActivity extends FragmentActivity implements AdsMogoListener
 	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 	    }
 	    }
+	}
+	public static WebViewActivity  getInstance(){
+		return m_activity;
 	}
 	public void showLeft() {
 		mSlidingMenu.showLeftView();

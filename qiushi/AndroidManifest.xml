@@ -238,7 +238,7 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <!-- 声明多盟的Activity -->
         <activity
@@ -264,6 +264,11 @@
         <activity
             android:name="com.news.qiushi.BaseActivity"
             android:label="@string/title_activity_base" >
+        </activity>
+        <activity
+            android:name="com.news.qiushi.VideoActivity"
+            android:label="@string/title_activity_video" 
+            android:screenOrientation="landscape">
         </activity>
     </application>
 
@@ -300,7 +305,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
         <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
-        <uses-permission android:name="android.permission.CALL_PHONE" />
+        <uses-permission android:name="android.permission.CALL_PHONE" />
     -->
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />

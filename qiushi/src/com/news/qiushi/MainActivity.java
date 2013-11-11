@@ -2,6 +2,7 @@ package com.news.qiushi;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.huewu.pla.lib.MultiColumnListView.OnLoadMoreListener;
-import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.news.adapter.ImageAdapter;
 import com.news.adapter.ImagesAdapter;
 import com.news.adapter.NewsAdapter;
@@ -42,8 +40,12 @@ import com.news.tool.AppWeatherClient;
 import com.news.tool.CityCodeDataBase;
 import com.news.tool.DensityUtil;
 import com.news.view.MyGallery;
+import com.news.view.PLA_AdapterView;
+import com.news.view.XListView;
+import com.news.view.XListView.IXListViewListener;
 import com.umeng.analytics.MobclickAgent;
 
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,8 +53,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -63,6 +69,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -79,6 +86,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends BaseActivity implements OnClickListener,AppDataObserver  {
 	private Context mContext;
@@ -98,16 +106,16 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
     int m_oldSelectIndex=1;
     int m_newSelectIndex=0;
     int m_newsPageNO=1;
-    final int m_newsPageSize=8;
+    final int m_newsPageSize=20;
     boolean m_newsRequest=false;
     int m_actualContentHeight=0;
-    
+    int m_type=0;
    // int m_adHeight=150;
     PullToRefreshListView m_pullToRefreshListView=null;
-    MultiColumnPullToRefreshListView m_multiColumnPullToRefreshListView = null;
+   //MultiColumnPullToRefreshListView m_multiColumnPullToRefreshListView = null;
     
     int m_ImagePageNO = 1;
-    final int m_ImagePageSize = 12;
+    final int m_ImagePageSize = 20;
     boolean m_ImageRequest = false;
     
     AppDataClient m_client=null;
@@ -132,7 +140,8 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
     ImageView navBtn=null;
     ImageView leftDownBtn=null;
     ImageView rightDownBtn=null;
-    LinearLayout m_newsOtherLayout=null;
+    LinearLayout m_newsOtherLayout=null; 
+    XListView gridView=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -147,7 +156,6 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		m_newsLayout=new LinearLayout(this);
 		m_newsLayout.setOrientation(1);
 		m_imageLayout.setOrientation(1);
-		m_imageLayout.setBackgroundColor(Color.rgb(233, 233, 233));
 		m_newsOtherLayout=new LinearLayout(this);
 		m_newsOtherLayout.setOrientation(1);
 		//setContentView(R.layout.activity_main);
@@ -291,10 +299,21 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 	    // create news layout
 	    
 	 
-	    createNewsLayout();
+	    try {
+			createNewsLayout();
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    createImageLayout();
-	    
+	    m_content.setBackgroundColor(Color.rgb(233, 233, 233));
 	    m_content.addView(m_newsLayout);
 	}
 	
@@ -382,86 +401,191 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 	}
 	
 	void createImageLayout(){
-		//XmlPullParser parser = this.getResources().getXml(R.xml.attr);
-		//AttributeSet attributes = Xml.asAttributeSet(parser);
-		//com.huewu.pla.sample:plaColumnNumber
-		m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
-		//m_multiColumnPullToRefreshListView.setBackgroundColor(Color.RED);
+		LayoutInflater layoutInflator = LayoutInflater.from(this);
+		View view=layoutInflator.inflate(R.layout.image_grid, m_imageLayout);
+	  gridView=(XListView) view.findViewById(R.id.list);
+	  gridView.setPullLoadEnable(true);
+	 
+	  gridView.setXListViewListener(new IXListViewListener(){
+
+		@Override
+		public void onRefresh() {
+			// TODO Auto-generated method stub
+			m_ImagePageNO=1;
+			if(MainActivity.this.CheckNetwork()){
+			m_client.getImage(m_ImagePageNO, m_ImagePageSize);
+			m_ImageRequest=true;
+			m_type=1;
+			}
+			else
+			gridView.stopRefresh();
+			
+		}
+
+		@Override
+		public void onLoadMore() {
+			// TODO Auto-generated method stub
+			if(m_ImageRequest){
+				gridView.stopLoadMore();
+				return;
+			}
+			if(MainActivity.this.CheckNetwork()){
+			m_client.getImage(++m_ImagePageNO, m_ImagePageSize);
+			m_ImageRequest=true;
+			m_type=2;
+			}
+			else
+			gridView.stopLoadMore();
+		
+		}
+		  
+	  });
+	  gridView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener(){
+
+		@Override
+		public void onItemClick(PLA_AdapterView<?> parent, View view,
+				int position, long id) {
+			// TODO Auto-generated method stub
+			MImage data = (MImage)parent.getItemAtPosition(position);
+			if(data.mIsGallery){
+				m_client.getImageGallery(data.mId);
+			}
+			else{
+				float scale =  (float)data.mHeight/(float)data.mWidth;
+				
+				Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+				intent.putExtra("imgurl",data.mImageUrl);
+				intent.putExtra("redirectUrl", data.mRedirectUrl);
+				intent.putExtra("isNativePage", data.mIsNativePage);
+				intent.putExtra("scale", scale);
+				//intent.putExtra("height", data.mHeight);
+			    MainActivity.this.startActivity(intent);	
+			}
+		}
+		  
+	  });
+	  //gridView.setFastScrollEnabled(false);
+		//m_multiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(this);
 		RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-	    //lp1.addRule(RelativeLayout., 3);
-	    //lp1.setMargins(0 , 0, 0, DensityUtil.dip2px(1));
-		m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
-		m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
-		m_multiColumnPullToRefreshListView.setTextPullToRefresh(this.getString(R.string.mrefresh));
-		m_multiColumnPullToRefreshListView.setTextReleaseToRefresh(this.getString(R.string.mrelease_refresh));
-		m_multiColumnPullToRefreshListView.setTextRefreshing(this.getString(R.string.mrefreshing));
-		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
-
-			@Override
-			public void onRefresh() {
-				// TODO Auto-generated method stub	
-				Log.i("onRefresh", m_multiColumnPullToRefreshListView.getFirstVisiblePosition()+"");
-				if(m_multiColumnPullToRefreshListView.getFirstVisiblePosition()==0&&m_multiColumnPullToRefreshListView.mFirstPosition==0){
-				m_ImagePageNO=1;
-				m_client.getImage(m_ImagePageNO, m_ImagePageSize);
-				m_ImageRequest=true;
-				}
-				else
-				{
-					m_multiColumnPullToRefreshListView.onRefreshComplete();
-				}
-			}
-			
-		});
+		//m_multiColumnPullToRefreshListView.setLayoutParams(lp1);
+		//gridView.setLayoutParams(lp1);
+		//m_multiColumnPullToRefreshListView.setShowLastUpdatedText(true);
+		//m_multiColumnPullToRefreshListView.setTextPullToRefresh(this.getString(R.string.mrefresh));
+		//m_multiColumnPullToRefreshListView.setTextReleaseToRefresh(this.getString(R.string.mrelease_refresh));
+		//m_multiColumnPullToRefreshListView.setTextRefreshing(this.getString(R.string.mrefreshing));
+//		m_multiColumnPullToRefreshListView.setOnRefreshListener(new com.huewu.pla.lib.MultiColumnPullToRefreshListView.OnRefreshListener(){
+//
+//			@Override
+//			public void onRefresh() {
+//				// TODO Auto-generated method stub	
+//				Log.i("onRefresh", m_multiColumnPullToRefreshListView.getFirstVisiblePosition()+"");
+//				if(m_multiColumnPullToRefreshListView.getFirstVisiblePosition()==0&&m_multiColumnPullToRefreshListView.mFirstPosition==0){
+//				m_ImagePageNO=1;
+//				m_client.getImage(m_ImagePageNO, m_ImagePageSize);
+//				m_ImageRequest=true;
+//				}
+//				else
+//				{
+//					m_multiColumnPullToRefreshListView.onRefreshComplete();
+//				}
+//			}
+//			
+//		});
+//		
+//		m_multiColumnPullToRefreshListView.setOnItemClickListener(new com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener(){
+//
+//			@Override
+//			public void onItemClick(PLA_AdapterView<?> parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				Log.i("m_multiColumnPullToRefreshListView", "item click");
+//				
+//				
+//				MImage data = (MImage)parent.getItemAtPosition(position);
+//				if(data.mIsGallery){
+//					m_client.getImageGallery(data.mId);
+//				}
+//				else{
+//					float scale =  (float)data.mHeight/(float)data.mWidth;
+//					
+//					Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+//					intent.putExtra("imgurl",data.mImageUrl);
+//					intent.putExtra("redirectUrl", data.mRedirectUrl);
+//					intent.putExtra("isNativePage", data.mIsNativePage);
+//					intent.putExtra("scale", scale);
+//					//intent.putExtra("height", data.mHeight);
+//				    MainActivity.this.startActivity(intent);	
+//				}
+//			}
+//			
+//		});
+//		
+//		m_multiColumnPullToRefreshListView.setOnLoadMoreListener(new OnLoadMoreListener(){
+//
+//			@Override
+//			public void onLoadMore() {
+//				// TODO Auto-generated method stub
+//				if(m_ImageRequest){
+//					return;
+//				}
+//				m_client.getImage(++m_ImagePageNO, m_ImagePageSize);
+//				m_ImageRequest=true;
+//				
+//			}
+//			
+//		});
+//
+//		
+//		
+//		
+//		
+//		m_imageLayout.addView(m_multiColumnPullToRefreshListView);
 		
-		m_multiColumnPullToRefreshListView.setOnItemClickListener(new com.huewu.pla.lib.internal.PLA_AdapterView.OnItemClickListener(){
-
-			@Override
-			public void onItemClick(PLA_AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				Log.i("m_multiColumnPullToRefreshListView", "item click");
-				
-				
-				MImage data = (MImage)parent.getItemAtPosition(position);
-				if(data.mIsGallery){
-					m_client.getImageGallery(data.mId);
-				}
-				else{
-					float scale =  (float)data.mHeight/(float)data.mWidth;
-					
-					Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
-					intent.putExtra("imgurl",data.mImageUrl);
-					intent.putExtra("redirectUrl", data.mRedirectUrl);
-					intent.putExtra("isNativePage", data.mIsNativePage);
-					intent.putExtra("scale", scale);
-					//intent.putExtra("height", data.mHeight);
-				    MainActivity.this.startActivity(intent);	
-				}
-			}
-			
-		});
-		
-		m_multiColumnPullToRefreshListView.setOnLoadMoreListener(new OnLoadMoreListener(){
-
-			@Override
-			public void onLoadMore() {
-				// TODO Auto-generated method stub
-				if(m_ImageRequest){
-					return;
-				}
-				//int height=m_multiColumnPullToRefreshListView.getHeight();
-				m_client.getImage(++m_ImagePageNO, m_ImagePageSize);
-				m_ImageRequest=true;
-				//m_ImagePageNO;
-				
-			}
-			
-		});
-
-		m_imageLayout.addView(m_multiColumnPullToRefreshListView);
-		//RelativeLayout.LayoutParams lp1=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,DensityUtil.dip2px(m_adHeight))
-		   
+//		gridView.setItemMargin(1,1,1,1); // 
+//		gridView.setOnItemClickListener(new com.origamilabs.library.views.StaggeredGridView.OnItemClickListener(){
+//
+//			@Override
+//			public void onItemClick(StaggeredGridView parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				MImage data = (MImage) m_imageAdapter.getItem(position);
+//				if(data.mIsGallery){
+//					m_client.getImageGallery(data.mId);
+//				}
+//				else{
+//					float scale =  (float)data.mHeight/(float)data.mWidth;
+//					
+//					Intent intent = new Intent(MainActivity.this,ImageViewActivity.class);
+//					intent.putExtra("imgurl",data.mImageUrl);
+//					intent.putExtra("redirectUrl", data.mRedirectUrl);
+//					intent.putExtra("isNativePage", data.mIsNativePage);
+//					intent.putExtra("scale", scale);
+//					//intent.putExtra("height", data.mHeight);
+//				    MainActivity.this.startActivity(intent);	
+//				}
+//			}
+//
+//		
+//		});
+		//m_imageLayout.addView(gridView);
+		 List<MImage> imageList = null;
+		try {
+			imageList = AppDataManager.getInstance().getImage();
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   if(imageList!=null)
+			   m_imageAdapter=new ImagesAdapter(this,imageList);
+		   else
+			   m_imageAdapter=new ImagesAdapter(this,new ArrayList<MImage>());
+		   gridView.setAdapter(m_imageAdapter);
 		m_client.getImage(this.m_ImagePageNO, this.m_ImagePageSize);
 		m_ImageRequest=true;
 	}
@@ -598,10 +722,11 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		 m_imgList=AppDataManager.getInstance().getDrawableList();
 		    }
 	  
-	void createNewsLayout(){
+	void createNewsLayout() throws StreamCorruptedException, IOException, ClassNotFoundException{
 		 LayoutParams lp=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 	     //this.m_newsOtherLayout.setLayoutParams(lp);
 	     //this.m_newsLayout.addView(m_newsOtherLayout);
+
 		 createAdBanner();
 		 
 		 createNavIcon();
@@ -625,8 +750,13 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 					refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 				
 					m_newsPageNO=1;
+					if(MainActivity.this.CheckNetwork()){
 					m_client.getNews(m_newsPageNO, m_newsPageSize);
 					m_newsRequest=true;
+					}
+					else{
+						refreshView.onRefreshComplete();
+					}
 					// Do work to refresh the list here.
 					//new GetDataTask().execute();
 				}
@@ -672,11 +802,34 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		 });
 		  
 		
-		  // LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-		  // m_pullToRefreshListView.setLayoutParams(lp2);
+		   LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		  m_pullToRefreshListView.setLayoutParams(lp2);
+		   if(this.CheckNetwork())
 		   m_client.getNews(this.m_newsPageNO, this.m_newsPageSize);
+		   
 		   m_newsRequest=true;
+		   
+		   ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
+		    actualListView.setCacheColorHint(Color.WHITE);
+		    actualListView.setDividerHeight(0);
+		    actualListView.setFadingEdgeLength(0);
+		    actualListView.setSelector(R.drawable.list_click_bg);
+		  
+		   if(!m_refreshViewHasAdd){
+			   this.m_newsLayout.addView(m_pullToRefreshListView);
+			   actualListView.addHeaderView(this.m_newsOtherLayout);
+			   List<MNews> newsList=AppDataManager.getInstance().getNews();
+			   if(newsList!=null)
+				   m_newsAdapter=new NewsAdapter(this,newsList);
+			   else
+			       m_newsAdapter=new NewsAdapter(this,new ArrayList<MNews>());
+			   
+			    this.m_pullToRefreshListView.setAdapter(m_newsAdapter);
+			  // m_pullToRefreshListView.setBackgroundColor(Color.BLACK);
+			   m_refreshViewHasAdd=true;
+			}
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -708,20 +861,14 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 	}
 	
 	public void onClick(View v) {
-		//ImageView img=(ImageView) this.findViewById(IMG_ID);
-		//ImageView news=(ImageView) this.findViewById(NEWS_ID);
-		//imgBtn.setImageDrawable(null);
-		//newsBtn.setImageDrawable(null);
-		int height=m_multiColumnPullToRefreshListView.getHeight();
+
 		if(v==imgBtn){
 			//
 			m_newSelectIndex=0;
 			if(m_oldSelectIndex==m_newSelectIndex){
 				return;
 			}
-			
-			//img.setBackgroundResource(R.drawable.image_click);
-			//news.setBackgroundResource(R.drawable.news_no_click);
+
 			imgBtn.setImageDrawable(imageClick);
 			newsBtn.setImageDrawable(newsNoClick);
 			imgBtn.invalidate();
@@ -738,8 +885,6 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 			
 			imgBtn.setImageDrawable(imageNoClick);
 			newsBtn.setImageDrawable(newsClick);
-			//img.setBackgroundResource(R.drawable.image_no_click);
-			//news.setBackgroundResource(R.drawable.news_click);
 			imgBtn.invalidate();
 			newsBtn.invalidate();
 			m_content.removeAllViews();
@@ -751,6 +896,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		}
 		else if(v==navBtn){
 			 Intent intent = new Intent(MainActivity.this,NormalWebViewActivity.class);
+			
             intent.putExtra("url",AppDataManager.getInstance().getRightUpRedirectUrl());
             MainActivity.this.startActivity(intent);
 		}
@@ -838,19 +984,15 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		public void getImageResponse(List<MImage> imageList, int pageIndex) {
 			// TODO Auto-generated method stub
 			m_ImageRequest=false;
-			if(imageList==null)
-				return;
+			if(imageList!=null){
+			
 			if(pageIndex==1){
-				
+				AppDataManager.getInstance().saveImage(imageList);
 				m_imageAdapter=new ImagesAdapter(this,imageList);
-			    
-				//m_multiColumnPullToRefreshListView.invalidate();
-				//ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
-			    //actualListView.setFadingEdgeLength(0);
-			    //m_pullToRefreshListView.onRefreshComplete();
-				m_multiColumnPullToRefreshListView.onRefreshComplete();
-				//actualListView.setAdapter(m_newsAdapter);
-				m_multiColumnPullToRefreshListView.setAdapter(m_imageAdapter);
+
+				//m_multiColumnPullToRefreshListView.onRefreshComplete();
+				//m_multiColumnPullToRefreshListView.setAdapter(m_imageAdapter);
+				gridView.setAdapter(m_imageAdapter);
 				m_imageAdapter.notifyDataSetChanged();
 			}
 			else
@@ -858,7 +1000,12 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 				m_imageAdapter.addImages(imageList);
 				m_imageAdapter.notifyDataSetChanged();
 			}
-			m_multiColumnPullToRefreshListView.onLoadMoreComplete();
+			}
+			if(m_type==1)
+				gridView.stopRefresh();
+			else if(m_type==2)
+				gridView.stopLoadMore();
+			//m_multiColumnPullToRefreshListView.onLoadMoreComplete();
 		}
 
 		@Override
@@ -883,40 +1030,23 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
 		public void getNewsResponse(List<MNews> newsList, int pageIndex) {
 			// TODO Auto-generated method stub
 			m_newsRequest=false;
-			if(newsList==null)
-				return;
+			m_pullToRefreshListView.onRefreshComplete();
+			if(newsList!=null)
+			{
 			if(pageIndex==1){
-				  ListView actualListView=this.m_pullToRefreshListView.getRefreshableView();
-				    actualListView.setCacheColorHint(Color.WHITE);
-				    actualListView.setDividerHeight(0);
-				    actualListView.setFadingEdgeLength(0);
-				    actualListView.setSelector(R.drawable.list_click_bg);
-				if(!m_refreshViewHasAdd){
-				   this.m_newsLayout.addView(m_pullToRefreshListView);
-				   actualListView.addHeaderView(this.m_newsOtherLayout);
-				  // m_pullToRefreshListView.setBackgroundColor(Color.BLACK);
-				   m_refreshViewHasAdd=true;
-				}
-//				MNews news=new MNews();
-//				news.mId=0;
-//				newsList.add(0,news);
-				m_newsAdapter=new NewsAdapter(this,newsList);
-				//m_newsAdapter.setTopView(m_newsOtherLayout);
-			  
-			    m_pullToRefreshListView.onRefreshComplete();
-			    
-			  
-			    //LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-			   //m_pullToRefreshListView.setLayoutParams(lp2);
-			   // m_pullToRefreshListView.invalidate();
-			    m_pullToRefreshListView.setAdapter(m_newsAdapter);
-				//m_newsAdapter.notifyDataSetChanged();
+				AppDataManager.getInstance().saveNews(newsList);
+				m_newsAdapter.replace(newsList);
+				m_newsAdapter.notifyDataSetChanged();
 			}
 			else
 			{
 				m_newsAdapter.addNews(newsList);
 				m_newsAdapter.notifyDataSetChanged();
 			}
+			}
+			//m_pullToRefreshListView.onRefreshComplete();
+			//m_pullToRefreshListView.get
+			
 		}
 
 		@Override
@@ -986,6 +1116,35 @@ public class MainActivity extends BaseActivity implements OnClickListener,AppDat
             intent.putExtra("galleryList",(Serializable)galleryList);
             MainActivity.this.startActivity(intent);
 		}
+		
+		
+		 public boolean CheckNetwork() {
+			    
+			    boolean flag = false;
+			    ConnectivityManager cwjManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+			    if (cwjManager.getActiveNetworkInfo() != null)
+			        flag = cwjManager.getActiveNetworkInfo().isAvailable();
+			    if (!flag) {
+			        Builder b = new AlertDialog.Builder(this).setTitle("没有可用的网络").setMessage("进入设置打开网络");
+			        b.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			            public void onClick(DialogInterface dialog, int whichButton) {
+			                Intent mIntent = new Intent("/");
+			                ComponentName comp = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
+			                mIntent.setComponent(comp);
+			                mIntent.setAction("android.intent.action.VIEW");
+			                MainActivity.this.startActivity(mIntent);
+			            }
+			        }).setNeutralButton("取消", new DialogInterface.OnClickListener() {
+			            public void onClick(DialogInterface dialog, int whichButton) {
+			                dialog.cancel();
+			            }
+			        }).create();
+			        b.show();
+			    }
+
+			   return flag;
+			}
+
 
 }
 
